@@ -30,7 +30,11 @@ jobs:
       fail-fast: false
       matrix:
         image:
+          - htpc
+          - router
           - steamdeck
+          - tablet
+          - workstation
 
     steps:
       - name: Checkout
