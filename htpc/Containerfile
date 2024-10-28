@@ -1,1 +1,1 @@
-FROM ghcr.io/ublue-os/bazzite-gnome-nvidia:41
+FROM ghcr.io/ublue-os/bazzite-gnome-nvidia:40

@@ -1,2 +1,2 @@
-FROM ghcr.io/ublue-os/bazzite-deck:41
+FROM ghcr.io/ublue-os/bazzite-deck:40
 
