@@ -2,6 +2,11 @@
 name: build-disk-images
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of image to build disk images from
+        type: string
+        default: latest
 
 jobs:
   build-containers:
@@ -40,7 +45,7 @@ jobs:
           --type qcow2 \
           --rootfs xfs \
           --output /output \
-          ghcr.io/kevindurb/${{ matrix.recipe }}
+          ghcr.io/kevindurb/${{ matrix.recipe }}:${{ inputs.tag }}
 
       - name: Upload image as artifact
         id: upload

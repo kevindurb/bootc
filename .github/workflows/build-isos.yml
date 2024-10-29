@@ -2,11 +2,15 @@
 name: build-isos
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of image to build isos from
+        type: string
+        default: latest
 
 env:
   ARCH: x86_64
   IMAGE_REPO: ghcr.io/kevindurb
-  IMAGE_TAG: latest
   VERSION: 40
   VARIANT: base
 
@@ -34,10 +38,10 @@ jobs:
           arch: ${{ env.ARCH }}
           image_name: ${{ matrix.container }}
           image_repo: ${{ env.IMAGE_REPO }}
-          image_tag: ${{ env.IMAGE_TAG }}
+          image_tag: ${{ inputs.tag }}
           version: ${{ env.VERSION }}
           variant: ${{ env.VARIANT }}
-          iso_name: ${{ matrix.container }}-${{ env.IMAGE_TAG }}-${{ env.VERSION }}.iso
+          iso_name: ${{ matrix.container }}-${{ inputs.tag }}-${{ env.VERSION }}.iso
           secure_boot_key_url: 'https://github.com/ublue-os/akmods/raw/main/certs/public_key.der'
           enrollment_password: 'universalblue'
 

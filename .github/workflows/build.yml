@@ -64,6 +64,7 @@ jobs:
 
           BUILD_TAGS+=("${TIMESTAMP}")
           BUILD_TAGS+=("latest")
+          BUILD_TAGS+=("${GITHUB_SHA}")
 
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
               echo "Generated the following commit tags: "
@@ -141,10 +142,18 @@ jobs:
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
 
-      - name: Trigger iso build
-        uses: workflows/build-isos@main
-        if: github.event_name == 'schedule'
+  build-isos:
+    name: Trigger iso build
+    uses: kevindurb/bootc/.github/workflows/build-isos.yml@main
+    secrets: inherit
+    if: github.event_name == 'schedule'
+    with:
+      tag: ${{ github.sha }}
 
-      - name: Trigger disk image build
-        uses: workflows/build-disk-images@main
-        if: github.event_name == 'schedule'
+  build-disk-images:
+    name: Trigger disk image build
+    uses: kevindurb/bootc/.github/workflows/build-disk-images.yml@main
+    secrets: inherit
+    if: github.event_name == 'schedule'
+    with:
+      tag: ${{ github.sha }}
