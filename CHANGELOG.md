@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/kevindurb/bootc/compare/v1.2.0...v1.2.1) (2024-10-29)
+
+
+### Bug Fixes
+
+* dont add the link for now ([5888939](https://github.com/kevindurb/bootc/commit/5888939e64ff981c144df5ea09ae8e75705b678e))
+
 ## [1.2.0](https://github.com/kevindurb/bootc/compare/v1.1.0...v1.2.0) (2024-10-29)
 
 
