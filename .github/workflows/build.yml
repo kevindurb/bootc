@@ -148,8 +148,6 @@ jobs:
     needs: [build-images]
     secrets: inherit
     # if: github.event_name == 'schedule'
-    with:
-      tag: ${{ github.sha }}
 
   build-disk-images:
     name: Trigger disk image build
@@ -157,5 +155,3 @@ jobs:
     needs: [build-images]
     secrets: inherit
     # if: github.event_name == 'schedule'
-    with:
-      tag: ${{ github.sha }}
