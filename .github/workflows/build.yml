@@ -1,9 +1,6 @@
 ---
 name: build-images
 on:
-  pull_request:
-    branches:
-      - main
   schedule:
     - cron: '05 10 * * *' # 10:05am UTC Everyday
   push:
@@ -141,17 +138,3 @@ jobs:
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
-
-  build-isos:
-    name: Trigger iso build
-    uses: kevindurb/bootc/.github/workflows/build-isos.yml@main
-    needs: [build-images]
-    secrets: inherit
-    # if: github.event_name == 'schedule'
-
-  build-disk-images:
-    name: Trigger disk image build
-    uses: kevindurb/bootc/.github/workflows/build-disk-images.yml@main
-    needs: [build-images]
-    secrets: inherit
-    # if: github.event_name == 'schedule'
