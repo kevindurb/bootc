@@ -146,7 +146,7 @@ jobs:
     name: Trigger iso build
     uses: kevindurb/bootc/.github/workflows/build-isos.yml@main
     secrets: inherit
-    if: github.event_name == 'schedule'
+    # if: github.event_name == 'schedule'
     with:
       tag: ${{ github.sha }}
 
@@ -154,6 +154,6 @@ jobs:
     name: Trigger disk image build
     uses: kevindurb/bootc/.github/workflows/build-disk-images.yml@main
     secrets: inherit
-    if: github.event_name == 'schedule'
+    # if: github.event_name == 'schedule'
     with:
       tag: ${{ github.sha }}
