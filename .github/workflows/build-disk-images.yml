@@ -2,11 +2,13 @@
 name: build-disk-images
 on:
   workflow_dispatch:
-    inputs:
+    inputs: &inputs
       tag:
         description: Tag of image to build disk images from
         type: string
         default: latest
+  workflow_call:
+    inputs: *inputs
 
 jobs:
   build-containers:
