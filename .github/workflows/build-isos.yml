@@ -1,0 +1,54 @@
+---
+name: build-isos
+on:
+  workflow_dispatch:
+
+env:
+  ARCH: x86_64
+  IMAGE_REPO: ghcr.io/kevindurb
+  IMAGE_TAG: latest
+  VERSION: 40
+  VARIANT: base
+
+jobs:
+  build-isos:
+    name: Build ISOs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - steamdeck-bootc
+          - tablet-bootc
+          - router-bootc
+          - workstation-bootc
+          - htpc-bootc
+    steps:
+      - name: Maximize build space
+        uses: jlumbroso/free-disk-space@v1.3.1
+
+      - name: Build ISO
+        uses: jasonn3/build-container-installer@main
+        id: build
+        with:
+          arch: ${{ env.ARCH }}
+          image_name: ${{ matrix.container }}
+          image_repo: ${{ env.IMAGE_REPO }}
+          image_tag: ${{ env.IMAGE_TAG }}
+          version: ${{ env.VERSION }}
+          variant: ${{ env.VARIANT }}
+          iso_name: ${{ matrix.container }}-${{ env.IMAGE_TAG }}-${{ env.VERSION }}.iso
+          secure_boot_key_url: 'https://github.com/ublue-os/akmods/raw/main/certs/public_key.der'
+          enrollment_password: 'universalblue'
+
+      - name: Upload ISO as artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.build.outputs.iso_name }}
+          path: |
+            ${{ steps.build.outputs.iso_path }}
+            ${{ steps.build.outputs.iso_path }}-CHECKSUM
+          if-no-files-found: error
+          retention-days: 0
+          compression-level: 0

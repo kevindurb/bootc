@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '05 10 * * *' # 10:05am UTC everyday
+    - cron: '05 10 * * 0' # 10:05am UTC Sunday
   push:
     branches:
       - main
@@ -140,3 +140,11 @@ jobs:
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+
+      - name: Trigger iso build
+        uses: workflows/build-isos@main
+        if: github.event_name == 'schedule'
+
+      - name: Trigger disk image build
+        uses: workflows/build-disk-images@main
+        if: github.event_name == 'schedule'
