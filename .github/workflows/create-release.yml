@@ -2,7 +2,7 @@
 name: Create Release
 on:
   push:
-    tags: ['*']
+    tags: ['v*.*.*']
 
 jobs:
   build:
@@ -44,6 +44,8 @@ jobs:
           pattern: '*.qcow'
 
       - name: Create Release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
-          artifacts: '*.iso,*.qcow'
+          files: |
+            *.iso
+            *.qcow
