@@ -33,6 +33,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Maximize build space
+        uses: ublue-os/remove-unwanted-software@v7
+
       - name: Download ISOs
         uses: actions/download-artifact@v4
         with:
