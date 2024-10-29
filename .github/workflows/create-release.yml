@@ -30,6 +30,8 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     needs: [build, build-disk-images, build-isos]
+    permissions:
+      contents: write
     steps:
       - uses: ncipollo/release-action@v1
         with:
