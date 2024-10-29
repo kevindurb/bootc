@@ -1,1 +1,2 @@
-FROM quay.io/fedora/fedora-kinoite:41
+# TODO: switch to upstream when available
+FROM ghcr.io/ublue-os/kinoite-bootc:40

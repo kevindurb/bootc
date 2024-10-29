@@ -1,1 +1,2 @@
+# TODO: switch to bootc when available
 FROM ghcr.io/ublue-os/bazzite-gnome-nvidia:40
