@@ -14,14 +14,14 @@ on:
         type: string
         default: latest
 
+env:
+  ARCH: amd64
+  IMAGE_REPO: ghcr.io/kevindurb
+
 jobs:
-  build-containers:
+  build-disk-images:
     name: Build Disk Images
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -51,7 +51,8 @@ jobs:
           --type qcow2 \
           --rootfs xfs \
           --output /output \
-          ghcr.io/kevindurb/${{ matrix.recipe }}:${{ inputs.tag }}
+          --target-arch ${{ env.ARCH }}
+          ${{ env.IMAGE_REPO }}/${{ matrix.recipe }}:${{ inputs.tag }}
 
       - name: Upload image as artifact
         id: upload
