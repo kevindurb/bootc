@@ -33,6 +33,17 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: ncipollo/release-action@v1
+      - name: Download ISOs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*.iso'
+
+      - name: Download qcows
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*.qcow'
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
           artifacts: '*.iso,*.qcow'
