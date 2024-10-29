@@ -1,5 +1,5 @@
 ---
-name: build-disk-images
+name: Build Disk Images
 on:
   workflow_dispatch:
     inputs:

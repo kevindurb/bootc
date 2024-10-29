@@ -1,12 +1,12 @@
 ---
-name: create-release
+name: Create Release
 on:
   push:
     tags: ['*']
 
 jobs:
   build:
-    name: Build
+    name: Trigger image Build
     uses: kevindurb/bootc/.github/workflows/build.yml@main
     secrets: inherit
 
@@ -28,3 +28,5 @@ jobs:
     needs: [build, build-disk-images, build-isos]
     steps:
       - uses: ncipollo/release-action@v1
+        with:
+          artifacts: '*.iso,*.qcow'

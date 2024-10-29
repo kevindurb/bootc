@@ -1,5 +1,5 @@
 ---
-name: build-images
+name: Build
 on:
   schedule:
     - cron: '05 10 * * *' # 10:05am UTC Everyday

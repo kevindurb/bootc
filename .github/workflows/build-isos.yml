@@ -1,5 +1,5 @@
 ---
-name: build-isos
+name: Build ISOs
 on:
   workflow_dispatch:
     inputs:
