@@ -9,6 +9,10 @@ jobs:
     name: Trigger image Build
     uses: kevindurb/bootc/.github/workflows/build.yml@main
     secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
 
   build-isos:
     name: Trigger iso build
