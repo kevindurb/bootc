@@ -41,14 +41,17 @@ jobs:
         with:
           pattern: '*.iso'
 
-      - name: Download qcows
-        uses: actions/download-artifact@v4
-        with:
-          pattern: '*.qcow2'
-
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             **/*.iso
-            **/*.qcow2
+
+      - name: Update Release Text with Actions Run Link
+        uses: cli/gh-action@v2
+        with:
+          args: |
+            gh release edit "$RELEASE_TAG" --notes "GitHub Actions run: [$GITHUB_RUN_ID](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{  github.ref_name }}
