@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/kevindurb/bootc/compare/v1.1.0...v1.2.0) (2024-10-29)
+
+
+### Features
+
+* include link to run in release ([250db49](https://github.com/kevindurb/bootc/commit/250db492876cf4ffc9d84280b86b515369fc85f2))
+
 ## [1.1.0](https://github.com/kevindurb/bootc/compare/v1.0.7...v1.1.0) (2024-10-29)
 
 
