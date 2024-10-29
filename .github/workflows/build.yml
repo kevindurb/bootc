@@ -17,7 +17,7 @@ env:
   IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}' # do not edit
 
 jobs:
-  build_push:
+  build-images:
     name: Build and push image
     runs-on: ubuntu-latest
 
@@ -145,6 +145,7 @@ jobs:
   build-isos:
     name: Trigger iso build
     uses: kevindurb/bootc/.github/workflows/build-isos.yml@main
+    needs: [build-images]
     secrets: inherit
     # if: github.event_name == 'schedule'
     with:
@@ -153,6 +154,7 @@ jobs:
   build-disk-images:
     name: Trigger disk image build
     uses: kevindurb/bootc/.github/workflows/build-disk-images.yml@main
+    needs: [build-images]
     secrets: inherit
     # if: github.event_name == 'schedule'
     with:
