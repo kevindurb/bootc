@@ -2,13 +2,17 @@
 name: build-isos
 on:
   workflow_dispatch:
-    inputs: &inputs
+    inputs:
       tag:
         description: Tag of image to build isos from
         type: string
         default: latest
   workflow_call:
-    inputs: *inputs
+    inputs:
+      tag:
+        description: Tag of image to build isos from
+        type: string
+        default: latest
 
 env:
   ARCH: x86_64
