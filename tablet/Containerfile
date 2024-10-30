@@ -1,2 +1,4 @@
 # TODO: switch to upstream when available
 FROM ghcr.io/ublue-os/silverblue-bootc:40
+
+RUN flatpak install flathub com.brave.Browser
