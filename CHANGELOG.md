@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.0](https://github.com/kevindurb/bootc/compare/v1.2.1...v1.3.0) (2024-10-30)
+
+
+### Features
+
+* add brave browser flatpak ([bf15822](https://github.com/kevindurb/bootc/commit/bf15822665f437031ec5a4dc12807c0028c1df85))
+* add default flatpaks ([38e9f91](https://github.com/kevindurb/bootc/commit/38e9f91ce88a36c082cf3068f564cc86d1b261f3))
+
+
+### Bug Fixes
+
+* all assets are gonna be too big to upload ([c14a415](https://github.com/kevindurb/bootc/commit/c14a415acaa7e97910d57e141b39a9314a479185))
+* correctly add flathub ([006a25c](https://github.com/kevindurb/bootc/commit/006a25c3a835ea05e5252203a9d8869764d609ed))
+* remove declaritive flatpak install ([79eb9e1](https://github.com/kevindurb/bootc/commit/79eb9e19b42317c1b0134d37fd7bfe034541a4b0))
+* use root as context ([1aea396](https://github.com/kevindurb/bootc/commit/1aea39617dff588b44b866fc48f61d098d92de4a))
+
 ## [1.2.1](https://github.com/kevindurb/bootc/compare/v1.2.0...v1.2.1) (2024-10-29)
 
 
