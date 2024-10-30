@@ -1,9 +1,2 @@
 # TODO: switch to upstream when available
 FROM ghcr.io/ublue-os/silverblue-bootc:40
-
-ENV FLATPAK_RUNTIME=org.freedesktop.Platform//1.14
-ENV FLATPAK_SYSTEM_DIR=/var/lib/flatpak
-
-RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-RUN flatpak install --system --noninteractive --assumeyes flathub com.brave.Browser
