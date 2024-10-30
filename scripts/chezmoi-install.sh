@@ -1,4 +1,5 @@
 #! /bin/bash
+set -euo pipefail
 
 /usr/bin/curl -fLs --create-dirs \
   https://github.com/twpayne/chezmoi/releases/latest/download/chezmoi-linux-amd64 \

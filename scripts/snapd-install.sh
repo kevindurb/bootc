@@ -1,4 +1,5 @@
 #! /bin/bash
+set -euo pipefail
 
 dnf install -y snapd
 systemctl enable snapd.service

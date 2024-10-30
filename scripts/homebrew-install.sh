@@ -1,6 +1,14 @@
 #! /bin/bash
+set -euo pipefail
 
-dnf install -y gcc zstd
+# Create necessary directories
+mkdir -p /var/home
+mkdir -p /var/roothome
+
+# Convince the installer that we are in CI
+touch /.dockerenv
+
+dnf install -y gcc zstd git
 curl -fLs --create-dirs https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o /tmp/brew-install
 chmod +x /tmp/brew-install
 /tmp/brew-install
