@@ -1,2 +1,10 @@
 # TODO: switch to upstream when available
 FROM ghcr.io/ublue-os/silverblue-bootc:40
+
+COPY ./files/flatpak/flatpak-setup.service /usr/lib/systemd/system/
+COPY ./files/flatpak/flatpak-setup.timer /usr/lib/systemd/system/
+COPY ./files/flatpak/flatpak-setup /usr/bin/
+
+COPY ./tablet/flatpaks.list /usr/share/kevindurb/
+
+RUN systemctl enable -f flatpak-setup.timer
