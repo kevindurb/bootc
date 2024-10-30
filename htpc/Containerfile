@@ -1,2 +1,13 @@
 # TODO: switch to bootc when available
 FROM ghcr.io/ublue-os/bazzite-gnome-nvidia:40
+
+COPY ./scripts /tmp/scripts
+
+RUN /tmp/scripts/snapd-install.sh
+RUN /tmp/scripts/tailscale-install.sh
+RUN /tmp/scripts/firefox-remove.sh
+RUN /tmp/scripts/codecs-install.sh
+RUN /tmp/scripts/base-packages-install.sh
+RUN /tmp/scripts/gnome-extensions-install.sh
+RUN /tmp/scripts/homebrew-install.sh
+

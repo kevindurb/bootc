@@ -1,2 +1,12 @@
 # TODO: switch to upstream when available
 FROM ghcr.io/ublue-os/kinoite-bootc:40
+
+COPY ./scripts /tmp/scripts
+
+RUN /tmp/scripts/snapd-install.sh
+RUN /tmp/scripts/tailscale-install.sh
+RUN /tmp/scripts/firefox-remove.sh
+RUN /tmp/scripts/codecs-install.sh
+RUN /tmp/scripts/base-packages-install.sh
+RUN /tmp/scripts/homebrew-install.sh
+RUN /tmp/scripts/chezmoi-install.sh

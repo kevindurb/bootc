@@ -1,3 +1,11 @@
 # TODO: switch to bootc when available
 FROM ghcr.io/ublue-os/bazzite-deck:40
 
+COPY ./scripts /tmp/scripts
+
+RUN /tmp/scripts/snapd-install.sh
+RUN /tmp/scripts/codecs-install.sh
+RUN /tmp/scripts/base-packages-install.sh
+RUN /tmp/scripts/chezmoi-install.sh
+
+
