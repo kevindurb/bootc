@@ -1,8 +1,0 @@
-[Unit]
-Description=Timer for flatpak-setup
-
-[Timer]
-OnBootSec=30
-
-[Install]
-WantedBy=timers.target

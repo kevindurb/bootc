@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-flatpak remote-add --if-not-exists --system flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-FLATPAK_LIST_PATH="/usr/share/kevindurb/flatpaks.list"
-readarray -t FLATPAKS <$FLATPAK_LIST_PATH
-
-flatpak install --system --noninteractive --assumeyes "${FLATPAKS[@]}"

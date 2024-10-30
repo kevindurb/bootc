@@ -1,10 +1,15 @@
 # TODO: switch to upstream when available
 FROM ghcr.io/ublue-os/silverblue-bootc:40
 
-COPY ./files/flatpak/flatpak-setup.service /usr/lib/systemd/system/
-COPY ./files/flatpak/flatpak-setup.timer /usr/lib/systemd/system/
-COPY ./files/flatpak/flatpak-setup /usr/bin/
+COPY ./scripts /tmp/scripts
 
-COPY ./tablet/flatpaks.list /usr/share/kevindurb/
+RUN /tmp/scripts/snapd-install.sh
+RUN /tmp/scripts/tailscale-install.sh
+RUN /tmp/scripts/firefox-remove.sh
+RUN /tmp/scripts/tuned-install.sh
+RUN /tmp/scripts/codecs-install.sh
+RUN /tmp/scripts/base-packages-install.sh
+RUN /tmp/scripts/gnome-extensions-install.sh
+RUN /tmp/scripts/homebrew-install.sh
+RUN /tmp/scripts/chezmoi-install.sh
 
-RUN systemctl enable -f flatpak-setup.timer
