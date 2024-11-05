@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.0](https://github.com/kevindurb/bootc/compare/v1.3.0...v1.4.0) (2024-10-30)
+
+
+### Features
+
+* add instal for router ([c24cc6a](https://github.com/kevindurb/bootc/commit/c24cc6aa579c916b366d0740d022f6e21959fac7))
+* add install scripts ([616d364](https://github.com/kevindurb/bootc/commit/616d36477a1d579d37561a4ce953d96b1b71ebd9))
+* add scripts to other containers ([8fab26c](https://github.com/kevindurb/bootc/commit/8fab26c56aaff14b1765d7138c590ecb70d17025))
+
+
+### Bug Fixes
+
+* bazzite already doesnt have firefox ([4afa578](https://github.com/kevindurb/bootc/commit/4afa5789888c27bad31ca259feef62cd410948fe))
+* have scripts exit when they fail ([2ca3a52](https://github.com/kevindurb/bootc/commit/2ca3a52645868c18bd1f5ac30012ad90b647666f))
+
 ## [1.3.0](https://github.com/kevindurb/bootc/compare/v1.2.1...v1.3.0) (2024-10-30)
 
 
