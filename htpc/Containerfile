@@ -9,4 +9,5 @@ RUN /tmp/scripts/codecs-install.sh
 RUN /tmp/scripts/base-packages-install.sh
 RUN /tmp/scripts/gnome-extensions-install.sh
 RUN /tmp/scripts/homebrew-install.sh
+RUN /tmp/scripts/syncthing-install.sh
 
