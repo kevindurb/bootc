@@ -30,7 +30,7 @@ jobs:
         image:
           - htpc
           - router
-          - steamdeck
+          # - steamdeck
           - tablet
           - workstation
 
