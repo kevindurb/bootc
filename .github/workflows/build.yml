@@ -30,6 +30,7 @@ jobs:
         image:
           - htpc
           - router
+          - builder
           # - steamdeck
           - tablet
           - workstation
@@ -99,7 +100,7 @@ jobs:
         with:
           context: .
           containerfiles: |
-            ./${{matrix.image}}/Containerfile
+            ./containers/${{matrix.image}}/Containerfile
           image: ${{ matrix.image }}-bootc
           tags: |
             ${{ steps.generate-tags.outputs.alias_tags }}

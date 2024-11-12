@@ -1,0 +1,15 @@
+FROM fedora:latest AS builder
+
+# Install required tools for OSTree operations
+RUN dnf install -y \
+  ostree \
+  coreutils \
+  util-linux \
+  && dnf clean all
+
+# Set up OSTree repository directory
+RUN mkdir -p /var/tmp/repo
+
+# Set up environment variables for OSTree
+ENV OSTREE_SYSROOT=/sysroot
+ENV PATH=$PATH:/usr/sbin:/usr/bin:/sbin:/bin
