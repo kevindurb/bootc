@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/kevindurb/bootc/compare/v1.5.0...v1.6.0) (2024-11-14)
+
+
+### Features
+
+* add build for lima ([707857d](https://github.com/kevindurb/bootc/commit/707857da204017a1d051a031819a4e32b6b06b41))
+
 ## [1.5.0](https://github.com/kevindurb/bootc/compare/v1.4.0...v1.5.0) (2024-11-14)
 
 
