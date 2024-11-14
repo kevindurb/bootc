@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0](https://github.com/kevindurb/bootc/compare/v1.4.0...v1.5.0) (2024-11-14)
+
+
+### Features
+
+* install syncthing ([ff529a3](https://github.com/kevindurb/bootc/commit/ff529a3da94c2ba239db0cd5533dd5e6e6ed482b))
+
+
+### Bug Fixes
+
+* add user service ([0184ca1](https://github.com/kevindurb/bootc/commit/0184ca1f00db7407f606d26b7cb0fd28bfed3689))
+* syncthing only has user services ([99e3a74](https://github.com/kevindurb/bootc/commit/99e3a7467fdacd10bb431e8e5873c21d7016b9cf))
+
 ## [1.4.0](https://github.com/kevindurb/bootc/compare/v1.3.0...v1.4.0) (2024-10-30)
 
 
