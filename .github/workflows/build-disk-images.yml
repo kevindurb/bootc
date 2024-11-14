@@ -32,6 +32,7 @@ jobs:
           - tablet-bootc
           - router-bootc
           - workstation-bootc
+          - lima-bootc
     steps:
       - name: Maximize build space
         uses: jlumbroso/free-disk-space@v1.3.1

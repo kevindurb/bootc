@@ -34,6 +34,7 @@ jobs:
           # - steamdeck
           - tablet
           - workstation
+          - lima
 
     steps:
       - name: Checkout
