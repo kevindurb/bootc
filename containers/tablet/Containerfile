@@ -24,9 +24,6 @@ RUN /tmp/scripts/base-packages-install.sh
 COPY ./scripts/gnome-extensions-install.sh /tmp/scripts
 RUN /tmp/scripts/gnome-extensions-install.sh
 
-COPY ./scripts/homebrew-install.sh /tmp/scripts
-RUN /tmp/scripts/homebrew-install.sh
-
 COPY ./scripts/chezmoi-install.sh /tmp/scripts
 RUN /tmp/scripts/chezmoi-install.sh
 
