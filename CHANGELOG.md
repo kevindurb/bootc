@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/kevindurb/bootc/compare/v1.6.0...v1.6.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* use --global instead of --user ([d5af6fe](https://github.com/kevindurb/bootc/commit/d5af6fe2f41c7da4261ec6add652456e0150bb40))
+
 ## [1.6.0](https://github.com/kevindurb/bootc/compare/v1.5.0...v1.6.0) (2024-11-14)
 
 
