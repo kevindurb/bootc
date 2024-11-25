@@ -2,4 +2,4 @@
 set -euo pipefail
 
 dnf install -y syncthing
-systemctl --user enable syncthing.service
+systemctl --global enable syncthing.service
