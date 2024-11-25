@@ -17,7 +17,7 @@ on:
 env:
   ARCH: x86_64
   IMAGE_REPO: ghcr.io/kevindurb
-  VERSION: 40
+  VERSION: 41
   VARIANT: base
 
 jobs:
