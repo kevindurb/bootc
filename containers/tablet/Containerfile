@@ -1,5 +1,4 @@
-# TODO: switch to upstream when available
-FROM ghcr.io/ublue-os/silverblue-bootc:40
+FROM quay.io/fedora/fedora-silverblue:41
 
 RUN mkdir /tmp/scripts
 
