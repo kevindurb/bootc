@@ -73,8 +73,9 @@ jobs:
             ./containers/${{matrix.image}}/Containerfile
           image: ${{ matrix.image }}-bootc
           tags: ${{ matrix.tags }}
-
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            FEDORA_MAJOR_VERSION=${{ matrix.fedora_major_version }}
           oci: false
 
       - name: Login to GitHub Container Registry
