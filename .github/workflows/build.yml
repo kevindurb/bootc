@@ -27,6 +27,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        exclude:
+          - image: gnome # broken right now
+          - image: kde # broken right now
         include:
           - fedora_major_version: 41
             tags: latest 41
