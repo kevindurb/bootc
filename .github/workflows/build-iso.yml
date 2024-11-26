@@ -18,7 +18,7 @@ on:
       version:
         description: fedora version for iso installer
         type: choice
-        options: ['40', '41', '42', rawhide]
+        options: ['41', '42', rawhide]
 
 env:
   ARCH: x86_64

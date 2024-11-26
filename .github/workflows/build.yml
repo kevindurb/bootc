@@ -28,8 +28,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - fedora_major_version: 40
-            tags: '40'
           - fedora_major_version: 41
             tags: latest 41
           - fedora_major_version: 42
@@ -37,7 +35,6 @@ jobs:
           - fedora_major_version: rawhide
             tags: rawhide
         fedora_major_version:
-          - 40
           - 41
           - 42
           - rawhide
@@ -46,8 +43,8 @@ jobs:
           - tablet
           - workstation
           - lima
-          # - gnome
-          # - kde
+          - gnome
+          - kde
 
     steps:
       - name: Checkout

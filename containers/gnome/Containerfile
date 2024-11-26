@@ -5,7 +5,6 @@ RUN dnf group install -y \
   gnome-desktop \
   base-graphical \
   container-management \
-  core \
   fonts \
   hardware-support \
   multimedia \
