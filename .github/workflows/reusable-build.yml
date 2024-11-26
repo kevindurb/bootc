@@ -3,25 +3,13 @@ name: Reusable Build
 on:
   workflow_dispatch:
     inputs:
-      tags:
-        description: image tags
-        type: string
       image:
         description: image to build
-        type: string
-      fedora_major_version:
-        description: fedora version
         type: string
   workflow_call:
     inputs:
-      tags:
-        description: image tags
-        type: string
       image:
         description: image to build
-        type: string
-      fedora_major_version:
-        description: fedora version
         type: string
 
 env:
@@ -36,6 +24,15 @@ jobs:
       contents: read
       packages: write
       id-token: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - fedora_major_version: 41
+            tags: latest 41
+          - fedora_major_version: rawhide
+            tags: rawhide
 
     steps:
       - name: Checkout
@@ -68,11 +65,11 @@ jobs:
           containerfiles: |
             ./containers/${{inputs.image}}/Containerfile
           image: ${{ inputs.image }}-bootc
-          tags: ${{ inputs.tags }}
+          tags: ${{ matrix.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64, linux/arm64
           build-args: |
-            FEDORA_MAJOR_VERSION=${{ inputs.fedora_major_version }}
+            FEDORA_MAJOR_VERSION=${{ matrix.fedora_major_version }}
           oci: false
 
       - name: Login to GitHub Container Registry

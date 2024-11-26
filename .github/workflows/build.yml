@@ -22,99 +22,39 @@ permissions:
 jobs:
   gnome:
     name: Gnome
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - fedora_major_version: 41
-            tags: latest 41
-          - fedora_major_version: rawhide
-            tags: rawhide
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedora_major_version: ${{ matrix.fedora_major_version }}
       image: gnome
-      tags: ${{ matrix.tags }}
   kde:
     name: KDE
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - fedora_major_version: 41
-            tags: latest 41
-          - fedora_major_version: rawhide
-            tags: rawhide
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedora_major_version: ${{ matrix.fedora_major_version }}
       image: kde
-      tags: ${{ matrix.tags }}
   lima:
     name: Lima
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - fedora_major_version: 41
-            tags: latest 41
-          - fedora_major_version: rawhide
-            tags: rawhide
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedora_major_version: ${{ matrix.fedora_major_version }}
       image: lima
-      tags: ${{ matrix.tags }}
   router:
     name: Router
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - fedora_major_version: 41
-            tags: latest 41
-          - fedora_major_version: rawhide
-            tags: rawhide
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedora_major_version: ${{ matrix.fedora_major_version }}
       image: router
-      tags: ${{ matrix.tags }}
   tablet:
     name: Tablet
     needs: [gnome]
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - fedora_major_version: 41
-            tags: latest 41
-          - fedora_major_version: rawhide
-            tags: rawhide
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedora_major_version: ${{ matrix.fedora_major_version }}
       image: tablet
-      tags: ${{ matrix.tags }}
   workstation:
     name: Workstation
     needs: [kde]
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - fedora_major_version: 41
-            tags: latest 41
-          - fedora_major_version: rawhide
-            tags: rawhide
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedora_major_version: ${{ matrix.fedora_major_version }}
       image: workstation
-      tags: ${{ matrix.tags }}
