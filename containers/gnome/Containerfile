@@ -1,0 +1,17 @@
+ARG FEDORA_MAJOR_VERSION=rawhide
+FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
+
+RUN dnf group install -y \
+  gnome-desktop \
+  base-graphical \
+  container-management \
+  virtualization \
+  core \
+  fonts \
+  hardware-support \
+  multimedia \
+  networkmanager-submodules \
+  printing \
+  workstation-product && \
+  dnf clean all && \
+  systemctl set-default graphical.target 

@@ -28,11 +28,9 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - steamdeck-bootc
           - tablet-bootc
           - router-bootc
           - workstation-bootc
-          - htpc-bootc
     steps:
       - name: Maximize build space
         uses: jlumbroso/free-disk-space@v1.3.1

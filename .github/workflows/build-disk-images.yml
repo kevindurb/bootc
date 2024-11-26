@@ -26,9 +26,6 @@ jobs:
       fail-fast: false
       matrix:
         recipe:
-          # TODO: add back when these support bootc
-          # - steamdeck-bootc
-          # - htpc-bootc
           - tablet-bootc
           - router-bootc
           - workstation-bootc
