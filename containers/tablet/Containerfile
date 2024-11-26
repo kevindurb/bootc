@@ -29,3 +29,5 @@ RUN /tmp/scripts/chezmoi-install.sh
 COPY ./scripts/syncthing-install.sh /tmp/scripts
 RUN /tmp/scripts/syncthing-install.sh
 
+COPY ./scripts/dev-packages-install.sh /tmp/scripts
+RUN /tmp/scripts/dev-packages-install.sh

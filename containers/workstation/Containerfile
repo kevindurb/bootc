@@ -31,3 +31,6 @@ RUN /tmp/scripts/steam-setup.sh
 
 COPY ./scripts/openrgb-udev-rules.sh /tmp/scripts
 RUN /tmp/scripts/openrgb-udev-rules.sh
+
+COPY ./scripts/dev-packages-install.sh /tmp/scripts
+RUN /tmp/scripts/dev-packages-install.sh
