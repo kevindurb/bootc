@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.7.0](https://github.com/kevindurb/bootc/compare/v1.6.1...v1.7.0) (2024-11-26)
+
+
+### Features
+
+* add dev packages ([4aaee47](https://github.com/kevindurb/bootc/commit/4aaee47876ac218f838139e875b7467c1ee74bc6))
+* build multiple versions and include gnome and kde bases ([65bf017](https://github.com/kevindurb/bootc/commit/65bf017510ecc0797f01c282d25d2d12c32272de))
+* include rpm fusion and openrgb udev rules ([3265b58](https://github.com/kevindurb/bootc/commit/3265b58ec6ce0695d1b498f02abb149c3a684e71))
+
+
+### Bug Fixes
+
+* fix iso version ([2e37cbf](https://github.com/kevindurb/bootc/commit/2e37cbf81953b5d6e42d5f7fa1f0ffeeb1f9cf37))
+* fix kde naming ([ebea6c7](https://github.com/kevindurb/bootc/commit/ebea6c7e0d5105827cc5860e636eeaa4dddf5784))
+* grab fedora version for rpm fusion and disable gnome and kde builds for now ([5408eda](https://github.com/kevindurb/bootc/commit/5408eda6eb59eda1d8e0deacee3585cc45807291))
+* pass in fedora version ([f961db2](https://github.com/kevindurb/bootc/commit/f961db21fe35a7dd7561f0a4b90361aab77fa07d))
+* remove virtualization packages ([ec35bcb](https://github.com/kevindurb/bootc/commit/ec35bcbf9ff1e190f3958a9fcf4d979b288a4b18))
+
 ## [1.6.1](https://github.com/kevindurb/bootc/compare/v1.6.0...v1.6.1) (2024-11-25)
 
 
