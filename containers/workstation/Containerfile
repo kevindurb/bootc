@@ -1,5 +1,5 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
-FROM quay.io/fedora/fedora-kinoite:${FEDORA_MAJOR_VERSION}
+FROM ghcr.io/kevindurb/kde-bootc:${FEDORA_MAJOR_VERSION}
 
 RUN mkdir /tmp/scripts
 
@@ -11,9 +11,6 @@ RUN /tmp/scripts/snapd-install.sh
 
 COPY ./scripts/tailscale-install.sh /tmp/scripts
 RUN /tmp/scripts/tailscale-install.sh
-
-COPY ./scripts/firefox-remove.sh /tmp/scripts
-RUN /tmp/scripts/firefox-remove.sh
 
 COPY ./scripts/codecs-install.sh /tmp/scripts
 RUN /tmp/scripts/codecs-install.sh
