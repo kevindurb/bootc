@@ -1,0 +1,60 @@
+---
+name: Build ISO
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of image to build isos from
+        type: string
+        default: latest
+      image:
+        description: image to build iso from
+        type: choice
+        options:
+          - workstation-bootc
+          - tablet-bootc
+          - router-bootc
+          - lima-bootc
+      version:
+        description: fedora version for iso installer
+        type: choice
+        options: ['40', '41', '42', rawhide]
+
+env:
+  ARCH: x86_64
+  IMAGE_REPO: ghcr.io/kevindurb
+  VARIANT: base
+
+jobs:
+  build-iso:
+    name: Build ISO
+    runs-on: ubuntu-latest
+    steps:
+      - name: Maximize build space
+        uses: jlumbroso/free-disk-space@v1.3.1
+
+      - name: Build ISO
+        uses: jasonn3/build-container-installer@main
+        id: build
+        with:
+          arch: ${{ env.ARCH }}
+          image_name: ${{ inputs.image }}
+          image_repo: ${{ env.IMAGE_REPO }}
+          image_tag: ${{ inputs.tag }}
+          version: ${{ inputs.version }}
+          variant: ${{ env.VARIANT }}
+          iso_name: ${{ inputs.image }}-${{ inputs.tag }}-${{ inputs.version }}.iso
+          secure_boot_key_url: 'https://github.com/ublue-os/akmods/raw/main/certs/public_key.der'
+          enrollment_password: 'universalblue'
+
+      - name: Upload ISO as artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.build.outputs.iso_name }}
+          path: |
+            ${{ steps.build.outputs.iso_path }}
+            ${{ steps.build.outputs.iso_path }}-CHECKSUM
+          if-no-files-found: error
+          retention-days: 0
+          compression-level: 0
