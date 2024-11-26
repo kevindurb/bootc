@@ -6,11 +6,19 @@ on:
       image:
         description: image to build
         type: string
+      platforms:
+        description: architecture to build
+        type: string
+        default: linux/amd64
   workflow_call:
     inputs:
       image:
         description: image to build
         type: string
+      platforms:
+        description: architecture to build
+        type: string
+        default: linux/amd64
 
 env:
   IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}' # do not edit
@@ -67,7 +75,7 @@ jobs:
           image: ${{ inputs.image }}-bootc
           tags: ${{ matrix.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64, linux/arm64
+          platforms: ${{ inputs.platforms }}
           build-args: |
             FEDORA_MAJOR_VERSION=${{ matrix.fedora_major_version }}
           oci: false
