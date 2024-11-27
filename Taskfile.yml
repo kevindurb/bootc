@@ -6,6 +6,18 @@ vars:
   ARCH: amd64
 
 tasks:
+  full-build:
+    requires:
+      vars: [NAME]
+    cmds:
+      - task: build
+        vars:
+          NAME: '{{.NAME}}'
+          TAG: '{{.NAME}}-bootc'
+      - task: build-qcow2
+        vars:
+          IMAGE: 'localhost/{{.NAME}}-bootc'
+
   build:
     requires:
       vars: [NAME, TAG]
@@ -40,6 +52,7 @@ tasks:
       task: bootc-image-builder
       vars:
         TYPE: qcow2
+        IMAGE: '{{.IMAGE}}'
 
   build-iso:
     requires:
@@ -48,3 +61,4 @@ tasks:
       task: bootc-image-builder
       vars:
         TYPE: anaconda-iso
+        IMAGE: '{{.IMAGE}}'
