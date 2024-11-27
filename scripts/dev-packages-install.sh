@@ -5,6 +5,8 @@ dnf copr enable atim/lazygit -y
 dnf copr enable atim/starship -y
 
 dnf install -y \
+  alacritty \
+  wl-clipboard \
   bat \
   bc \
   curl \

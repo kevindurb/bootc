@@ -10,28 +10,29 @@ RUN dnf install -y --allowerasing \
   libwacom-surface \
   surface-secureboot
 
-RUN mkdir /tmp/scripts
+RUN dnf install -y snapd \
+  systemctl enable snapd.service \
+  /usr/bin/ln -sf /var/lib/snapd/snap /
 
-COPY ./scripts/snapd-install.sh /tmp/scripts
-RUN /tmp/scripts/snapd-install.sh
+RUN dnf install -y tailscale \
+  systemctl enable tailscaled.service
 
-COPY ./scripts/tailscale-install.sh /tmp/scripts
-RUN /tmp/scripts/tailscale-install.sh
+RUN dnf install -y \
+  gstreamer1-plugin-libav \
+  gstreamer1-plugin-openh264 \
+  gstreamer1-plugins-base \
+  gstreamer1-plugins-good \
+  heif-pixbuf-loader
 
-COPY ./scripts/codecs-install.sh /tmp/scripts
-RUN /tmp/scripts/codecs-install.sh
+RUN dnf install -y \
+  gnome-shell-extension-gsconnect \
+  gnome-shell-extension-caffeine \
+  gnome-shell-extension-appindicator
 
-COPY ./scripts/base-packages-install.sh /tmp/scripts
-RUN /tmp/scripts/base-packages-install.sh
+RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
 
-COPY ./scripts/gnome-extensions-install.sh /tmp/scripts
-RUN /tmp/scripts/gnome-extensions-install.sh
+RUN dnf install -y syncthing \
+  systemctl --global enable syncthing.service
 
-COPY ./scripts/chezmoi-install.sh /tmp/scripts
-RUN /tmp/scripts/chezmoi-install.sh
-
-COPY ./scripts/syncthing-install.sh /tmp/scripts
-RUN /tmp/scripts/syncthing-install.sh
-
-COPY ./scripts/dev-packages-install.sh /tmp/scripts
-RUN /tmp/scripts/dev-packages-install.sh
+COPY ./scripts/dev-packages-install.sh /tmp
+RUN /tmp/dev-packages-install.sh
