@@ -39,8 +39,8 @@ jobs:
         include:
           - fedora_major_version: 41
             tags: latest 41
-          - fedora_major_version: rawhide
-            tags: rawhide
+          # - fedora_major_version: rawhide
+          #   tags: rawhide
 
     steps:
       - name: Checkout
