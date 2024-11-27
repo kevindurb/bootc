@@ -42,7 +42,7 @@ jobs:
       image: kde
   plasma-bigscreen:
     name: Plasma Bigscreen
-    needs: [base-graphical]
+    needs: [kde]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
