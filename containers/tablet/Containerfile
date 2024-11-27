@@ -1,8 +1,7 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
 FROM ghcr.io/kevindurb/gnome-bootc:${FEDORA_MAJOR_VERSION}
 
-RUN sudo dnf config-manager \
-  addrepo --from-repofile=https://pkg.surfacelinux.com/fedora/linux-surface.repo
+ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 
 ADD https://github.com/linux-surface/linux-surface/releases/download/silverblue-20201215-1/kernel-20201215-1.x86_64.rpm /tmp
 
