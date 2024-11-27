@@ -20,18 +20,33 @@ permissions:
   id-token: write
 
 jobs:
+  base-graphical:
+    name: Base Graphical
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: base-graphical
   gnome:
     name: Gnome
+    needs: [base-graphical]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: gnome
   kde:
     name: KDE
+    needs: [base-graphical]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: kde
+  plasma-bigscreen:
+    name: Plasma Bigscreen
+    needs: [base-graphical]
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: plasma-bigscreen
   lima:
     name: Lima
     uses: ./.github/workflows/reusable-build.yml

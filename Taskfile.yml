@@ -14,7 +14,7 @@ tasks:
         vars:
           NAME: '{{.NAME}}'
           TAG: '{{.NAME}}-bootc'
-      - task: build-qcow2
+      - task: build-raw
         vars:
           IMAGE: 'localhost/{{.NAME}}-bootc'
 
@@ -54,6 +54,15 @@ tasks:
         TYPE: qcow2
         IMAGE: '{{.IMAGE}}'
 
+  build-raw:
+    requires:
+      vars: [IMAGE]
+    cmd:
+      task: bootc-image-builder
+      vars:
+        TYPE: raw
+        IMAGE: '{{.IMAGE}}'
+
   build-iso:
     requires:
       vars: [IMAGE]
@@ -62,3 +71,10 @@ tasks:
       vars:
         TYPE: anaconda-iso
         IMAGE: '{{.IMAGE}}'
+
+  boot-qcow2-aarch64:
+    cmd: >
+      qemu-system-aarch64
+      -machine virt
+      -m 1G -vnc :1337 -display none
+      -drive file=./output/image/disk.raw,id=hd0,format=raw
