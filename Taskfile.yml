@@ -15,6 +15,7 @@ tasks:
       --build-arg FEDORA_MAJOR_VERSION={{.FEDORA_MAJOR_VERSION}}
       -f ./containers/{{.NAME}}/Containerfile
       -t {{.TAG}}
+      .
 
   bootc-image-builder:
     requires:
