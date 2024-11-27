@@ -1,7 +1,8 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
 FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
 
-RUN dnf group install -y \
+RUN dnf install -y dnf5-plugins \
+  dnf group install -y \
   base-graphical \
   container-management \
   fonts \
