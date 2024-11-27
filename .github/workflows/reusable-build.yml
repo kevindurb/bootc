@@ -36,11 +36,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        fedora_major_version:
+          - 41
+          - rawhide
+        isTablet:
+          - ${{ inputs.image == 'tablet' }}
         include:
           - fedora_major_version: 41
-            tags: latest 41
-          # - fedora_major_version: rawhide
-          #   tags: rawhide
+            extra_tags: latest
+        exclude:
+          - isTablet: true
+            fedora_major_version: rawhide
 
     steps:
       - name: Checkout
@@ -73,7 +79,7 @@ jobs:
           containerfiles: |
             ./containers/${{inputs.image}}/Containerfile
           image: ${{ inputs.image }}-bootc
-          tags: ${{ matrix.tags }}
+          tags: ${{ matrix.fedora_major_version }} ${{ matrix.extra_tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ inputs.platforms }}
           build-args: |
