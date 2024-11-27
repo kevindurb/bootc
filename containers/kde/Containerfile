@@ -3,4 +3,5 @@ FROM ghcr.io/kevindurb/base-graphical-bootc:${FEDORA_MAJOR_VERSION}
 
 RUN dnf group install -y \
   kde-desktop && \
-  dnf clean all
+  dnf clean all && \
+  systemctl enable sddm
