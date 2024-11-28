@@ -3,20 +3,9 @@ FROM ghcr.io/kevindurb/gnome-bootc:${FEDORA_MAJOR_VERSION}
 
 ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 
-ADD https://github.com/linux-surface/linux-surface/releases/download/silverblue-20201215-1/kernel-20201215-1.x86_64.rpm /tmp
-
-RUN dnf remove -y \
-  kernel-core \
-  kernel-modules \
-  kernel-modules-extra \
-  libwacom \
-  libwacom-data && \
-  dnf install -y --allowerasing \
-  /tmp/kernel-20201215-1.x86_64.rpm \
-  kernel-surface \
+RUN dnf install -y --allowerasing \
   iptsd \
-  libwacom-surface \
-  surface-secureboot
+  libwacom-surface
 
 RUN dnf install -y snapd && \
   systemctl enable snapd.service && \
