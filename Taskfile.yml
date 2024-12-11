@@ -53,5 +53,17 @@ tasks:
     cmd: >
       qemu-system-aarch64
       -machine virt
-      -m 1G -vnc :1337 -display none
-      -drive file=./output/image/disk.raw,id=hd0,format=raw
+      -monitor stdio
+      -accel hvf
+      -smp 4
+      -bios /opt/homebrew/Cellar/qemu/9.1.2/share/qemu/edk2-aarch64-code.fd
+      -m 1G
+      -display default,show-cursor=on
+      -cpu host
+      -device qemu-xhci
+      -device usb-kbd
+      -device usb-tablet
+      -device intel-hda
+      -device hda-duplex
+      -device virtio-gpu-pci
+      -drive file=./output/image/disk.raw,format=raw,if=virtio
