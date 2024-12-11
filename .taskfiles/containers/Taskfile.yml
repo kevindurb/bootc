@@ -1,0 +1,15 @@
+---
+version: 3
+
+tasks:
+  build:
+    requires:
+      vars: [FILE, TAG, ARCH, FEDORA_MAJOR_VERSION]
+    cmd: >
+      podman build
+      --platform linux/{{.ARCH}}
+      --build-arg FEDORA_MAJOR_VERSION={{.FEDORA_MAJOR_VERSION}}
+      --build-arg BASE_REPO=localhost
+      -f {{.FILE}}
+      -t {{.TAG}}
+      .
