@@ -2,36 +2,40 @@
 version: 3
 
 vars:
-  FEDORA_MAJOR_VERSION: 41
+  FEDORA_MAJOR_VERSION: latest
   ARCH: amd64
+  BOOTC_IMAGE_TYPE: raw
 
 tasks:
   full-build:
+    vars:
+      TAG: 'localhost/{{.NAME}}-bootc'
     requires:
       vars: [NAME]
     cmds:
       - task: build
         vars:
-          NAME: '{{.NAME}}'
-          TAG: '{{.NAME}}-bootc'
-      - task: build-raw
+          FILE: './containers/{{.NAME}}/Containerfile'
+          TAG: '{{.TAG}}'
+      - task: bootc-image-builder
         vars:
-          IMAGE: 'localhost/{{.NAME}}-bootc'
+          IMAGE: '{{.TAG}}'
 
   build:
     requires:
-      vars: [NAME, TAG]
+      vars: [FILE, TAG, ARCH, FEDORA_MAJOR_VERSION]
     cmd: >
       podman build
       --platform linux/{{.ARCH}}
       --build-arg FEDORA_MAJOR_VERSION={{.FEDORA_MAJOR_VERSION}}
-      -f ./containers/{{.NAME}}/Containerfile
+      --build-arg BASE_REPO=localhost
+      -f {{.FILE}}
       -t {{.TAG}}
       .
 
   bootc-image-builder:
     requires:
-      vars: [IMAGE, TYPE]
+      vars: [IMAGE, BOOTC_IMAGE_TYPE, ARCH]
     cmd: >
       podman run --rm -it --privileged
       --security-opt label=type:unconfined_t
@@ -42,35 +46,8 @@ tasks:
       quay.io/centos-bootc/bootc-image-builder:latest
       --target-arch {{.ARCH}}
       --rootfs xfs
-      --type {{.TYPE}}
+      --type {{.BOOTC_IMAGE_TYPE}}
       --local {{.IMAGE}}
-
-  build-qcow2:
-    requires:
-      vars: [IMAGE]
-    cmd:
-      task: bootc-image-builder
-      vars:
-        TYPE: qcow2
-        IMAGE: '{{.IMAGE}}'
-
-  build-raw:
-    requires:
-      vars: [IMAGE]
-    cmd:
-      task: bootc-image-builder
-      vars:
-        TYPE: raw
-        IMAGE: '{{.IMAGE}}'
-
-  build-iso:
-    requires:
-      vars: [IMAGE]
-    cmd:
-      task: bootc-image-builder
-      vars:
-        TYPE: anaconda-iso
-        IMAGE: '{{.IMAGE}}'
 
   boot-qcow2-aarch64:
     cmd: >

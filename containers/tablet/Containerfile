@@ -1,5 +1,6 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
-FROM ghcr.io/kevindurb/gnome-bootc:${FEDORA_MAJOR_VERSION}
+ARG BASE_REPO=ghcr.io/kevindurb
+FROM ${BASE_REPO}/gnome-bootc:${FEDORA_MAJOR_VERSION}
 
 ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 

@@ -1,5 +1,6 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
-FROM ghcr.io/kevindurb/kde-bootc:${FEDORA_MAJOR_VERSION}
+ARG BASE_REPO=ghcr.io/kevindurb
+FROM ${BASE_REPO}/kde-bootc:${FEDORA_MAJOR_VERSION}
 
 RUN dnf install -y \
   plasma-bigscreen \
