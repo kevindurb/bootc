@@ -1,8 +1,10 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
 FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
 
-RUN dnf install -y dnf5-plugins && \
-  dnf group install -y \
+# https://pagure.io/workstation-ostree-config/blob/main/f/common.yaml
+# https://pagure.io/workstation-ostree-config/blob/main/f/common-packages.yaml
+
+RUN dnf group install -y \
   base-graphical \
   container-management \
   fonts \
@@ -10,7 +12,149 @@ RUN dnf install -y dnf5-plugins && \
   multimedia \
   networkmanager-submodules \
   printing && \
+  dnf install -y dnf5-plugins \
+  NetworkManager-bluetooth \
+  NetworkManager-config-connectivity-fedora \
+  NetworkManager-wifi \
+  NetworkManager-wwan \
+  alsa-ucm \
+  alsa-utils \
+  at-spi2-atk \
+  at-spi2-core \
+  audit \
+  b43-fwcutter \
+  b43-openfwwf \
+  bash-color-prompt \
+  bc \
+  bluez-cups \
+  brltty \
+  buildah \
+  cifs-utils \
+  colord \
+  compsize \
+  cups \
+  cups-browsed \
+  cups-filters \
+  cyrus-sasl-plain \
+  default-editor \
+  default-fonts-cjk-mono \
+  default-fonts-cjk-sans \
+  default-fonts-cjk-serif \
+  default-fonts-core-emoji \
+  default-fonts-core-math \
+  default-fonts-core-mono \
+  default-fonts-core-sans \
+  default-fonts-core-serif \
+  default-fonts-other-mono \
+  default-fonts-other-sans \
+  default-fonts-other-serif \
+  dhcp-client \
+  dnsmasq \
+  fedora-bookmarks \
+  fedora-chromium-config \
+  fedora-flathub-remote \
+  fedora-repos-ostree \
+  fedora-workstation-backgrounds \
+  fedora-workstation-repositories \
+  firewalld \
+  flatpak \
+  fpaste \
+  fros-gnome \
+  fuse \
+  fuse-libs \
+  gamemode \
+  git-core \
+  git-core-doc \
+  glibc-all-langpacks \
+  gstreamer1-plugin-libav \
+  gstreamer1-plugin-openh264 \
+  gstreamer1-plugins-bad-free \
+  gstreamer1-plugins-base \
+  gstreamer1-plugins-good \
+  gstreamer1-plugins-ugly-free \
+  gutenprint \
+  gutenprint-cups \
+  heif-pixbuf-loader \
+  hfsplus-tools \
+  hplip \
+  hunspell \
+  ibus-anthy \
+  ibus-chewing \
+  ibus-gtk3 \
+  ibus-gtk4 \
+  ibus-hangul \
+  ibus-libpinyin \
+  ibus-m17n \
+  ibus-typing-booster \
+  iptstate \
+  iwlegacy-firmware \
+  iwlwifi-dvm-firmware \
+  iwlwifi-mvm-firmware \
+  kernel-modules-extra \
+  langpacks-en \
+  libertas-firmware \
+  libglvnd-gles \
+  lrzsz \
+  man-db \
+  man-pages \
+  mesa-dri-drivers \
+  mesa-vulkan-drivers \
+  mozilla-openh264 \
+  mpage \
+  mtr \
+  nss-altfiles \
+  nss-mdns \
+  openh264 \
+  opensc \
+  orca \
+  ostree-grub2 \
+  pam_afs_session \
+  paps \
+  passwdqc \
+  pciutils \
+  pinfo \
+  pipewire-alsa \
+  pipewire-gstreamer \
+  pipewire-pulseaudio \
+  pipewire-utils \
+  plocate \
+  plymouth \
+  plymouth-system-theme \
+  policycoreutils-python-utils \
+  qemu-guest-agent \
+  qt5-qtbase \
+  qt5-qtbase-gui \
+  qt5-qtdeclarative \
+  qt5-qtxmlpatterns \
+  realmd \
+  rsync \
+  samba-client \
+  slirp4netns \
+  speech-dispatcher \
+  spice-vdagent \
+  spice-webdavd \
+  sssd-kcm \
+  system-config-printer-udev \
+  systemd-container \
+  systemd-oomd-defaults \
+  time \
+  tree \
+  unzip \
+  uresourced \
+  usb_modeswitch \
+  usbutils \
+  wget2-wget \
+  whois \
+  wireplumber \
+  words \
+  wpa_supplicant \
+  xdg-desktop-portal \
+  zip \
+  zram-generator-defaults && \
   dnf clean all && \
   systemctl set-default graphical.target
 
-RUN bootc container lint
+# Add missing /var/run symlink
+RUN ln -s /run /var/run
+
+# RUN bootc container lint
