@@ -20,53 +20,59 @@ permissions:
   id-token: write
 
 jobs:
-  base-graphical:
+  tablet:
+    name: Tablet RPM OSTree
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: tablet
+  base-graphical-bootc:
     name: Base Graphical Bootc
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: base-graphical-bootc
-  gnome:
+  gnome-bootc:
     name: Gnome Bootc
     needs: [base-graphical-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: gnome-bootc
-  kde:
+  kde-bootc:
     name: KDE Bootc
     needs: [base-graphical-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: kde-bootc
-  plasma-bigscreen:
+  plasma-bigscreen-bootc:
     name: Plasma Bigscreen Bootc
     needs: [kde-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: plasma-bigscreen-bootc
-  lima:
+  lima-bootc:
     name: Lima Bootc
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: lima-bootc
-  router:
+  router-bootc:
     name: Router Bootc
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: router-bootc
-  tablet:
+  tablet-bootc:
     name: Tablet Bootc
     needs: [gnome-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: tablet-bootc
-  workstation:
+  workstation-bootc:
     name: Workstation Bootc
     needs: [kde-bootc]
     uses: ./.github/workflows/reusable-build.yml
