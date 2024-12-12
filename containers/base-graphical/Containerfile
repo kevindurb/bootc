@@ -155,6 +155,6 @@ RUN dnf group install -y \
   systemctl set-default graphical.target
 
 # Add missing /var/run symlink
-RUN ln -s /run /var/run
+RUN ln -s /run /var/
 
-# RUN bootc container lint
+RUN bootc container lint

@@ -5,3 +5,5 @@ FROM ${BASE_REPO}/base-graphical-bootc:${FEDORA_MAJOR_VERSION}
 RUN dnf group install -y kde-desktop && \
   dnf clean all && \
   systemctl enable sddm
+
+RUN bootc container lint

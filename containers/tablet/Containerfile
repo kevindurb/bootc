@@ -27,3 +27,5 @@ RUN dnf install -y syncthing && \
 
 COPY ./scripts/dev-packages-install.sh /tmp
 RUN /tmp/dev-packages-install.sh
+
+RUN bootc container lint

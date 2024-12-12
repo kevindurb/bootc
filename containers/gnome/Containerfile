@@ -13,3 +13,5 @@ RUN dnf group install -y gnome-desktop && \
   gnome-software-rpm-ostree && \
   dnf clean all && \
   systemctl enable gdm
+
+RUN bootc container lint
