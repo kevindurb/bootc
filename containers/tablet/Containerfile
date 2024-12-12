@@ -20,8 +20,6 @@ RUN dnf install -y \
   gnome-shell-extension-caffeine \
   gnome-shell-extension-appindicator
 
-RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
-
 RUN dnf install -y syncthing && \
   systemctl --global enable syncthing.service
 
