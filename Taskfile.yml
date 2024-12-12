@@ -14,6 +14,14 @@ vars:
   BOOTC_IMAGE_TYPE: raw
 
 tasks:
+  tablet:
+    deps: []
+    cmd:
+      task: containers:build
+      vars:
+        FILE: ./containers/tablet/Containerfile
+        TAG: localhost/tablet
+
   tablet-bootc:
     deps: [gnome-bootc]
     cmd:
