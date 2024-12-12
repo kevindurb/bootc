@@ -30,3 +30,5 @@ ADD https://openrgb.org/releases/release_0.9/60-openrgb.rules /usr/lib/udev/rule
 
 COPY ./scripts/dev-packages-install.sh /tmp
 RUN /tmp/dev-packages-install.sh
+
+RUN bootc container lint
