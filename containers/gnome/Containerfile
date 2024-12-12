@@ -6,3 +6,5 @@ RUN dnf group install -y \
   gnome-desktop && \
   dnf clean all && \
   systemctl enable gdm
+
+RUN bootc container lint
