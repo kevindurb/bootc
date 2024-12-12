@@ -5,3 +5,5 @@ RUN dnf install -y \
   dnsmasq
 
 COPY ./containers/router/router.conf /etc/dnsmasq.d/
+
+RUN bootc container lint
