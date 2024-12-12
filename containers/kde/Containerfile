@@ -6,3 +6,5 @@ RUN dnf group install -y \
   kde-desktop && \
   dnf clean all && \
   systemctl enable sddm
+
+RUN bootc container lint
