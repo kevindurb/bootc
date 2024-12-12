@@ -40,7 +40,7 @@ jobs:
           - 41
           - rawhide
         isTablet:
-          - ${{ inputs.image == 'tablet' }}
+          - ${{ inputs.image == 'tablet-bootc' }}
         include:
           - fedora_major_version: 41
             extra_tags: latest
