@@ -18,7 +18,7 @@ tasks:
       -device intel-hda
       -device hda-duplex
       -device virtio-gpu-pci
-      -drive file=./output/image/disk.raw,format=raw,if=virtio
+      -drive file=./output/disk.raw,format=raw,if=virtio
 
   qemu-aarch64:
     cmd: >
@@ -37,4 +37,4 @@ tasks:
       -device intel-hda
       -device hda-duplex
       -device virtio-gpu-pci
-      -drive file=./output/image/disk.raw,format=raw,if=virtio
+      -drive file=./output/disk.raw,format=raw,if=virtio

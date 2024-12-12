@@ -17,3 +17,24 @@ tasks:
       --rootfs xfs
       --type {{.BOOTC_IMAGE_TYPE}}
       --local {{.IMAGE}}
+
+  bootc-install-to-raw:
+    requires:
+      vars: [IMAGE, ARCH]
+    cmds:
+      - cmd: rm -rf ./output/disk.raw
+      - cmd: truncate -s 20G ./output/disk.raw
+      - cmd: >
+          podman run --rm -it --privileged
+          --security-opt label=type:unconfined_t
+          -v /var/lib/containers:/var/lib/containers
+          -v /dev:/dev
+          -v ./output/disk.raw:/disk.raw
+          --pid=host
+          --platform linux/{{.ARCH}}
+          {{.IMAGE}}
+          bootc install to-disk
+          --target-transport containers-storage
+          --generic-image
+          --filesystem xfs
+          --via-loopback /disk.raw
