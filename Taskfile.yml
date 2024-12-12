@@ -19,7 +19,7 @@ tasks:
     cmd:
       task: containers:build
       vars:
-        FILE: ./containers/tablet/Containerfile
+        FILE: ./containers/tablet-bootc/Containerfile
         TAG: localhost/tablet-bootc
 
   workstation-bootc:
@@ -27,7 +27,7 @@ tasks:
     cmd:
       task: containers:build
       vars:
-        FILE: ./containers/workstation/Containerfile
+        FILE: ./containers/workstation-bootc/Containerfile
         TAG: localhost/workstation-bootc
 
   kde-bootc:
@@ -35,7 +35,7 @@ tasks:
     cmd:
       task: containers:build
       vars:
-        FILE: ./containers/kde/Containerfile
+        FILE: ./containers/kde-bootc/Containerfile
         TAG: localhost/kde-bootc
 
   gnome-bootc:
@@ -43,7 +43,7 @@ tasks:
     cmd:
       task: containers:build
       vars:
-        FILE: ./containers/gnome/Containerfile
+        FILE: ./containers/gnome-bootc/Containerfile
         TAG: localhost/gnome-bootc
 
   base-graphical-bootc:
@@ -51,5 +51,5 @@ tasks:
     cmd:
       task: containers:build
       vars:
-        FILE: ./containers/base-graphical/Containerfile
+        FILE: ./containers/base-graphical-bootc/Containerfile
         TAG: localhost/base-graphical-bootc

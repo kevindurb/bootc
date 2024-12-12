@@ -21,55 +21,55 @@ permissions:
 
 jobs:
   base-graphical:
-    name: Base Graphical
+    name: Base Graphical Bootc
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: base-graphical
+      image: base-graphical-bootc
   gnome:
-    name: Gnome
-    needs: [base-graphical]
+    name: Gnome Bootc
+    needs: [base-graphical-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: gnome
+      image: gnome-bootc
   kde:
-    name: KDE
-    needs: [base-graphical]
+    name: KDE Bootc
+    needs: [base-graphical-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: kde
+      image: kde-bootc
   plasma-bigscreen:
-    name: Plasma Bigscreen
-    needs: [kde]
+    name: Plasma Bigscreen Bootc
+    needs: [kde-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: plasma-bigscreen
+      image: plasma-bigscreen-bootc
   lima:
-    name: Lima
+    name: Lima Bootc
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: lima
+      image: lima-bootc
   router:
-    name: Router
+    name: Router Bootc
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: router
+      image: router-bootc
   tablet:
-    name: Tablet
-    needs: [gnome]
+    name: Tablet Bootc
+    needs: [gnome-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: tablet
+      image: tablet-bootc
   workstation:
-    name: Workstation
-    needs: [kde]
+    name: Workstation Bootc
+    needs: [kde-bootc]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: workstation
+      image: workstation-bootc

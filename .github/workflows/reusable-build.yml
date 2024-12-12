@@ -65,11 +65,11 @@ jobs:
         id: meta
         with:
           images: |
-            ${{ inputs.image }}-bootc
+            ${{ inputs.image }}
 
           labels: |
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository }}/main/README.md
-            org.opencontainers.image.title=${{ inputs.image }}-bootc
+            org.opencontainers.image.title=${{ inputs.image }}
 
       - name: Build Image
         id: build_image
@@ -78,7 +78,7 @@ jobs:
           context: .
           containerfiles: |
             ./containers/${{inputs.image}}/Containerfile
-          image: ${{ inputs.image }}-bootc
+          image: ${{ inputs.image }}
           tags: ${{ matrix.fedora_major_version }} ${{ matrix.extra_tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ inputs.platforms }}
