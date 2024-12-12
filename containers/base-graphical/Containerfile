@@ -11,4 +11,6 @@ RUN dnf install -y dnf5-plugins && \
   networkmanager-submodules \
   printing && \
   dnf clean all && \
-  systemctl set-default graphical.target 
+  systemctl set-default graphical.target
+
+RUN bootc container lint
