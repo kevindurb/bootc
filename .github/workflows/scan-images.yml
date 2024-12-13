@@ -24,13 +24,13 @@ jobs:
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@v7
 
-      - run: mkdir ./tmp
+      - run: mkdir ${{ github.workspace }}/tmp
 
       - name: Scan Image
         uses: anchore/scan-action@v3
         id: scan
         env:
-          TMPDIR: ./tmp
+          TMPDIR: ${{ github.workspace }}/tmp
         with:
           image: ${{ env.IMAGE_REGISTRY }}/${{ matrix.image }}:latest
           fail-build: true
