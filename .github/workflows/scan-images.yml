@@ -21,6 +21,9 @@ jobs:
           - steamdeck
 
     steps:
+      - name: Maximize build space
+        uses: ublue-os/remove-unwanted-software@v7
+
       - name: Scan Image
         uses: anchore/scan-action@v3
         id: scan
