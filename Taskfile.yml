@@ -7,7 +7,6 @@ includes:
   qemu: .taskfiles/qemu
   containers: .taskfiles/containers
   bootc: .taskfiles/bootc
-  lima: .taskfiles/lima
 
 vars:
   FEDORA_MAJOR_VERSION: latest
@@ -78,3 +77,16 @@ tasks:
       vars:
         FILE: ./containers/base-graphical-bootc/Containerfile
         TAG: localhost/base-graphical-bootc
+
+  lima-bootc:
+    deps: []
+    cmds:
+      - task: containers:build
+        vars:
+          FILE: ./containers/lima-bootc/Containerfile
+          TAG: localhost/lima-bootc
+      - task: bootc:bootc-image-builder
+        vars:
+          IMAGE: localhost/lima-bootc
+          BOOTC_IMAGE_TYPE: raw
+          OUTDIR: dist/lima-bootc

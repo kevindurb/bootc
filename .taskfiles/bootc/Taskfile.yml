@@ -4,19 +4,21 @@ version: 3
 tasks:
   bootc-image-builder:
     requires:
-      vars: [IMAGE, BOOTC_IMAGE_TYPE, ARCH]
-    cmd: >
-      podman run --rm -it --privileged
-      --security-opt label=type:unconfined_t
-      -v $(pwd)/bootc-config.toml:/config.toml:ro
-      -v $(pwd)/dist:/output
-      -v /var/lib/containers/storage:/var/lib/containers/storage
-      --platform linux/{{.ARCH}}
-      quay.io/centos-bootc/bootc-image-builder:latest
-      --target-arch {{.ARCH}}
-      --rootfs xfs
-      --type {{.BOOTC_IMAGE_TYPE}}
-      --local {{.IMAGE}}
+      vars: [IMAGE, BOOTC_IMAGE_TYPE, ARCH, OUTDIR]
+    cmds:
+      - cmd: mkdir -p ./{{.OUTDIR}}
+      - cmd: >
+          podman run --rm -it --privileged
+          --security-opt label=type:unconfined_t
+          -v $(pwd)/bootc-config.toml:/config.toml:ro
+          -v $(pwd)/{{.OUTDIR}}:/output
+          -v /var/lib/containers/storage:/var/lib/containers/storage
+          --platform linux/{{.ARCH}}
+          quay.io/centos-bootc/bootc-image-builder:latest
+          --target-arch {{.ARCH}}
+          --rootfs xfs
+          --type {{.BOOTC_IMAGE_TYPE}}
+          --local {{.IMAGE}}
 
   bootc-install-to-raw:
     requires:

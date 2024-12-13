@@ -1,5 +1,9 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
 FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
+ARG TARGETARCH
+
+COPY ./containers/lima-bootc/files/lima-guestagent-${TARGETARCH} /usr/bin/lima-guestagent
+COPY ./containers/lima-bootc/files/lima-guestagent.service /etc/systemd/system/
 
 RUN dnf install -y \
   openssh-server \
@@ -8,6 +12,7 @@ RUN dnf install -y \
   dnf5-plugins && \
   dnf clean all && \
   systemctl enable sshd && \
+  systemctl enable lima-guestagent && \
   ln -s /var /Users
 
 COPY ./scripts/dev-packages-install.sh /tmp

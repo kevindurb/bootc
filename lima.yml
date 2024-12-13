@@ -1,7 +1,7 @@
 ---
 vmType: vz
 images:
-  - location: ./lima-dist/qcow2/disk.qcow2
+  - location: ./dist/lima-bootc/image/disk.raw
     arch: aarch64
 mounts:
   - location: '~'
@@ -18,8 +18,11 @@ containerd:
   system: false
   user: false
 
-provision: []
-probes: []
+ssh:
+  forwardAgent: true
+  forwardX11: true
+  forwardX11Trusted: true
+  loadDotSSHPubKeys: true
 
 portForwards:
   - guestSocket: '/run/user/{{.UID}}/podman/podman.sock'
