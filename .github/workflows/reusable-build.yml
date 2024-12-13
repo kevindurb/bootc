@@ -6,8 +6,11 @@ on:
       image:
         description: image to build
         type: string
+      skipRawhide:
+        description: should skip rawhide version
+        type: boolean
       platforms:
-        description: architecture to build
+        description: architectures to build csv
         type: string
         default: linux/amd64
   workflow_call:
@@ -15,8 +18,11 @@ on:
       image:
         description: image to build
         type: string
+      skipRawhide:
+        description: should skip rawhide version
+        type: boolean
       platforms:
-        description: architecture to build
+        description: architectures to build csv
         type: string
         default: linux/amd64
 
@@ -39,13 +45,13 @@ jobs:
         fedora_major_version:
           - 41
           - rawhide
-        isTablet:
-          - ${{ inputs.image == 'tablet-bootc' }}
+        skipRawhide:
+          - ${{ inputs.skipRawhide }}
         include:
           - fedora_major_version: 41
             extra_tags: latest
         exclude:
-          - isTablet: true
+          - skipRawhide: true
             fedora_major_version: rawhide
 
     steps:

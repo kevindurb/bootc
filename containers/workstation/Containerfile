@@ -3,13 +3,11 @@ FROM quay.io/fedora/fedora-kinoite:41
 RUN dnf install -y snapd && \
   dnf clean all && \
   systemctl enable snapd.service && \
-  /usr/bin/ln -sf /var/lib/snapd/snap / && \
-  ostree container commit
+  /usr/bin/ln -sf /var/lib/snapd/snap /
 
 RUN dnf install -y tailscale && \
   dnf clean all && \
-  systemctl enable tailscaled.service && \
-  ostree container commit
+  systemctl enable tailscaled.service
 
 RUN dnf install -y \
   gstreamer1-plugin-libav \
@@ -17,22 +15,18 @@ RUN dnf install -y \
   gstreamer1-plugins-base \
   gstreamer1-plugins-good \
   heif-pixbuf-loader && \
-  dnf clean all && \
-  ostree container commit
+  dnf clean all
 
 RUN dnf remove -y \
   firefox \
   firefox-langpacks && \
-  dnf clean all && \
-  ostree container commit
+  dnf clean all
 
 RUN dnf install -y syncthing && \
   dnf clean all && \
-  systemctl --global enable syncthing.service && \
-  ostree container commit
+  systemctl --global enable syncthing.service
 
 ADD https://openrgb.org/releases/release_0.9/60-openrgb.rules /usr/lib/udev/rules.d/
 
 COPY ./scripts/dev-packages-install.sh /tmp
-RUN /tmp/dev-packages-install.sh && \
-  ostree container commit
+RUN /tmp/dev-packages-install.sh

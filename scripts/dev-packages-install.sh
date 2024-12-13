@@ -50,6 +50,7 @@ dnf install -y \
   tig \
   tldr \
   tmux \
+  toolbox \
   wget \
   yq \
   zoxide \
