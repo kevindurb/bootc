@@ -82,7 +82,6 @@ jobs:
 
   workstation:
     name: Workstation RPM OSTree
-    needs: []
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -95,3 +94,10 @@ jobs:
     secrets: inherit
     with:
       image: workstation-bootc
+
+  steamdeck:
+    name: Steamdeck RPM OSTree
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: steamdeck

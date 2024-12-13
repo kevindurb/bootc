@@ -14,6 +14,14 @@ vars:
   BOOTC_IMAGE_TYPE: raw
 
 tasks:
+  steamdeck:
+    deps: []
+    cmd:
+      task: containers:build
+      vars:
+        FILE: ./containers/steamdeck/Containerfile
+        TAG: localhost/steamdeck
+
   tablet:
     deps: []
     cmd:
@@ -29,6 +37,14 @@ tasks:
       vars:
         FILE: ./containers/tablet-bootc/Containerfile
         TAG: localhost/tablet-bootc
+
+  workstation:
+    deps: []
+    cmd:
+      task: containers:build
+      vars:
+        FILE: ./containers/workstation/Containerfile
+        TAG: localhost/workstation
 
   workstation-bootc:
     deps: [kde-bootc]
