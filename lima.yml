@@ -1,0 +1,34 @@
+---
+vmType: vz
+images:
+  - location: ./lima-dist/qcow2/disk.qcow2
+    arch: aarch64
+mounts:
+  - location: '~'
+    writable: true
+  - location: /tmp/lima
+    writable: true
+mountType: virtiofs
+
+rosetta:
+  enabled: true
+  binfmt: true
+
+containerd:
+  system: false
+  user: false
+
+provision: []
+probes: []
+
+portForwards:
+  - guestSocket: '/run/user/{{.UID}}/podman/podman.sock'
+    hostSocket: '{{.Dir}}/sock/podman.sock'
+
+message: |
+  To run `podman` on the host (assumes podman-remote is installed), run the following commands:
+  ------
+  podman system connection add lima-{{.Name}} "unix://{{.Dir}}/sock/podman.sock"
+  podman system connection default lima-{{.Name}}
+  podman{{if eq .HostOS "linux"}} --remote{{end}} run quay.io/podman/hello
+  ------

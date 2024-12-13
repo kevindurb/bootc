@@ -9,7 +9,7 @@ tasks:
       podman run --rm -it --privileged
       --security-opt label=type:unconfined_t
       -v $(pwd)/bootc-config.toml:/config.toml:ro
-      -v $(pwd)/output:/output
+      -v $(pwd)/dist:/output
       -v /var/lib/containers/storage:/var/lib/containers/storage
       --platform linux/{{.ARCH}}
       quay.io/centos-bootc/bootc-image-builder:latest
@@ -22,14 +22,14 @@ tasks:
     requires:
       vars: [IMAGE, ARCH]
     cmds:
-      - cmd: rm -rf ./output/disk.raw
-      - cmd: truncate -s 20G ./output/disk.raw
+      - cmd: rm -rf ./dist/disk.raw
+      - cmd: truncate -s 20G ./dist/disk.raw
       - cmd: >
           podman run --rm -it --privileged
           --security-opt label=type:unconfined_t
           -v /var/lib/containers:/var/lib/containers
           -v /dev:/dev
-          -v ./output/disk.raw:/disk.raw
+          -v ./dist/disk.raw:/disk.raw
           --pid=host
           --platform linux/{{.ARCH}}
           {{.IMAGE}}

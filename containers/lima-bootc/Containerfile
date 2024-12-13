@@ -2,8 +2,13 @@ ARG FEDORA_MAJOR_VERSION=rawhide
 FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
 
 RUN dnf install -y \
+  openssh-server \
+  cloud-init \
+  sshfs \
   dnf5-plugins && \
-  dnf clean all
+  dnf clean all && \
+  systemctl enable sshd && \
+  ln -s /var /Users
 
 COPY ./scripts/dev-packages-install.sh /tmp
 RUN /tmp/dev-packages-install.sh
