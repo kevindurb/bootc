@@ -1,6 +1,10 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
 FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
 
+RUN dnf install -y \
+  dnf5-plugins && \
+  dnf clean all
+
 COPY ./scripts/dev-packages-install.sh /tmp
 RUN /tmp/dev-packages-install.sh
 

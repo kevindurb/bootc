@@ -1,8 +1,6 @@
 #! /bin/bash
 set -euo pipefail
 
-dnf5 install -y dnf-plugins
-
 dnf5 copr enable atim/lazygit -y
 dnf5 copr enable atim/starship -y
 
