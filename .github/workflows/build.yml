@@ -56,7 +56,6 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      platforms: linux/amd64, linux/arm64
       image: lima-bootc
 
   router-bootc:
