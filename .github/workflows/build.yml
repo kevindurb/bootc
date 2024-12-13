@@ -2,17 +2,17 @@
 name: Build
 on:
   schedule:
-    - cron: '05 10 * * 0' # 10:05am UTC Sunday
+    - cron: "05 10 * * 0" # 10:05am UTC Sunday
   push:
     branches:
       - main
     paths-ignore:
-      - '**/README.md'
+      - "**/README.md"
   workflow_dispatch:
   workflow_call:
 
 env:
-  IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}' # do not edit
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
 
 permissions:
   contents: read
@@ -71,6 +71,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
+      skipRawhide: true
       image: tablet
 
   tablet-bootc:
