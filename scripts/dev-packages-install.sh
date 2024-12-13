@@ -1,10 +1,12 @@
 #! /bin/bash
 set -euo pipefail
 
-dnf copr enable atim/lazygit -y
-dnf copr enable atim/starship -y
+dnf5 install -y dnf-plugins
 
-dnf install -y \
+dnf5 copr enable atim/lazygit -y
+dnf5 copr enable atim/starship -y
+
+dnf5 install -y \
   alacritty \
   wl-clipboard \
   bat \

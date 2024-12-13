@@ -1,8 +1,5 @@
 FROM ghcr.io/ublue-os/bazzite-deck:41
 
-# unwrap dnf5
-RUN ln -sf /usr/bin/dnf5 /usr/local/bin/dnf
-
 RUN dnf install -y snapd && \
   dnf clean all && \
   systemctl enable snapd.service && \
