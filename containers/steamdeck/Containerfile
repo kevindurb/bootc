@@ -7,6 +7,7 @@ RUN dnf install -y snapd && \
   ostree container commit
 
 RUN dnf install -y \
+  dnf5-plugins \
   dialog \
   edk2-ovmf \
   edk2-tools \

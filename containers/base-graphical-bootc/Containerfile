@@ -12,7 +12,8 @@ RUN dnf group install -y \
   multimedia \
   networkmanager-submodules \
   printing && \
-  dnf install -y dnf5-plugins \
+  dnf install -y \
+  dnf5-plugins \
   NetworkManager-bluetooth \
   NetworkManager-config-connectivity-fedora \
   NetworkManager-wifi \
