@@ -8,8 +8,8 @@ RUN dnf install -y $(cat /tmp/codecs.packages) && \
 # https://pagure.io/workstation-ostree-config/blob/main/f/common.yaml
 # https://pagure.io/workstation-ostree-config/blob/main/f/common-packages.yaml
 
-COPY ./containers/base-graphical-bootc/base-graphical-bootc.groups /tmp
-COPY ./containers/base-graphical-bootc/base-graphical-bootc.packages /tmp
+COPY ./containers/base-graphical-bootc/files/base-graphical-bootc.groups /tmp
+COPY ./containers/base-graphical-bootc/files/base-graphical-bootc.packages /tmp
 RUN dnf group install -y $(cat /tmp/base-graphical-bootc.groups) && \
   dnf install -y $(cat /tmp/base-graphical-bootc.packages) && \
   dnf clean all && \
