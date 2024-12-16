@@ -6,9 +6,10 @@ on:
       image:
         description: image to build
         type: string
-      skipRawhide:
-        description: should skip rawhide version
-        type: boolean
+      fedoraVersionsJson:
+        description: fedora major versions to build
+        type: string
+        default: '[41, 42]'
       platforms:
         description: architectures to build csv
         type: string
@@ -18,9 +19,10 @@ on:
       image:
         description: image to build
         type: string
-      skipRawhide:
-        description: should skip rawhide version
-        type: boolean
+      fedoraVersionsJson:
+        description: fedora major versions to build
+        type: string
+        default: '[41, 42]'
       platforms:
         description: architectures to build csv
         type: string
@@ -42,17 +44,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        fedora_major_version:
-          - 41
-          - 42
-        skipRawhide:
-          - ${{ inputs.skipRawhide }}
+        fedora_major_version: ${{ fromJson(inputs.fedoraVersionsJson) }}
         include:
           - fedora_major_version: 41
             extra_tags: latest
-        exclude:
-          - skipRawhide: true
-            fedora_major_version: 42
 
     steps:
       - name: Checkout

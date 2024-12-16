@@ -70,7 +70,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skipRawhide: true
+      fedoraVersionsJson: '[41]'
       image: tablet
 
   tablet-bootc:
@@ -79,7 +79,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skipRawhide: true
+      fedoraVersionsJson: '[41]'
       image: tablet-bootc
 
   workstation:
@@ -102,7 +102,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skipRawhide: true
+      fedoraVersionsJson: '[41]'
       image: steamdeck
 
   mithril:
