@@ -1,5 +1,5 @@
 ARG FEDORA_MAJOR_VERSION=rawhide
-FROM ghcr.io/ublue-os/bazzite-deck:${FEDORA_MAJOR_VERSION}
+FROM quay.io/fedora/fedora-kinoite:${FEDORA_MAJOR_VERSION}
 
 RUN dnf install -y snapd && \
   dnf clean all && \
@@ -7,20 +7,7 @@ RUN dnf install -y snapd && \
   /usr/bin/ln -sf /var/lib/snapd/snap /
 
 RUN dnf install -y \
-  dnf5-plugins \
-  dialog \
-  edk2-ovmf \
-  edk2-tools \
-  genisoimage \
-  krdp \
-  libvirt \
-  mesa-demos \
-  nmap-ncat \
-  qemu \
-  qemu-ui-sdl \
-  spice-gtk-tools \
-  swtpm \
-  virt-manager && \
+  dnf5-plugins && \
   dnf clean all
 
 RUN dnf install -y syncthing && \
