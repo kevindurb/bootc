@@ -27,7 +27,7 @@ on:
         default: linux/amd64
 
 env:
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
+  IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}' # do not edit
 
 jobs:
   build-images:
@@ -44,7 +44,7 @@ jobs:
       matrix:
         fedora_major_version:
           - 41
-          - rawhide
+          - 42
         skipRawhide:
           - ${{ inputs.skipRawhide }}
         include:
@@ -52,7 +52,7 @@ jobs:
             extra_tags: latest
         exclude:
           - skipRawhide: true
-            fedora_major_version: rawhide
+            fedora_major_version: 42
 
     steps:
       - name: Checkout

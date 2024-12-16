@@ -1,4 +1,4 @@
-ARG FEDORA_MAJOR_VERSION=rawhide
+ARG FEDORA_MAJOR_VERSION
 FROM ghcr.io/ublue-os/bazzite-deck:${FEDORA_MAJOR_VERSION}
 
 RUN dnf install -y snapd && \
