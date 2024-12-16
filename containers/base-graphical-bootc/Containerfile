@@ -2,7 +2,7 @@ ARG FEDORA_MAJOR_VERSION=rawhide
 FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
 
 COPY ./packages/codecs.packages /tmp
-RUN dnf install -y $(cat /tmp/packages/codecs.packages) && \
+RUN dnf install -y $(cat /tmp/codecs.packages) && \
   dnf clean all
 
 # https://pagure.io/workstation-ostree-config/blob/main/f/common.yaml

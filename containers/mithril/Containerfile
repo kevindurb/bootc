@@ -15,7 +15,7 @@ RUN dnf install -y syncthing && \
   systemctl --global enable syncthing.service
 
 COPY ./packages/codecs.packages /tmp
-RUN dnf install -y $(cat /tmp/packages/codecs.packages) && \
+RUN dnf install -y $(cat /tmp/codecs.packages) && \
   dnf clean all
 
 COPY ./packages/dev.packages /tmp
