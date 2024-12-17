@@ -14,4 +14,4 @@ RUN dnf install -y \
 
 COPY ./containers/mithril/files/gamescope-session /usr/bin
 COPY ./containers/mithril/files/steamos-session-select /usr/bin
-COPY ./containers/mithril/files/steam.desktop /usr/share/wayland-sessions
+COPY ./containers/mithril/files/gamescope-session.desktop /usr/share/wayland-sessions
