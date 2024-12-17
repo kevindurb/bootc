@@ -1,10 +1,13 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
-dnf5 install -y dnf5-plugins
-dnf5 copr enable -y atim/lazygit
-dnf5 copr enable -y atim/starship
-dnf5 install -y \
+dnf5 install --assumeyes dnf5-plugins
+dnf5 copr enable --assumeyes atim/lazygit
+dnf5 copr enable --assumeyes atim/starship
+
+# TODO: remove `--skip-unavailable` when this is resolved:
+# https://github.com/eza-community/eza/issues/1268
+dnf5 install --assumeyes --skip-unavailable \
   alacritty \
   bat \
   bc \
