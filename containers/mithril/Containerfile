@@ -21,7 +21,7 @@ RUN dnf install -y $(cat /tmp/codecs.packages) && \
 COPY ./packages/dev.packages /tmp
 RUN dnf copr enable -y atim/lazygit && \
   dnf copr enable -y atim/starship && \
-  dnf install -y $(cat /tmp/dev.packages) && \
+  dnf install -y --skip-unavailable $(cat /tmp/dev.packages) && \
   dnf clean all
 
 ARG FEDORA_MAJOR_VERSION
