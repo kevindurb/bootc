@@ -1,28 +1,8 @@
 ARG FEDORA_MAJOR_VERSION
 FROM quay.io/fedora/fedora-kinoite:${FEDORA_MAJOR_VERSION}
 
-RUN dnf install -y snapd && \
-  dnf clean all && \
-  systemctl enable snapd.service && \
-  /usr/bin/ln -sf /var/lib/snapd/snap /
-
-RUN dnf install -y \
-  dnf5-plugins && \
-  dnf clean all
-
-RUN dnf install -y syncthing && \
-  dnf clean all && \
-  systemctl --global enable syncthing.service
-
-COPY ./packages/codecs.packages /tmp
-RUN dnf install -y $(cat /tmp/codecs.packages) && \
-  dnf clean all
-
-COPY ./packages/dev.packages /tmp
-RUN dnf copr enable -y atim/lazygit && \
-  dnf copr enable -y atim/starship && \
-  dnf install -y --skip-unavailable $(cat /tmp/dev.packages) && \
-  dnf clean all
+COPY ./scripts/install-dev-base.sh /tmp
+RUN /tmp/install-dev-base.sh
 
 ARG FEDORA_MAJOR_VERSION
 COPY ./containers/mithril/files/steam.packages /tmp

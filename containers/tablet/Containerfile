@@ -1,43 +1,20 @@
 ARG FEDORA_MAJOR_VERSION
 FROM quay.io/fedora/fedora-silverblue:${FEDORA_MAJOR_VERSION}
 
+COPY ./scripts/install-dev-base.sh /tmp
+RUN /tmp/install-dev-base.sh
+
 ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 
 RUN dnf install -y --allowerasing \
   iptsd \
-  libwacom-surface && \
-  dnf clean all
-
-RUN dnf install -y snapd && \
-  dnf clean all && \
-  systemctl enable snapd.service && \
-  /usr/bin/ln -sf /var/lib/snapd/snap /
-
-RUN dnf install -y tailscale && \
-  dnf clean all && \
-  systemctl enable tailscaled.service
-
-COPY ./packages/codecs.packages /tmp
-RUN dnf install -y $(cat /tmp/codecs.packages) && \
+  libwacom-surface \
+  gnome-shell-extension-gsconnect \
+  gnome-shell-extension-caffeine \
+  gnome-shell-extension-appindicator && \
   dnf clean all
 
 RUN dnf remove -y \
   firefox \
   firefox-langpacks && \
   dnf clean all
-
-RUN dnf install -y \
-  gnome-shell-extension-gsconnect \
-  gnome-shell-extension-caffeine \
-  gnome-shell-extension-appindicator && \
-  dnf clean all
-
-RUN dnf install -y syncthing && \
-  dnf clean all && \
-  systemctl --global enable syncthing.service
-
-COPY ./packages/dev.packages /tmp
-RUN dnf5 copr enable -y atim/lazygit && \
-  dnf5 copr enable -y atim/starship && \
-  dnf5 install -y --skip-unavailable $(cat /tmp/dev.packages) && \
-  dnf5 clean all

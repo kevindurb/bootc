@@ -2,31 +2,17 @@ ARG FEDORA_MAJOR_VERSION
 ARG BASE_REPO=ghcr.io/kevindurb
 FROM ${BASE_REPO}/gnome-bootc:${FEDORA_MAJOR_VERSION}
 
+COPY ./scripts/install-dev-base.sh /tmp
+RUN /tmp/install-dev-base.sh
+
 ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 
 RUN dnf install -y --allowerasing \
   iptsd \
-  libwacom-surface
-
-RUN dnf install -y snapd && \
-  systemctl enable snapd.service && \
-  /usr/bin/ln -sf /var/lib/snapd/snap /
-
-RUN dnf install -y tailscale && \
-  systemctl enable tailscaled.service
-
-RUN dnf install -y \
+  libwacom-surface \
   gnome-shell-extension-gsconnect \
   gnome-shell-extension-caffeine \
-  gnome-shell-extension-appindicator
-
-RUN dnf install -y syncthing && \
-  systemctl --global enable syncthing.service
-
-COPY ./packages/dev.packages /tmp
-RUN dnf5 copr enable -y atim/lazygit && \
-  dnf5 copr enable -y atim/starship && \
-  dnf5 install -y --skip-unavailable $(cat /tmp/dev.packages) && \
-  dnf5 clean all
+  gnome-shell-extension-appindicator && \
+  dnf clean all
 
 RUN bootc container lint

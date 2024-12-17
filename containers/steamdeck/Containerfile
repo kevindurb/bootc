@@ -1,10 +1,8 @@
 ARG FEDORA_MAJOR_VERSION
 FROM ghcr.io/ublue-os/bazzite-deck:${FEDORA_MAJOR_VERSION}
 
-RUN dnf install -y snapd && \
-  dnf clean all && \
-  systemctl enable snapd.service && \
-  /usr/bin/ln -sf /var/lib/snapd/snap /
+COPY ./scripts/install-dev-base.sh /tmp
+RUN /tmp/install-dev-base.sh
 
 RUN dnf install -y \
   dnf5-plugins \
@@ -22,17 +20,3 @@ RUN dnf install -y \
   swtpm \
   virt-manager && \
   dnf clean all
-
-RUN dnf install -y syncthing && \
-  dnf clean all && \
-  systemctl --global enable syncthing.service
-
-COPY ./packages/codecs.packages /tmp
-RUN dnf install -y $(cat /tmp/codecs.packages) && \
-  dnf clean all
-
-COPY ./packages/dev.packages /tmp
-RUN dnf5 copr enable -y atim/lazygit && \
-  dnf5 copr enable -y atim/starship && \
-  dnf5 install -y --skip-unavailable $(cat /tmp/dev.packages) && \
-  dnf5 clean all
