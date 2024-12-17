@@ -85,7 +85,6 @@ jobs:
           context: .
           containerfiles: |
             ./containers/${{inputs.image}}/Containerfile
-          image: ${{ inputs.image }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ inputs.platforms }}
