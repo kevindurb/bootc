@@ -83,7 +83,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Image
-        id: build_image
+        id: build
         uses: redhat-actions/buildah-build@v2
         with:
           oci: true
@@ -114,3 +114,4 @@ jobs:
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+          DIGEST: ${{ steps.push.outputs.digest }}
