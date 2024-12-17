@@ -18,7 +18,7 @@ RUN dnf install -y \
 COPY ./packages/dev.packages /tmp
 RUN dnf5 copr enable -y atim/lazygit && \
   dnf5 copr enable -y atim/starship && \
-  dnf5 install -y $(cat /tmp/dev.packages) && \
+  dnf5 install -y --skip-unavailable $(cat /tmp/dev.packages) && \
   dnf5 clean all
 
 RUN bootc container lint
