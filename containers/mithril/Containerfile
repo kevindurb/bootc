@@ -12,7 +12,6 @@ RUN dnf install -y \
   dnf install -y $(cat /tmp/steam.packages) && \
   dnf clean all
 
-COPY ./containers/mithril/files/gamescope-session /usr/bin
-COPY ./containers/mithril/files/steamos-session-select /usr/bin
-COPY ./containers/mithril/files/gamescope-session.desktop /usr/share/wayland-sessions
+COPY ./containers/mithril/files/usr/bin/* /usr/bin
+COPY ./containers/mithril/files/usr/share/wayland-sessions/* /usr/share/wayland-sessions
 COPY ./containers/mithril/files/steamos.conf /etc/sddm.conf.d

@@ -67,7 +67,7 @@ case "$session" in
     create_sentinel=1
   ;;
   gamescope)
-    session_launcher="gamescope-wayland.desktop"
+    session_launcher="gamescope-session.desktop"
   ;;
   *)
     echo >&2 "!! Unrecognized session '$session'"
