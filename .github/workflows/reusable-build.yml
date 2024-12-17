@@ -86,7 +86,7 @@ jobs:
         id: build
         uses: redhat-actions/buildah-build@v2
         with:
-          oci: true
+          oci: false
           context: .
           containerfiles: |
             ./containers/${{inputs.image}}/Containerfile
