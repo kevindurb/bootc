@@ -74,7 +74,7 @@ jobs:
 
           tags: |
             type=raw,value=${{ matrix.fedora_major_version }}
-            type=raw,value=latest,enable=${{ matrix.is_latest }}
+            type=raw,value=latest,enable=${{ matrix.is_latest || false}}
             type=schedule,pattern={{date 'YYYYMMDD'}}
             type=sha
 
@@ -106,7 +106,6 @@ jobs:
           REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ github.token }}
         with:
-          image: ${{ steps.build_image.outputs.image }}
           tags: ${{ steps.build_image.outputs.tags }}
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.REGISTRY_USER }}
