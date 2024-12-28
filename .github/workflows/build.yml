@@ -119,6 +119,6 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      # apx doesnt build with fedora so just do one latest build
-      fedoraVersionsJson: '["latest"]'
+      # apx doesnt build with fedora so just do one
+      fedoraVersionsJson: "[41]"
       image: apx
