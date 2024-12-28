@@ -4,6 +4,7 @@ set -euo pipefail
 dnf5 install --assumeyes dnf5-plugins
 dnf5 copr enable --assumeyes atim/lazygit
 dnf5 copr enable --assumeyes atim/starship
+dnf5 copr enable --assumeyes emanuelec/k9s
 
 # TODO: remove `--skip-unavailable` when this is resolved:
 # https://github.com/eza-community/eza/issues/1268
@@ -40,6 +41,7 @@ dnf5 install --assumeyes --skip-unavailable \
   httpie \
   jq \
   just \
+  k9s \
   kubectl \
   lazygit \
   litecli \
