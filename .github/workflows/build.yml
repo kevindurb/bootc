@@ -2,17 +2,17 @@
 name: Build
 on:
   schedule:
-    - cron: '05 10 * * *' # 10:05am UTC Everyday
+    - cron: "05 10 * * *" # 10:05am UTC Everyday
   push:
     branches:
       - main
     paths-ignore:
-      - '**/README.md'
+      - "**/README.md"
   workflow_dispatch:
   workflow_call:
 
 env:
-  IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}' # do not edit
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
 
 permissions:
   contents: read
@@ -70,7 +70,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: '[41]'
+      fedoraVersionsJson: "[41]"
       image: tablet
 
   tablet-bootc:
@@ -79,7 +79,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: '[41]'
+      fedoraVersionsJson: "[41]"
       image: tablet-bootc
 
   workstation:
@@ -102,7 +102,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: '[41]'
+      fedoraVersionsJson: "[41]"
       image: steamdeck
 
   mithril:
@@ -111,3 +111,10 @@ jobs:
     secrets: inherit
     with:
       image: mithril
+
+  apx:
+    name: apX build
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: apx
