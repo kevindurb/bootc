@@ -15,6 +15,7 @@ dnf5 install --assumeyes --skip-unavailable \
   curl \
   diff \
   diffutils \
+  distrobox \
   duf \
   entr \
   eza \
