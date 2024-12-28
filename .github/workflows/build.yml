@@ -67,6 +67,7 @@ jobs:
 
   tablet:
     name: Tablet RPM OSTree
+    needs: [apx]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -84,6 +85,7 @@ jobs:
 
   workstation:
     name: Workstation RPM OSTree
+    needs: [apx]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
