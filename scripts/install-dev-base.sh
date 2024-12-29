@@ -9,6 +9,7 @@ dnf5 copr enable --assumeyes emanuelec/k9s
 # TODO: remove `--skip-unavailable` when this is resolved:
 # https://github.com/eza-community/eza/issues/1268
 dnf5 install --assumeyes --skip-unavailable \
+  ansible \
   alacritty \
   bat \
   bc \
