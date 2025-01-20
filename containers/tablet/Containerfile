@@ -4,16 +4,11 @@ FROM ghcr.io/ublue-os/aurora:${FEDORA_MAJOR_VERSION}
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
 
-RUN dnf install -y --allowerasing \
+RUN dnf install -y \
   fprintd \
   libcamera \
   libcamera-tools \
   libcamera-gstreamer \
   libcamera-ipa \
   pipewire-plugin-libcamera && \
-  dnf clean all
-
-RUN dnf remove -y \
-  firefox \
-  firefox-langpacks && \
   dnf clean all
