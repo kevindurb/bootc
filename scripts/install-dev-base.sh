@@ -6,10 +6,9 @@ dnf5 copr enable --assumeyes atim/lazygit
 dnf5 copr enable --assumeyes atim/starship
 dnf5 copr enable --assumeyes emanuelec/k9s
 
-# TODO: remove `--skip-unavailable` when this is resolved:
-# https://github.com/eza-community/eza/issues/1268
-dnf5 install --assumeyes --skip-unavailable \
+dnf5 install --assumeyes \
   alacritty \
+  arm-image-installer \
   curl \
   diff \
   diffutils \
@@ -37,6 +36,7 @@ dnf5 install --assumeyes --skip-unavailable \
   wget \
   wl-clipboard \
   zsh
+
 dnf5 clean all
 
 systemctl --global enable syncthing.service
