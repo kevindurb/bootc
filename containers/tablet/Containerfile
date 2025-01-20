@@ -6,6 +6,13 @@ RUN /tmp/install-dev-base.sh
 
 ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 
+RUN dnf remove -y \
+  kernel-core \
+  kernel-modules \
+  kernel-modules-extra \
+  libwacom \
+  libwacom-data
+
 RUN dnf install -y --allowerasing \
   kernel-surface \
   iptsd \
