@@ -7,7 +7,6 @@ dnf5 copr enable --assumeyes atim/starship
 dnf5 copr enable --assumeyes emanuelec/k9s
 
 dnf5 install --assumeyes \
-  alacritty \
   arm-image-installer \
   curl \
   diff \

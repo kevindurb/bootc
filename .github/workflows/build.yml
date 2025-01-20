@@ -2,17 +2,17 @@
 name: Build
 on:
   schedule:
-    - cron: "05 10 * * *" # 10:05am UTC Everyday
+    - cron: '05 10 * * *' # 10:05am UTC Everyday
   push:
     branches:
       - main
     paths-ignore:
-      - "**/README.md"
+      - '**/README.md'
   workflow_dispatch:
   workflow_call:
 
 env:
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
+  IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}' # do not edit
 
 permissions:
   contents: read
@@ -20,37 +20,6 @@ permissions:
   id-token: write
 
 jobs:
-  base-graphical-bootc:
-    name: Base Graphical Bootc
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: base-graphical-bootc
-
-  gnome-bootc:
-    name: Gnome Bootc
-    needs: [base-graphical-bootc]
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: gnome-bootc
-
-  kde-bootc:
-    name: KDE Bootc
-    needs: [base-graphical-bootc]
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: kde-bootc
-
-  plasma-bigscreen-bootc:
-    name: Plasma Bigscreen Bootc
-    needs: [kde-bootc]
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: plasma-bigscreen-bootc
-
   lima-bootc:
     name: Lima Bootc
     uses: ./.github/workflows/reusable-build.yml
@@ -67,58 +36,24 @@ jobs:
 
   tablet:
     name: Tablet RPM OSTree
-    needs: [apx]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: "[41]"
+      fedoraVersionsJson: '[41]'
       image: tablet
-
-  tablet-bootc:
-    name: Tablet Bootc
-    needs: [gnome-bootc]
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      fedoraVersionsJson: "[41]"
-      image: tablet-bootc
 
   workstation:
     name: Workstation RPM OSTree
-    needs: [apx]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
+      fedoraVersionsJson: '[41]'
       image: workstation
-
-  workstation-bootc:
-    name: Workstation Bootc
-    needs: [kde-bootc]
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: workstation-bootc
 
   steamdeck:
     name: Steamdeck RPM OSTree
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: "[41]"
+      fedoraVersionsJson: '[41]'
       image: steamdeck
-
-  mithril:
-    name: Mithril RPM OSTree
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: mithril
-
-  apx:
-    name: apX build
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      # apx doesnt build with fedora so just do one
-      fedoraVersionsJson: "[41]"
-      image: apx

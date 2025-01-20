@@ -1,7 +1,5 @@
 ARG FEDORA_MAJOR_VERSION
-FROM quay.io/fedora/fedora-kinoite:${FEDORA_MAJOR_VERSION}
-
-COPY --from=ghcr.io/kevindurb/apx:latest /apx /usr/bin/
+FROM ghcr.io/ublue-os/aurora:${FEDORA_MAJOR_VERSION}
 
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
@@ -10,5 +8,3 @@ RUN dnf remove -y \
   firefox \
   firefox-langpacks && \
   dnf clean all
-
-ADD https://openrgb.org/releases/release_0.9/60-openrgb.rules /usr/lib/udev/rules.d/

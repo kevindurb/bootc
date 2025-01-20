@@ -1,10 +1,8 @@
 ARG FEDORA_MAJOR_VERSION
-FROM quay.io/fedora/fedora-silverblue:${FEDORA_MAJOR_VERSION}
+FROM ghcr.io/ublue-os/aurora:${FEDORA_MAJOR_VERSION}
 
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
-
-ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 
 RUN dnf install -y --allowerasing \
   fprintd \
@@ -12,13 +10,7 @@ RUN dnf install -y --allowerasing \
   libcamera-tools \
   libcamera-gstreamer \
   libcamera-ipa \
-  pipewire-plugin-libcamera \
-  iptsd \
-  libwacom-surface \
-  libwacom-surface-data \
-  gnome-shell-extension-gsconnect \
-  gnome-shell-extension-caffeine \
-  gnome-shell-extension-appindicator && \
+  pipewire-plugin-libcamera && \
   dnf clean all
 
 RUN dnf remove -y \
