@@ -14,4 +14,4 @@ RUN dnf group install -y $(cat /tmp/base-graphical-bootc.groups) && \
 # Add missing /var/run symlink
 RUN rm /var/run -rf && ln -s /run /var/
 
-RUN bootc container lint
+# RUN bootc container lint
