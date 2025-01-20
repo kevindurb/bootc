@@ -7,8 +7,10 @@ RUN /tmp/install-dev-base.sh
 ADD https://pkg.surfacelinux.com/fedora/linux-surface.repo /etc/yum.repos.d/
 
 RUN dnf install -y --allowerasing \
+  kernel-surface \
   iptsd \
   libwacom-surface \
+  libwacom-surface-data \
   gnome-shell-extension-gsconnect \
   gnome-shell-extension-caffeine \
   gnome-shell-extension-appindicator && \
