@@ -54,11 +54,6 @@ jobs:
         continue-on-error: true
         uses: ublue-os/remove-unwanted-software@v7
 
-      - name: Install qemu dependency
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static
-
       - name: Image Metadata
         uses: docker/metadata-action@v5
         id: meta
