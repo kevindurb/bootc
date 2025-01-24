@@ -72,4 +72,4 @@ jobs:
     secrets: inherit
     with:
       image: devpi
-      platforms: linux/arm64
+      arch: linux/arm64

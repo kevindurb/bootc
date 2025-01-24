@@ -10,8 +10,8 @@ on:
         description: fedora major versions to build
         type: string
         default: '[41]'
-      platforms:
-        description: architectures to build csv
+      arch:
+        description: architecture to build
         type: string
         default: linux/amd64
   workflow_call:
@@ -23,15 +23,15 @@ on:
         description: fedora major versions to build
         type: string
         default: '[41]'
-      platforms:
-        description: architectures to build csv
+      arch:
+        description: architecture to build
         type: string
         default: linux/amd64
 
 jobs:
   build-images:
     name: Build and push image
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.arch == 'linux/amd64' && 'ubuntu-latest' || 'ubuntu-24.04-arm'}}
 
     permissions:
       contents: read
@@ -92,7 +92,7 @@ jobs:
             ./containers/${{inputs.image}}/Containerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: ${{ inputs.platforms }}
+          platforms: ${{ inputs.arch }}
           build-args: |
             FEDORA_MAJOR_VERSION=${{ matrix.fedora_major_version }}
 
