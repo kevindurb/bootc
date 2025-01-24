@@ -1,0 +1,7 @@
+[[customizations.user]]
+name = "kevindurb"
+key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFb6Nhb0fcfyRnHyJ+aB73wQtInoH56pjN29Bcxh0tFS"
+groups = ["wheel"]
+
+[customizations.kernel]
+append = "modules-load=dwc2,g_ether"

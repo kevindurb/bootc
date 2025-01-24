@@ -30,14 +30,6 @@ tasks:
         FILE: ./containers/tablet/Containerfile
         TAG: localhost/tablet
 
-  tablet-bootc:
-    deps: [gnome-bootc]
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/tablet-bootc/Containerfile
-        TAG: localhost/tablet-bootc
-
   workstation:
     deps: []
     cmd:
@@ -46,39 +38,7 @@ tasks:
         FILE: ./containers/workstation/Containerfile
         TAG: localhost/workstation
 
-  workstation-bootc:
-    deps: [kde-bootc]
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/workstation-bootc/Containerfile
-        TAG: localhost/workstation-bootc
-
-  kde-bootc:
-    deps: [base-graphical-bootc]
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/kde-bootc/Containerfile
-        TAG: localhost/kde-bootc
-
-  gnome-bootc:
-    deps: [base-graphical-bootc]
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/gnome-bootc/Containerfile
-        TAG: localhost/gnome-bootc
-
-  base-graphical-bootc:
-    deps: []
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/base-graphical-bootc/Containerfile
-        TAG: localhost/base-graphical-bootc
-
-  lima-bootc:
+  lima:
     deps: []
     cmds:
       - task: containers:build
@@ -90,3 +50,18 @@ tasks:
           IMAGE: localhost/lima-bootc
           BOOTC_IMAGE_TYPE: raw
           OUTDIR: dist/lima-bootc
+          CONFIG: containers/lima-bootc/config.toml
+
+  devpi:
+    deps: []
+    cmds:
+      - task: containers:build
+        vars:
+          FILE: ./containers/devpi/Containerfile
+          TAG: localhost/devpi
+      - task: bootc:bootc-image-builder
+        vars:
+          IMAGE: localhost/devpi
+          BOOTC_IMAGE_TYPE: raw
+          OUTDIR: dist/devpi
+          CONFIG: containers/devpi/config.toml
