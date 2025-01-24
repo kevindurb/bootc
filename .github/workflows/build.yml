@@ -20,14 +20,22 @@ permissions:
   id-token: write
 
 jobs:
-  lima-bootc:
+  apx:
+    name: apx
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: apx
+
+  lima:
+    needs: [apx]
     name: Lima
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: lima-bootc
 
-  router-bootc:
+  router:
     name: Router
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -35,6 +43,7 @@ jobs:
       image: router-bootc
 
   tablet:
+    needs: [apx]
     name: Tablet
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -42,6 +51,7 @@ jobs:
       image: tablet
 
   workstation:
+    needs: [apx]
     name: Workstation
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -49,6 +59,7 @@ jobs:
       image: workstation
 
   steamdeck:
+    needs: [apx]
     name: Steamdeck
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
