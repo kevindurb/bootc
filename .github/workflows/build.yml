@@ -21,39 +21,43 @@ permissions:
 
 jobs:
   lima-bootc:
-    name: Lima Bootc
+    name: Lima
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: lima-bootc
 
   router-bootc:
-    name: Router Bootc
+    name: Router
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: router-bootc
 
   tablet:
-    name: Tablet RPM OSTree
+    name: Tablet
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: '[41]'
       image: tablet
 
   workstation:
-    name: Workstation RPM OSTree
+    name: Workstation
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: '[41]'
       image: workstation
 
   steamdeck:
-    name: Steamdeck RPM OSTree
+    name: Steamdeck
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      fedoraVersionsJson: '[41]'
       image: steamdeck
+
+  devpi:
+    name: DevPi
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: devpi
