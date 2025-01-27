@@ -66,11 +66,11 @@ jobs:
     with:
       image: steamdeck
 
-  # devpi:
-  #   needs: [apx]
-  #   name: DevPi
-  #   uses: ./.github/workflows/reusable-build.yml
-  #   secrets: inherit
-  #   with:
-  #     image: devpi
-  #     arch: linux/arm64
+  devpi:
+    needs: [apx]
+    name: DevPi
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: devpi
+      arch: linux/arm64

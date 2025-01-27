@@ -54,6 +54,9 @@ jobs:
         continue-on-error: true
         uses: ublue-os/remove-unwanted-software@v7
 
+      - name: Install Podman and Buildah
+        run: sudo apt update && sudo apt install -y buildah podman
+
       - name: Image Metadata
         uses: docker/metadata-action@v5
         id: meta
