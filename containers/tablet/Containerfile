@@ -13,4 +13,5 @@ RUN dnf install -y \
   pipewire-plugin-libcamera && \
   dnf clean all
 
-RUN bootc container lint
+# Not working in aurora yet
+# RUN bootc container lint
