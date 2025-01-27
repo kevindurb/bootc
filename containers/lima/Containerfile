@@ -8,7 +8,8 @@ RUN /tmp/install-dev-base.sh
 COPY ./containers/lima/files/lima-guestagent-${TARGETARCH} /usr/bin/lima-guestagent
 COPY ./containers/lima/files/lima-guestagent.service /etc/systemd/system/
 
-RUN dnf install -y \
+RUN dnf install -y --best \
+  podman \
   openssh-server \
   cloud-init \
   sshfs \

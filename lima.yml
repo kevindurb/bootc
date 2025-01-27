@@ -18,12 +18,44 @@ containerd:
 
 ssh:
   forwardAgent: true
-  forwardX11: true
-  forwardX11Trusted: true
   loadDotSSHPubKeys: true
 
+# https://github.com/lima-vm/lima/blob/master/templates/podman-rootful.yaml
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+      command -v podman >/dev/null 2>&1 && test -e /etc/lima-podman && exit 0
+      if [ ! -e /etc/systemd/system/podman.socket.d/override.conf ]; then
+        mkdir -p /etc/systemd/system/podman.socket.d
+        cat <<-EOF >/etc/systemd/system/podman.socket.d/override.conf
+        [Socket]
+        SocketUser={{.User}}
+      EOF
+      fi
+      if [ ! -e /etc/tmpfiles.d/podman.conf ]; then
+        mkdir -p /etc/tmpfiles.d
+        echo "d /run/podman 0700 {{.User}} -" > /etc/tmpfiles.d/podman.conf
+      fi
+      touch /etc/lima-podman
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+      systemctl --system enable --now podman.socket
+probes:
+  - script: |
+      #!/bin/bash
+      set -eux -o pipefail
+      if ! timeout 30s bash -c "until command -v podman >/dev/null 2>&1; do sleep 3; done"; then
+        echo >&2 "podman is not installed yet"
+        exit 1
+      fi
+    hint: See "/var/log/cloud-init-output.log" in the guest
+
 portForwards:
-  - guestSocket: '/run/user/{{.UID}}/podman/podman.sock'
+  - guestSocket: '/run/podman/podman.sock'
     hostSocket: '{{.Dir}}/sock/podman.sock'
 
 message: |
