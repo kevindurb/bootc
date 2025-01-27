@@ -1,8 +1,6 @@
 ARG FEDORA_MAJOR_VERSION
 FROM ghcr.io/ublue-os/bazzite-deck:${FEDORA_MAJOR_VERSION}
 
-COPY --from=ghcr.io/kevindurb/apx:latest /apx /usr/bin/
-
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
 

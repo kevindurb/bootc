@@ -20,23 +20,7 @@ permissions:
   id-token: write
 
 jobs:
-  apx:
-    name: apx
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: apx
-
-  apx-arm:
-    name: Apx Arm
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: apx
-      arch: linux/arm64
-
   lima:
-    needs: [apx-arm]
     name: Lima
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -52,7 +36,6 @@ jobs:
       image: router-bootc
 
   tablet:
-    needs: [apx]
     name: Tablet
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -60,7 +43,6 @@ jobs:
       image: tablet
 
   workstation:
-    needs: [apx]
     name: Workstation
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -68,7 +50,6 @@ jobs:
       image: workstation
 
   steamdeck:
-    needs: [apx]
     name: Steamdeck
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -76,7 +57,6 @@ jobs:
       image: steamdeck
 
   devpi:
-    needs: [apx-arm]
     name: DevPi
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
