@@ -1,5 +1,4 @@
 ---
-vmType: vz
 images:
   - location: ./dist/lima-bootc/image/disk.raw
     arch: aarch64
@@ -8,7 +7,6 @@ mounts:
     writable: true
   - location: /tmp/lima
     writable: true
-mountType: virtiofs
 
 rosetta:
   enabled: true

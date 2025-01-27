@@ -1,0 +1,42 @@
+---
+version: 3
+
+vars:
+  BOOTC_IMAGE_TYPE: raw
+
+tasks:
+  bootc-image-builder:
+    internal: true
+    requires:
+      vars: [IMAGE, BOOTC_IMAGE_TYPE, ARCH, OUTDIR, CONFIG, BASE_REPO]
+    cmds:
+      - cmd: mkdir -p ./{{.OUTDIR}}
+      - cmd: podman pull {{.BASE_REPO}}/{{.IMAGE}}
+      - cmd: >
+          podman run --rm -it --privileged
+          --security-opt label=type:unconfined_t
+          -v $(pwd)/{{.CONFIG}}:/config.toml:ro
+          -v $(pwd)/{{.OUTDIR}}:/output
+          -v /var/lib/containers/storage:/var/lib/containers/storage
+          --platform linux/{{.ARCH}}
+          quay.io/centos-bootc/bootc-image-builder:latest
+          --target-arch {{.ARCH}}
+          --rootfs xfs
+          --type {{.BOOTC_IMAGE_TYPE}}
+          --local {{.BASE_REPO}}/{{.IMAGE}}
+
+  lima:
+    cmd:
+      task: bootc-image-builder
+      vars:
+        IMAGE: lima
+        OUTDIR: dist/lima
+        CONFIG: containers/lima/config.toml
+
+  devpi:
+    cmd:
+      task: bootc-image-builder
+      vars:
+        IMAGE: devpi
+        OUTDIR: dist/devpi
+        CONFIG: containers/devpi/config.toml

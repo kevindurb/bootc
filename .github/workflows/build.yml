@@ -25,7 +25,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: lima-bootc
+      image: lima
       arch: linux/arm64
 
   router:
@@ -33,7 +33,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: router-bootc
+      image: router
 
   tablet:
     name: Tablet

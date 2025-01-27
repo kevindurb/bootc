@@ -6,62 +6,13 @@ dotenv: [.env]
 includes:
   qemu: .taskfiles/qemu
   containers: .taskfiles/containers
-  bootc: .taskfiles/bootc
+  images: .taskfiles/images
 
 vars:
   FEDORA_MAJOR_VERSION: latest
-  ARCH: amd64
+  ARCH: { sh: uname -m }
   BOOTC_IMAGE_TYPE: raw
+  BASE_REPO: ghcr.io/kevindurb
 
 tasks:
-  steamdeck:
-    deps: []
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/steamdeck/Containerfile
-        TAG: localhost/steamdeck
-
-  tablet:
-    deps: []
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/tablet/Containerfile
-        TAG: localhost/tablet
-
-  workstation:
-    deps: []
-    cmd:
-      task: containers:build
-      vars:
-        FILE: ./containers/workstation/Containerfile
-        TAG: localhost/workstation
-
-  lima:
-    deps: []
-    cmds:
-      - task: containers:build
-        vars:
-          FILE: ./containers/lima-bootc/Containerfile
-          TAG: localhost/lima-bootc
-      - task: bootc:bootc-image-builder
-        vars:
-          IMAGE: localhost/lima-bootc
-          BOOTC_IMAGE_TYPE: raw
-          OUTDIR: dist/lima-bootc
-          CONFIG: containers/lima-bootc/config.toml
-
-  devpi:
-    deps: []
-    cmds:
-      - task: containers:build
-        vars:
-          FILE: ./containers/devpi/Containerfile
-          TAG: localhost/devpi
-      - task: bootc:bootc-image-builder
-        vars:
-          IMAGE: localhost/devpi
-          BOOTC_IMAGE_TYPE: raw
-          OUTDIR: dist/devpi
-          CONFIG: containers/devpi/config.toml
+  default: task --list-all
