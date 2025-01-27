@@ -2,9 +2,6 @@
 set -euo pipefail
 
 dnf5 install --assumeyes dnf5-plugins
-dnf5 copr enable --assumeyes atim/lazygit
-dnf5 copr enable --assumeyes atim/starship
-dnf5 copr enable --assumeyes emanuelec/k9s
 
 dnf5 install --assumeyes \
   arm-image-installer \
