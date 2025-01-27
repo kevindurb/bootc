@@ -27,8 +27,16 @@ jobs:
     with:
       image: apx
 
+  apx-arm:
+    name: Apx Arm
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: apx
+      arch: linux/arm64
+
   lima:
-    needs: [apx]
+    needs: [apx-arm]
     name: Lima
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
@@ -68,7 +76,7 @@ jobs:
       image: steamdeck
 
   devpi:
-    needs: [apx]
+    needs: [apx-arm]
     name: DevPi
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
