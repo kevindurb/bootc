@@ -20,3 +20,5 @@ RUN dnf install -y \
   swtpm \
   virt-manager && \
   dnf clean all
+
+RUN bootc container lint

@@ -12,3 +12,5 @@ RUN dnf install -y \
   libcamera-ipa \
   pipewire-plugin-libcamera && \
   dnf clean all
+
+RUN bootc container lint
