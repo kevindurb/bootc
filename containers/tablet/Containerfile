@@ -4,14 +4,14 @@ FROM ghcr.io/ublue-os/aurora:${FEDORA_MAJOR_VERSION}
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
 
-RUN dnf install -y \
+RUN dnf5 install -y \
   fprintd \
   libcamera \
   libcamera-tools \
   libcamera-gstreamer \
   libcamera-ipa \
   pipewire-plugin-libcamera && \
-  dnf clean all
+  dnf5 clean all
 
 # Not working in aurora yet
 # RUN bootc container lint
