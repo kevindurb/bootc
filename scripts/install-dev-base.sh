@@ -29,6 +29,7 @@ dnf5 install --assumeyes \
   syncthing \
   tailscale \
   toolbox \
+  ulauncher \
   wget \
   wl-clipboard \
   zsh
