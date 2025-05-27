@@ -1,14 +1,13 @@
 ARG FEDORA_MAJOR_VERSION
-FROM ghcr.io/ublue-os/bazzite-deck:${FEDORA_MAJOR_VERSION}
+FROM ghcr.io/ublue-os/bazzite-gnome-deck:${FEDORA_MAJOR_VERSION}
 
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
 
-RUN dnf5 install -y \
-  dialog \
-  genisoimage \
-  nmap-ncat \
-  spice-gtk-tools && \
-  dnf5 clean all
-
+RUN dnf5 install --assumeyes dnf5-plugins
+RUN dnf5 install --assumeyes \
+  snapd
+RUN dnf5 clean all
+RUN systemctl enable snapd.service
+RUN /usr/bin/ln -sf /var/lib/snapd/snap /
 RUN bootc container lint
