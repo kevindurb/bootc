@@ -2,17 +2,17 @@
 name: Build
 on:
   schedule:
-    - cron: '05 10 * * *' # 10:05am UTC Everyday
+    - cron: "05 10 * * 0" # 10:05am UTC Sunday
   push:
     branches:
       - main
     paths-ignore:
-      - '**/README.md'
+      - "**/README.md"
   workflow_dispatch:
   workflow_call:
 
 env:
-  IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}' # do not edit
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
 
 permissions:
   contents: read
