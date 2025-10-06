@@ -70,4 +70,3 @@ jobs:
     secrets: inherit
     with:
       image: k8s-node
-      arch: linux/arm64
