@@ -71,7 +71,7 @@ jobs:
           tags: |
             type=raw,value=${{ matrix.fedora_major_version }}
             type=raw,value=latest,enable=${{ matrix.is_latest || false}}
-            type=schedule,pattern={{date 'YYYYMMDD'}}
+            type=schedule,pattern={{date 'YYYY.MM.DD'}}
             type=sha
 
       - name: Login to GitHub Container Registry
