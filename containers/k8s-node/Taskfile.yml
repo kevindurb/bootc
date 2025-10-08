@@ -28,17 +28,17 @@ tasks:
         cmd: |
           minijinja-cli \
             --select "{{.ITEM}}" \
-            ./bootc/node.bu.j2 \
-            ./bootc/hosts.yml | \
+            ./node.bu.j2 \
+            ./hosts.yml | \
           butane \
             --strict \
             --pretty \
-            -o ./bootc/ignition/{{.ITEM}}.ign \
+            -o ./ignition/{{.ITEM}}.ign \
             --
 
   download-iso:
     cmd: >
-      podman run --rm -v ~/Downloads:/data
+      podman run --rm -v ../dist:/data
       quay.io/coreos/coreos-installer:release
       download -s stable -p metal -f iso -a x86_64 -C /data
 
@@ -46,15 +46,15 @@ tasks:
     deps: [download-iso]
     vars:
       ISO_FILENAME:
-        sh: ls ~/Downloads/fedora-coreos-*.iso | tail -1 | xargs basename
+        sh: ls ../dist/fedora-coreos-*.iso | tail -1 | xargs basename
     cmds:
       - for: { var: HOSTS }
-        cmd: rm -f ~/Downloads/{{.ITEM}}.iso
+        cmd: rm -f ../dist/{{.ITEM}}.iso
       - for: { var: HOSTS }
         cmd: >
           podman run --rm -it --privileged
-          -v ./bootc/ignition/{{.ITEM}}.ign:/config.ign:ro
-          -v ~/Downloads:/data
+          -v ./ignition/{{.ITEM}}.ign:/config.ign:ro
+          -v ../dist:/data
           quay.io/coreos/coreos-installer:release
           iso customize
           --dest-device /dev/sda
