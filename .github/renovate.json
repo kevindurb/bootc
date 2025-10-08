@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:pinDigests",
+    ":automergeMinor",
+    ":disableRateLimiting"
+  ],
+  "automergeType": "pr",
+  "automergeStrategy": "merge-commit",
+  "platform": "github",
+  "repositories": ["kevindurb/bootc"]
+}
