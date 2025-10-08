@@ -9,5 +9,18 @@
   "automergeType": "pr",
   "automergeStrategy": "merge-commit",
   "platform": "github",
-  "repositories": ["kevindurb/bootc"]
+  "repositories": ["kevindurb/bootc"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update _VERSION variables in Dockerfiles",
+      "managerFilePatterns": [
+        "/(^|/|\\.)Containerfile$/",
+        "/(^|/)Containerfile\\.[^/]*$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
+      ]
+    }
+  ]
 }

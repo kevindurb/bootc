@@ -5,6 +5,7 @@ RUN dnf install -y https://rpm.rancher.io/k3s/latest/common/centos/9/noarch/k3s-
   dnf clean all
 
 ARG FILES_ROOT=./containers/k8s-node/files
+# renovate: datasource=github-tags depName=k3s packageName=k3s-io/k3s
 ARG K3S_VERSION=v1.34.1+k3s1
 
 ADD ${FILES_ROOT}/modules.conf /etc/modules-load.d/k8s.conf
