@@ -1,7 +1,7 @@
 FROM ghcr.io/ublue-os/ucore-minimal:stable
 
 RUN dnf install -y \
-  wireguard
+  wireguard-tools
 
 ARG FILES_ROOT=./containers/wg-hub/files
 
