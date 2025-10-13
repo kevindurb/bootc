@@ -38,19 +38,3 @@ tasks:
       vars:
         FILE: ./containers/workstation/Containerfile
         TAG: workstation
-
-  lima:
-    deps: []
-    cmd:
-      task: build
-      vars:
-        FILE: ./containers/lima/Containerfile
-        TAG: lima
-
-  devpi:
-    deps: []
-    cmd:
-      task: build
-      vars:
-        FILE: ./containers/devpi/Containerfile
-        TAG: devpi

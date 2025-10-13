@@ -20,14 +20,6 @@ permissions:
   id-token: write
 
 jobs:
-  lima:
-    name: Lima
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: lima
-      arch: linux/arm64
-
   router:
     name: Router
     uses: ./.github/workflows/reusable-build.yml
@@ -55,14 +47,6 @@ jobs:
     secrets: inherit
     with:
       image: steamdeck
-
-  devpi:
-    name: DevPi
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: devpi
-      arch: linux/arm64
 
   k8s-node:
     name: K8s Node
