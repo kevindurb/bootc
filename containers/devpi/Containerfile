@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-bootc:42
+FROM quay.io/fedora/fedora-bootc:44@sha256:c7fd46089e579da477af432a532b559723adff00ac0585ed3f6868716604dac9
 
 ADD ./containers/devpi/files/wheel-passwordless-sudo /etc/sudoers.d/wheel-passwordless-sudo
 
