@@ -6,10 +6,6 @@ on:
       image:
         description: image to build
         type: string
-      fedoraVersionsJson:
-        description: fedora major versions to build
-        type: string
-        default: "[42]"
       arch:
         description: architecture to build
         type: string
@@ -19,10 +15,6 @@ on:
       image:
         description: image to build
         type: string
-      fedoraVersionsJson:
-        description: fedora major versions to build
-        type: string
-        default: "[42]"
       arch:
         description: architecture to build
         type: string
@@ -40,11 +32,6 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix:
-        fedora_major_version: ${{ fromJson(inputs.fedoraVersionsJson) }}
-        include:
-          - fedora_major_version: 42
-            is_latest: true
 
     steps:
       - name: Checkout
@@ -69,8 +56,7 @@ jobs:
             org.opencontainers.image.title=${{ inputs.image }}
 
           tags: |
-            type=raw,value=${{ matrix.fedora_major_version }}
-            type=raw,value=latest,enable=${{ matrix.is_latest || false}}
+            type=raw,value=latest
             type=schedule,pattern={{date 'YYYY.MM.DD'}}
             type=sha
 
@@ -92,8 +78,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ inputs.arch }}
-          build-args: |
-            FEDORA_MAJOR_VERSION=${{ matrix.fedora_major_version }}
 
       - name: Push Image to GHCR
         uses: redhat-actions/push-to-registry@v2

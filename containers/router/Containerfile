@@ -1,5 +1,4 @@
-ARG FEDORA_MAJOR_VERSION
-FROM quay.io/fedora/fedora-bootc:${FEDORA_MAJOR_VERSION}
+FROM quay.io/fedora/fedora-bootc:42
 
 RUN dnf install -y \
   dnsmasq
