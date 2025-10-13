@@ -1,0 +1,10 @@
+FROM ghcr.io/ublue-os/ucore-minimal:stable
+
+RUN dnf install -y \
+  wireguard
+
+ARG FILES_ROOT=./containers/wg-hub/files
+
+ADD ${FILES_ROOT}/sysctl.conf /etc/sysctl.d/forwarding.conf
+
+RUN bootc container lint

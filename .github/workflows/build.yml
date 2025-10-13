@@ -54,3 +54,10 @@ jobs:
     secrets: inherit
     with:
       image: k8s-node
+
+  wg-hub:
+    name: Wireguard Hub
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: wg-hub
