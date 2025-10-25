@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore-minimal:stable-nvidia@sha256:7c378133638b12d070c5f0a8607edcc10f26545750a7e6063b0fe94cdba57ed5
+FROM ghcr.io/ublue-os/ucore-minimal:stable-nvidia@sha256:7876672af893b831943af7a97222729098ee2fbd97b8d1ed6f6ad0fe83173b74
 
 ARG K3S_SELINUX_VERSION=1.6-1
 RUN dnf install -y https://rpm.rancher.io/k3s/latest/common/centos/9/noarch/k3s-selinux-${K3S_SELINUX_VERSION}.el9.noarch.rpm && \
