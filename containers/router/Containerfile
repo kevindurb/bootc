@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore-minimal:stable
+FROM ghcr.io/ublue-os/ucore-minimal:stable@sha256:3166a0d91f57d2275d4ae2a34d62e023ff1cb70b55963853bd11c3d31f0f0024
 
 RUN dnf install -y \
   dnsmasq
