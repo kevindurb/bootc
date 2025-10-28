@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/aurora:42
+FROM ghcr.io/ublue-os/aurora:43@sha256:d117daf7188b014372dad93521ec5141263e534d1fa63d1fde533367625b17fd
 
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
