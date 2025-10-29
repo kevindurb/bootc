@@ -7,3 +7,4 @@ RUN dnf install -y \
 COPY ./containers/router/router.conf /etc/dnsmasq.d/
 
 RUN bootc container lint
+test
