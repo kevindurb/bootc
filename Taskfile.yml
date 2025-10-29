@@ -16,3 +16,47 @@ vars:
 
 tasks:
   default: task --list-all
+
+  lint:
+    desc: Lint all Containerfiles with hadolint
+    sources:
+      - containers/*/Containerfile
+    cmds:
+      - for: sources
+        task: lint:file
+        vars:
+          FILE: '{{.ITEM}}'
+
+  lint:file:
+    desc: Lint a specific Containerfile
+    vars:
+      FILE: '{{.FILE}}'
+    cmds:
+      - |
+        echo "Linting {{.FILE}}"
+        podman run --rm -i \
+          -v "$(pwd)/.hadolint.yaml:/.config/hadolint.yaml:ro" \
+          ghcr.io/hadolint/hadolint \
+          < {{.FILE}}
+
+  hooks:pre-commit:
+    desc: Run pre-commit checks
+    vars:
+      STAGED_FILES:
+        sh: git diff --cached --name-only --diff-filter=ACM | grep "Containerfile" || true
+    cmds:
+      - for: { var: STAGED_FILES, split: '\n' }
+        cmd: task lint:file FILE={{.ITEM}}
+
+  hooks:install:
+    desc: Install git hooks
+    cmds:
+      - mkdir -p .git/hooks
+      - |
+        cat > .git/hooks/pre-commit << 'EOF'
+        #!/usr/bin/env bash
+        set -euo pipefail
+        task hooks:pre-commit
+        EOF
+      - chmod +x .git/hooks/pre-commit
+      - echo "Git hooks installed"

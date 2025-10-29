@@ -1,7 +1,8 @@
 FROM ghcr.io/ublue-os/ucore-minimal:stable
 
 RUN dnf install -y \
-  dnsmasq
+  dnsmasq && \
+  dnf clean all
 
 COPY ./containers/router/router.conf /etc/dnsmasq.d/
 
