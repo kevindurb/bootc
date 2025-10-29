@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/bazzite-deck:42
+FROM ghcr.io/ublue-os/bazzite-deck:43
 
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
