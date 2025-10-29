@@ -7,7 +7,6 @@ includes:
   qemu: .taskfiles/qemu
   containers: .taskfiles/containers
   images: .taskfiles/images
-  k8s-node: containers/k8s-node
 
 vars:
   FEDORA_MAJOR_VERSION: latest
