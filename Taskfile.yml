@@ -9,7 +9,6 @@ includes:
   images: .taskfiles/images
 
 vars:
-  FEDORA_MAJOR_VERSION: latest
   ARCH: { sh: uname -m }
   BOOTC_IMAGE_TYPE: raw
   BASE_REPO: ghcr.io/kevindurb
@@ -46,7 +45,7 @@ tasks:
         sh: git diff --cached --name-only --diff-filter=ACM | grep "Containerfile" || true
     preconditions:
       - sh: '[ -n "{{.STAGED_FILES}}" ]'
-        msg: "No Containerfiles staged"
+        msg: 'No Containerfiles staged'
     cmds:
       - for: { var: STAGED_FILES, split: '\n' }
         task: lint:file

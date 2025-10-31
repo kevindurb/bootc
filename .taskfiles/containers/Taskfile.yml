@@ -5,36 +5,19 @@ tasks:
   build:
     internal: true
     requires:
-      vars: [FILE, TAG, ARCH, FEDORA_MAJOR_VERSION, BASE_REPO]
+      vars: [FILE, TAG, ARCH, BASE_REPO]
     cmd: >
       podman build
       --platform linux/{{.ARCH}}
-      --build-arg FEDORA_MAJOR_VERSION={{.FEDORA_MAJOR_VERSION}}
-      --build-arg BASE_REPO={{.BASE_REPO}}
       -f {{.FILE}}
       -t {{.BASE_REPO}}/{{.TAG}}
       .
 
-  steamdeck:
-    deps: []
+  build:*:
+    vars:
+      CONTAINER: '{{index .MATCH 0}}'
     cmd:
       task: build
       vars:
-        FILE: ./containers/steamdeck/Containerfile
-        TAG: steamdeck
-
-  tablet:
-    deps: []
-    cmd:
-      task: build
-      vars:
-        FILE: ./containers/tablet/Containerfile
-        TAG: tablet
-
-  workstation:
-    deps: []
-    cmd:
-      task: build
-      vars:
-        FILE: ./containers/workstation/Containerfile
-        TAG: workstation
+        FILE: ./containers/{{.CONTAINER}}/Containerfile
+        TAG: '{{.CONTAINER}}'

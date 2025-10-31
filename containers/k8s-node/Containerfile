@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore-minimal:stable-nvidia@sha256:7c378133638b12d070c5f0a8607edcc10f26545750a7e6063b0fe94cdba57ed5
+FROM ghcr.io/ublue-os/ucore:stable-nvidia
 
 ARG K3S_SELINUX_VERSION=1.6-1
 RUN dnf install -y https://rpm.rancher.io/k3s/latest/common/centos/9/noarch/k3s-selinux-${K3S_SELINUX_VERSION}.el9.noarch.rpm && \
@@ -13,6 +13,7 @@ COPY ${FILES_ROOT}/sysctl.conf /etc/sysctl.d/k8s.conf
 COPY ${FILES_ROOT}/k3s-${K3S_VERSION} /usr/bin/k3s
 COPY ${FILES_ROOT}/k3s.service /etc/systemd/system/
 COPY ${FILES_ROOT}/k3s-agent.service /etc/systemd/system/
+COPY ${FILES_ROOT}/sanoid.conf /etc/sanoid/
 
 RUN dnf remove -y \
   zram-generator-defaults && \
