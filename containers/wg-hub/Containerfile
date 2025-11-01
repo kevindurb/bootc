@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore-minimal:stable
+FROM ghcr.io/ublue-os/ucore-minimal:stable@sha256:b1b2d7710e04b8a69e089a44c09b6b47ec05c1ca04cb8b28a54a48bdde316e05
 
 RUN dnf install -y \
   wireguard-tools && \
