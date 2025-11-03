@@ -1,0 +1,9 @@
+---
+extends: default
+
+rules:
+  line-length:
+    max: 100
+  braces:
+    min-spaces-inside: 1
+    max-spaces-inside: 1
