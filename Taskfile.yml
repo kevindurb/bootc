@@ -40,7 +40,8 @@ tasks:
 
   hooks:pre-commit:
     desc: Run pre-commit checks
-    task: lint
+    cmd:
+      task: lint
 
   hooks:install:
     desc: Install git hooks
