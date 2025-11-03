@@ -22,6 +22,7 @@ permissions:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         image:
           - k8s-node
