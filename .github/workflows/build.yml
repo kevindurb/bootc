@@ -26,11 +26,9 @@ jobs:
       matrix:
         image:
           - k8s-node
-          - macbook
           - router
           - steamdeck
           - tablet
-          - wg-hub
           - workstation
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
