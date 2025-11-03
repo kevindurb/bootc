@@ -4,8 +4,7 @@ COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
 
 RUN dnf5 install --assumeyes \
-  broadcom-wl \
-  akmod-wl && \
+  broadcom-wl && \
   dnf5 clean all
 
 RUN modprobe wl
