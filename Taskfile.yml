@@ -28,6 +28,8 @@ tasks:
 
   lint:file:
     desc: Lint a specific Containerfile
+    requires:
+      vars: [FILE]
     vars:
       FILE: '{{.FILE}}'
     cmds:
