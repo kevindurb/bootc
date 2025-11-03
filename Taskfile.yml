@@ -40,17 +40,7 @@ tasks:
 
   hooks:pre-commit:
     desc: Run pre-commit checks
-    vars:
-      STAGED_FILES:
-        sh: git diff --cached --name-only --diff-filter=ACM | grep "Containerfile" || true
-    preconditions:
-      - sh: '[ -n "{{.STAGED_FILES}}" ]'
-        msg: 'No Containerfiles staged'
-    cmds:
-      - for: { var: STAGED_FILES, split: '\n' }
-        task: lint:file
-        vars:
-          FILE: '{{.ITEM}}'
+    task: lint
 
   hooks:install:
     desc: Install git hooks

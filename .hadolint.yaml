@@ -1,3 +1,4 @@
 ---
 ignored:
   - DL3041 # specify version numbers
+  - DL3059 # consecutive RUN instructions
