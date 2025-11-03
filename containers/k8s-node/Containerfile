@@ -20,3 +20,5 @@ RUN dnf remove -y \
   zram-generator-defaults && \
   systemctl disable firewalld && \
   systemctl enable tailscaled
+
+RUN bootc container lint

@@ -1,6 +1,10 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
+dnf install -y \
+    "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+    "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+
 dnf5 install --assumeyes dnf5-plugins
 
 dnf5 install --assumeyes \

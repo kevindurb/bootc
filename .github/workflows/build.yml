@@ -20,44 +20,18 @@ permissions:
   id-token: write
 
 jobs:
-  router:
-    name: Router
+  build:
+    strategy:
+      matrix:
+        image:
+          - k8s-node
+          - macbook
+          - router
+          - steamdeck
+          - tablet
+          - wg-hub
+          - workstation
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: router
-
-  tablet:
-    name: Tablet
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: tablet
-
-  workstation:
-    name: Workstation
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: workstation
-
-  steamdeck:
-    name: Steamdeck
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: steamdeck
-
-  k8s-node:
-    name: K8s Node
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: k8s-node
-
-  wg-hub:
-    name: Wireguard Hub
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image: wg-hub
+      image: ${{ matrix.image }}

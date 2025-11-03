@@ -3,13 +3,7 @@ FROM ghcr.io/ublue-os/kinoite-main:43
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
 
-RUN dnf5 install -y \
-  fprintd \
-  libcamera \
-  libcamera-tools \
-  libcamera-gstreamer \
-  libcamera-ipa \
-  pipewire-plugin-libcamera && \
+RUN dnf5 install kmod-wl && \
   dnf5 clean all
 
 RUN bootc container lint
