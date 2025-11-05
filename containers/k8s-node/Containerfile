@@ -16,6 +16,7 @@ COPY ${FILES_ROOT}/rpm-ostreed.conf /etc/
 COPY ${FILES_ROOT}/system/* /etc/systemd/system/
 
 RUN systemctl disable firewalld \
-  && systemctl enable cockpit
+  && systemctl enable cockpit \
+  && systemctl enable tailscaled
 
 RUN bootc container lint
