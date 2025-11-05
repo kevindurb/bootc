@@ -15,6 +15,7 @@ COPY ${FILES_ROOT}/sanoid.conf /etc/sanoid/
 COPY ${FILES_ROOT}/rpm-ostreed.conf /etc/
 COPY ${FILES_ROOT}/system/* /etc/systemd/system/
 
-RUN systemctl disable firewalld
+RUN systemctl disable firewalld \
+  && systemctl enable cockpit
 
 RUN bootc container lint
