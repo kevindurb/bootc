@@ -24,12 +24,12 @@ tasks:
           --rootfs xfs
           --type {{.BOOTC_IMAGE_TYPE}}
           --local {{.BASE_REPO}}/{{.IMAGE}}
-  build-iso:
-    requires:
-      vars: [IMAGE]
+  build:*:*:
+    vars:
+      BOOTC_IMAGE_TYPE: '{{index .MATCH 0}}'
+      IMAGE: '{{index .MATCH 1}}'
     cmd:
       task: bootc-image-builder
       vars:
-        BOOTC_IMAGE_TYPE: anaconda-iso
         OUTDIR: dist
         CONFIG: config.toml
