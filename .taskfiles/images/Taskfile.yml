@@ -11,9 +11,9 @@ tasks:
       vars: [IMAGE, BOOTC_IMAGE_TYPE, ARCH, OUTDIR, CONFIG, BASE_REPO]
     cmds:
       - cmd: mkdir -p ./{{.OUTDIR}}
-      - cmd: podman pull {{.BASE_REPO}}/{{.IMAGE}}
+      - cmd: sudo podman pull {{.BASE_REPO}}/{{.IMAGE}}
       - cmd: >
-          podman run --rm -it --privileged
+          sudo podman run --rm -it --privileged
           --security-opt label=type:unconfined_t
           -v $(pwd)/{{.CONFIG}}:/config.toml:ro
           -v $(pwd)/{{.OUTDIR}}:/output
@@ -23,7 +23,7 @@ tasks:
           --target-arch {{.ARCH}}
           --rootfs xfs
           --type {{.BOOTC_IMAGE_TYPE}}
-          --local {{.BASE_REPO}}/{{.IMAGE}}
+
   build:*:*:
     vars:
       BOOTC_IMAGE_TYPE: '{{index .MATCH 0}}'
