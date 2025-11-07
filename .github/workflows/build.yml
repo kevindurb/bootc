@@ -26,6 +26,7 @@ jobs:
       matrix:
         image:
           - k8s-node
+          - kinoite
           - macbook
           - router
           - steamdeck
