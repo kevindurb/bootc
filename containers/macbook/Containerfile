@@ -1,15 +1,21 @@
 FROM ghcr.io/ublue-os/akmods:main-43 as akmods-common
 FROM ghcr.io/ublue-os/kinoite-main:43
 
-COPY ./scripts/install-dev-base.sh /tmp
-RUN /tmp/install-dev-base.sh
-
 COPY --from=akmods-common / /tmp/akmods-common
-RUN find /tmp/akmods-common
 
-RUN dnf5 install --assumeyes \
+RUN dnf5 remove --assumeyes --no-autoremove \
+  kernel \
+  kernel-core \
+  kernel-modules \
+  kernel-modules-core \
+  kernel-modules-extra \
+  && dnf5 install --assumeyes \
+  /tmp/akmods-common/kernel-rpms/kernel*.rpm \
   /tmp/akmods-common/rpms/ublue-os/ublue-os-akmods*.rpm \
   /tmp/akmods-common/rpms/kmods/kmod-wl*.rpm \
   && dnf5 clean all
+
+COPY ./scripts/install-dev-base.sh /tmp
+RUN /tmp/install-dev-base.sh
 
 RUN bootc container lint

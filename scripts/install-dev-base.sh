@@ -8,7 +8,7 @@ dnf install -y \
 dnf5 install --assumeyes dnf5-plugins
 
 dnf5 install --assumeyes \
-  arm-image-installer \
+  --exclude plasma-discover-snap \
   curl \
   diff \
   diffutils \
