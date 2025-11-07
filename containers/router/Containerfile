@@ -1,9 +1,16 @@
 FROM ghcr.io/ublue-os/ucore-minimal:stable
 
+ARG FILES_ROOT=./containers/router/files
+
 RUN dnf install -y \
   dnsmasq && \
   dnf clean all
 
-COPY ./containers/router/router.conf /etc/dnsmasq.d/
+COPY ${FILES_ROOT}/dnsmasq.conf /etc/dnsmasq.d/99-router.conf
+COPY ${FILES_ROOT}/sysctl.conf /etc/sysctl.d/99-router.conf
+COPY ${FILES_ROOT}/nftables.conf /etc/nftables.conf
+
+RUN systemctl enable nftables \
+  && systemctl enable dnsmasq
 
 RUN bootc container lint
