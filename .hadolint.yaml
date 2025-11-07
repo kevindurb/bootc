@@ -2,3 +2,4 @@
 ignored:
   - DL3041 # specify version numbers
   - DL3059 # consecutive RUN instructions
+  - DL3007 # no latest tag

@@ -1,9 +1,3 @@
-FROM ghcr.io/ublue-os/kinoite-main:43
-
-COPY ./scripts/install-dev-base.sh /tmp
-RUN /tmp/install-dev-base.sh
-
-COPY ./scripts/uninstall-firefox.sh /tmp
-RUN /tmp/uninstall-firefox.sh
+FROM ghcr.io/kevindurb/kinoite:latest
 
 RUN bootc container lint
