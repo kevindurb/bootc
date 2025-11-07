@@ -11,8 +11,8 @@ COPY ${FILES_ROOT}/sysctl.conf /etc/sysctl.d/99-router.conf
 COPY ${FILES_ROOT}/nftables.conf /etc/nftables.conf
 
 RUN systemctl enable nftables \
-  && systemctl umask dnsmasq.service \
-  && systemctl umask dnsmasq.socket \
+  && systemctl unmask dnsmasq.service \
+  && systemctl unmask dnsmasq.socket \
   && systemctl enable dnsmasq \
   && systemctl disable systemd-resolved
 
