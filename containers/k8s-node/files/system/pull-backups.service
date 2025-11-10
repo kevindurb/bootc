@@ -8,4 +8,4 @@ Environment=TZ=UTC
 Type=oneshot
 User=core
 Group=core
-ExecStart=/usr/local/bin/pull-backups.sh
+ExecStart=/usr/bin/pull-backups.sh

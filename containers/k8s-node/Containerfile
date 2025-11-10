@@ -14,7 +14,7 @@ COPY ${FILES_ROOT}/k3s-${K3S_VERSION} /usr/bin/k3s
 COPY ${FILES_ROOT}/sanoid.conf /etc/sanoid/
 COPY ${FILES_ROOT}/rpm-ostreed.conf /etc/
 COPY ${FILES_ROOT}/system/* /etc/systemd/system/
-COPY ${FILES_ROOT}/bin/* /usr/local/bin/
+COPY ${FILES_ROOT}/bin/* /usr/bin/
 
 RUN systemctl disable firewalld \
   && systemctl enable cockpit \
