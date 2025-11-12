@@ -15,7 +15,6 @@ RUN systemctl enable nftables \
   && systemctl unmask dnsmasq.service \
   && systemctl unmask dnsmasq.socket \
   && systemctl enable dnsmasq \
-  && systemctl enable node-exporter \
   && systemctl disable systemd-resolved
 
 RUN bootc container lint
