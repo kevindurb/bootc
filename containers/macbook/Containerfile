@@ -1,6 +1,6 @@
-FROM ghcr.io/kevindurb/kinoite:latest
+FROM ghcr.io/kevindurb/kinoite:latest@sha256:b0a5b155ce940b15f41bc3a772830335c0ab4dbfc64f4ffd79f3159cee30c03e
 
-COPY --from=ghcr.io/ublue-os/akmods:main-43 / /tmp
+COPY --from=ghcr.io/ublue-os/akmods:main-43@sha256:22d0c5ea43263adbeab5c30187384b9dc8bb330b5715f291e563b4d09e1072ad / /tmp
 RUN dnf5 install --assumeyes \
   /tmp/rpms/kmods/kmod-wl-*.rpm \
   && dnf5 clean all
