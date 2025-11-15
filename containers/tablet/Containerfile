@@ -1,4 +1,4 @@
-FROM ghcr.io/kevindurb/kinoite:latest
+FROM ghcr.io/kevindurb/kinoite:latest@sha256:b0a5b155ce940b15f41bc3a772830335c0ab4dbfc64f4ffd79f3159cee30c03e
 
 RUN dnf5 install -y \
   fprintd \
