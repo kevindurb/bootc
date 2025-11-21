@@ -1,0 +1,12 @@
+FROM ghcr.io/ublue-os/ucore-minimal:stable
+
+ARG FILES_ROOT=./containers/wg-hub/files
+
+RUN dnf install -y \
+  node-exporter \
+  && dnf clean all
+
+COPY ${FILES_ROOT}/modules.conf /etc/modules-load.d/99-wg.conf
+COPY ${FILES_ROOT}/sysctl.conf /etc/sysctl.d/99-wg.conf
+
+RUN bootc container lint
