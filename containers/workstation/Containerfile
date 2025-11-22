@@ -1,3 +1,3 @@
-FROM ghcr.io/kevindurb/kinoite:latest
+FROM ghcr.io/kevindurb/kinoite:latest@sha256:66bccad9ce12f88bd506eff429bab87dff3756766acb19fab94b5d4584588b0c
 
 RUN bootc container lint
