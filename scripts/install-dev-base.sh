@@ -9,6 +9,8 @@ dnf5 install --assumeyes dnf5-plugins
 
 dnf5 install --assumeyes \
   --exclude plasma-discover-snap \
+  @development-tools \
+  ansible \
   curl \
   diff \
   diffutils \
@@ -37,6 +39,7 @@ dnf5 install --assumeyes \
   toolbox \
   ulauncher \
   wget \
+  wireguard-tools \
   wl-clipboard \
   zsh
 
