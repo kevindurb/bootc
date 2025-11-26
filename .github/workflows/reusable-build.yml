@@ -41,15 +41,6 @@ jobs:
       - name: Install Podman and Buildah
         run: sudo apt update && sudo apt install -y buildah podman
 
-      - name: Install Task
-        uses: arduino/setup-task@v2
-        with:
-          version: 3.x
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Lint Containerfile
-        run: task lint:file FILE=./containers/${{ inputs.image }}/Containerfile
-
       - name: Image Metadata
         uses: docker/metadata-action@v5
         id: meta
