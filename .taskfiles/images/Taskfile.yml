@@ -2,7 +2,7 @@
 version: 3
 
 vars:
-  BOOTC_IMAGE_TYPE: raw
+  BOOTC_IMAGE_BUILDER: quay.io/centos-bootc/bootc-image-builder:latest
 
 tasks:
   bootc-image-builder:
@@ -11,7 +11,10 @@ tasks:
       vars: [IMAGE, BOOTC_IMAGE_TYPE, ARCH, OUTDIR, CONFIG, BASE_REPO]
     cmds:
       - cmd: mkdir -p ./{{.OUTDIR}}
-      - cmd: sudo podman pull {{.BASE_REPO}}/{{.IMAGE}}
+      - cmd: >
+          sudo podman pull
+          {{.BASE_REPO}}/{{.IMAGE}}
+          {{.BOOTC_IMAGE_BUILDER}}
       - cmd: >
           sudo podman run --rm -it --privileged
           --security-opt label=type:unconfined_t
@@ -19,17 +22,17 @@ tasks:
           -v $(pwd)/{{.OUTDIR}}:/output
           -v /var/lib/containers/storage:/var/lib/containers/storage
           --platform linux/{{.ARCH}}
-          quay.io/centos-bootc/bootc-image-builder:latest
+          {{.BOOTC_IMAGE_BUILDER}}
           --target-arch {{.ARCH}}
           --rootfs xfs
           --type {{.BOOTC_IMAGE_TYPE}}
+          {{.BASE_REPO}}/{{.IMAGE}}
 
   build:*:*:
-    vars:
-      BOOTC_IMAGE_TYPE: '{{index .MATCH 0}}'
-      IMAGE: '{{index .MATCH 1}}'
     cmd:
       task: bootc-image-builder
       vars:
+        BOOTC_IMAGE_TYPE: '{{index .MATCH 0}}'
+        IMAGE: '{{index .MATCH 1}}'
         OUTDIR: dist
         CONFIG: config.toml
