@@ -3,6 +3,7 @@ FROM ghcr.io/ublue-os/ucore:stable-nvidia@sha256:71615190e71787810d22b1846e1640e
 ARG K3S_SELINUX_VERSION=1.6-1
 RUN dnf install -y \
   https://rpm.rancher.io/k3s/latest/common/centos/9/noarch/k3s-selinux-${K3S_SELINUX_VERSION}.el9.noarch.rpm \
+  nebula \
   wireguard-tools \
   && dnf clean all
 

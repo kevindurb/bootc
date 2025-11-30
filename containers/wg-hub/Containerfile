@@ -3,6 +3,7 @@ FROM ghcr.io/ublue-os/ucore-minimal:stable@sha256:9d8e44bf4a7d64c026d5feb9e0d0eb
 ARG FILES_ROOT=./containers/wg-hub/files
 
 RUN dnf install -y \
+  nebula \
   node-exporter \
   wireguard-tools \
   && dnf clean all

@@ -29,6 +29,7 @@ dnf5 install --assumeyes \
   gstreamer1-plugins-good \
   gstreamer1-plugins-ugly-free \
   heif-pixbuf-loader \
+  nebula \
   pv \
   python-pip \
   python3-pip \
