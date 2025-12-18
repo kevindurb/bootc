@@ -4,6 +4,7 @@ Requires=zfs.target
 After=zfs.target
 
 [Service]
+TimeoutStartSec=1h
 Environment=TZ=UTC
 Type=oneshot
 User=core
