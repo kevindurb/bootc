@@ -1,7 +1,7 @@
 FROM docker.io/library/golang:1.25@sha256:20b91eda7a9627c127c0225b0d4e8ec927b476fa4130c6760928b849d769c149 AS build
 WORKDIR /app
 # renovate: datasource=github-tags depName=apx packageName=vanilla-os/apx
-ARG APX_VERSION=v2.4.5
+ARG APX_VERSION=v2.5.0
 RUN GOBIN=/app go install github.com/vanilla-os/apx@${APX_VERSION}
 
 FROM scratch
