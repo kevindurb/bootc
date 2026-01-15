@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore:stable-nvidia@sha256:871087e16a9f2d231103747171ecdf9366cf00ff499c255a8673b0415fa487ca
+FROM ghcr.io/ublue-os/ucore:stable-nvidia@sha256:cec2b3f82e51a453133902d00581a428a59576e9ec9969c8fc5186cf28bc020f
 
 ARG K3S_SELINUX_VERSION=1.6-1
 RUN dnf install -y \
