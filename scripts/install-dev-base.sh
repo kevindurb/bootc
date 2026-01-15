@@ -39,6 +39,7 @@ dnf5 install --assumeyes \
   tailscale \
   toolbox \
   ulauncher \
+  util-linux-user \
   wget \
   wireguard-tools \
   wl-clipboard \

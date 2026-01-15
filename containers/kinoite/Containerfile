@@ -1,10 +1,5 @@
 FROM ghcr.io/ublue-os/kinoite-main:43@sha256:a95f7ea15c75c84090767e0ccffde7fc6ce1f4dfd28021b79c62148c4c490e40
 
-RUN mkdir -p /nix && \
-    echo 'L+ /nix - - - - /var/nix' > /etc/tmpfiles.d/nix.conf && \
-    semanage fcontext -a -t usr_t '/nix(/.*)?'  || true && \
-    semanage fcontext -a -t usr_t '/var/nix(/.*)?'  || true
-
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
 
