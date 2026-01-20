@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore-minimal:stable@sha256:c401b2a00a8f7fa7861c7484c475192b0a492f1c4de01dda3ac9c4f4bbf274cd
+FROM ghcr.io/ublue-os/ucore-minimal:stable@sha256:a92f4237a5f595a2e95355f04052409d024401c3c63be364dcd3ee9c1ae129a9
 
 ARG FILES_ROOT=./containers/router/files
 
