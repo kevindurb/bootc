@@ -10,10 +10,8 @@ dnf5 install --assumeyes dnf5-plugins
 dnf5 install --assumeyes \
   --exclude plasma-discover-snap \
   @development-tools \
-  ansible \
   curl \
   diff \
-  diffutils \
   distrobox \
   ffmpeg \
   find \
@@ -29,7 +27,6 @@ dnf5 install --assumeyes \
   gstreamer1-plugins-good \
   gstreamer1-plugins-ugly-free \
   heif-pixbuf-loader \
-  nebula \
   pv \
   python-pip \
   python3-pip \
@@ -38,8 +35,6 @@ dnf5 install --assumeyes \
   syncthing \
   tailscale \
   toolbox \
-  ulauncher \
-  util-linux-user \
   wget \
   wireguard-tools \
   wl-clipboard \
