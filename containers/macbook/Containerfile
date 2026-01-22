@@ -5,4 +5,13 @@ RUN dnf5 install --assumeyes \
   /tmp/rpms/kmods/kmod-wl-*.rpm \
   && dnf5 clean all
 
+RUN dnf5 install --assumeyes \
+  sway \
+  swaylock \
+  swayidle \
+  swaybg \
+  wofi \
+  waybar \
+  mako
+
 RUN bootc container lint
