@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/kinoite-main:43@sha256:69b890c943905d6dc9842359624ff38bbf7f95eeda8eafb3a6be7c5a003283e6
+FROM ghcr.io/ublue-os/kinoite-main:43@sha256:bf3e6f166b6ec51816f0ea8c5ccaebe6571ed8573a7913b1f8571c52c3513b05
 
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh
