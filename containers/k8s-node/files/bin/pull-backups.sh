@@ -1,6 +1,6 @@
 #! /bin/bash
 
-SYNCOID_ARGS='--recursive --skip-parent --no-privilege-elevation'
+SYNCOID_ARGS='--recursive --skip-parent --no-sync-snap --no-privilege-elevation'
 SRC='tank/storage'
 DEST='rust/backup'
 
