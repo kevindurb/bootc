@@ -1,4 +1,4 @@
-FROM ghcr.io/kevindurb/kinoite:latest@sha256:ee981381117ef3a733bdd8aa4555ebbe6826ebf02feb0995f2877c394ba694ae
+FROM ghcr.io/kevindurb/kinoite:latest@sha256:af038b9c4f8966903004a39e7ffa78536db21a0f34aa0707c104ec32926362ea
 
 COPY --from=ghcr.io/ublue-os/akmods:main-43@sha256:55a1f499affc39f8c566edfebccd8f3b35618893e37628c3109679c85cfd3b0e / /tmp
 RUN dnf5 install --assumeyes \
