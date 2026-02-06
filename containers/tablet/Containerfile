@@ -1,4 +1,4 @@
-FROM ghcr.io/kevindurb/kinoite:latest@sha256:af038b9c4f8966903004a39e7ffa78536db21a0f34aa0707c104ec32926362ea
+FROM ghcr.io/kevindurb/kinoite:latest@sha256:ffe26247fb2aa0bf831f13ee635a3afaa96050f00bc72a47986db1e017cbe580
 
 RUN dnf5 install -y \
   @kde-mobile \
