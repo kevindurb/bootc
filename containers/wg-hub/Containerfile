@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore-minimal:stable@sha256:a92f4237a5f595a2e95355f04052409d024401c3c63be364dcd3ee9c1ae129a9
+FROM ghcr.io/ublue-os/ucore-minimal:stable@sha256:f2191002b21270085a6dc8e42daef8d395d2e1911e2cc8bb72a0935df2e2a4d5
 
 ARG FILES_ROOT=./containers/wg-hub/files
 
