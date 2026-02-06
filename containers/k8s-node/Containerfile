@@ -1,22 +1,25 @@
 FROM ghcr.io/ublue-os/ucore:stable-nvidia-lts
 
+ARG FILES_ROOT=./containers/k8s-node/files
+
+COPY ${FILES_ROOT}/zrepl.repo /etc/yum.repos.d/
+
 ARG K3S_SELINUX_VERSION=1.6-1
 RUN dnf install -y \
   https://rpm.rancher.io/k3s/latest/common/centos/9/noarch/k3s-selinux-${K3S_SELINUX_VERSION}.el9.noarch.rpm \
   wireguard-tools \
+  zrepl \
   && dnf clean all
 
-ARG FILES_ROOT=./containers/k8s-node/files
 # renovate: datasource=github-tags depName=k3s packageName=k3s-io/k3s
-ARG K3S_VERSION=v1.35.0+k3s1
+ARG K3S_VERSION=v1.35.0+k3s3
+ADD https://github.com/k3s-io/k3s/releases/download/${K3S_VERSION}/k3s /usr/bin/k3s
+RUN chmod +x /usr/bin/k3s
 
 COPY ${FILES_ROOT}/modules.conf /etc/modules-load.d/k8s.conf
 COPY ${FILES_ROOT}/sysctl.conf /etc/sysctl.d/k8s.conf
-COPY ${FILES_ROOT}/k3s-${K3S_VERSION} /usr/bin/k3s
-COPY ${FILES_ROOT}/sanoid.conf /etc/sanoid/
 COPY ${FILES_ROOT}/rpm-ostreed.conf /etc/
 COPY ${FILES_ROOT}/system/* /etc/systemd/system/
-COPY ${FILES_ROOT}/bin/* /usr/bin/
 
 RUN systemctl disable firewalld \
   && systemctl enable cockpit \
