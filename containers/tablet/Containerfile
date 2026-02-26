@@ -1,8 +1,10 @@
 FROM ghcr.io/kevindurb/kinoite:latest@sha256:af038b9c4f8966903004a39e7ffa78536db21a0f34aa0707c104ec32926362ea
 
+RUN dnf5 copr enable avengemedia/dms
+
 RUN dnf5 install -y \
-  @kde-mobile \
-  @kde-mobile-apps \
+  niri \
+  dms \
   fprintd \
   libcamera \
   libcamera-tools \
