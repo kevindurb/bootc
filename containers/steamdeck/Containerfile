@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/bazzite-deck:stable@sha256:c9fb1b99f0a997a5eaf7b2dbeee9498d58434aee43b0e95b9d60acc46594f543
+FROM ghcr.io/ublue-os/bazzite-deck:stable
 
 COPY ./scripts/install-dev-base.sh /tmp
 RUN /tmp/install-dev-base.sh

@@ -20,17 +20,35 @@ permissions:
   id-token: write
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        image:
-          - kinoite
-          - macbook
-          - steamdeck
-          - tablet
-          - workstation
+  kinoite:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      image: ${{ matrix.image }}
+      image: kinoite
+
+  macbook:
+    needs: [kinoite]
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: macbook
+
+  steamdeck:
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: steamdeck
+
+  tablet:
+    needs: [kinoite]
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: tablet
+
+  workstation:
+    needs: [kinoite]
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: workstation
