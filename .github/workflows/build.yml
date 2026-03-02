@@ -20,7 +20,14 @@ permissions:
   id-token: write
 
 jobs:
+  dev-scripts:
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: dev-scripts
+
   kinoite:
+    needs: [dev-scripts]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -34,6 +41,7 @@ jobs:
       image: macbook
 
   steamdeck:
+    needs: [dev-scripts]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:

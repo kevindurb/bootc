@@ -69,7 +69,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           oci: false
-          context: .
+          context: ./containers/${{inputs.image}}
           containerfiles: |
             ./containers/${{inputs.image}}/Containerfile
           tags: ${{ steps.meta.outputs.tags }}
