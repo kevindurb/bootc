@@ -10,6 +10,10 @@ on:
         description: architecture to build
         type: string
         default: linux/amd64
+      skip-maximize-build-space:
+        description: Skip maximize build space
+        type: boolean
+        default: false
   workflow_call:
     inputs:
       image:
@@ -19,6 +23,10 @@ on:
         description: architecture to build
         type: string
         default: linux/amd64
+      skip-maximize-build-space:
+        description: Skip maximize build space
+        type: boolean
+        default: false
 
 jobs:
   build-images:
