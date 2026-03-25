@@ -1,13 +1,13 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
-dnf5 install -y \
+dnf5 install --assumeyes \
     "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
     "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
 dnf5 install --assumeyes dnf5-plugins
 
-dnf5 install https://github.com/TibixDev/winboat/releases/download/v0.9.0/winboat-0.9.0-x86_64.rpm
+dnf5 install --assumeyes https://github.com/TibixDev/winboat/releases/download/v0.9.0/winboat-0.9.0-x86_64.rpm
 
 dnf5 install --assumeyes \
   --exclude plasma-discover-snap \
