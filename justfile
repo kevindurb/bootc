@@ -1,5 +1,6 @@
 set dotenv-load
 
+arch := `uname-m`
 bootc_image_builder := "quay.io/centos-bootc/bootc-image-builder:latest"
 
 default:
@@ -10,7 +11,6 @@ pre-commit-install:
 
 build-image type target:
   #! /usr/bin/env bash
-  ARCH=$(uname -m)
   IMAGE="ghcr.io/kevindurb/{{target}}"
 
   mkdir -p ./dist
@@ -21,9 +21,9 @@ build-image type target:
   -v $(pwd)/config.toml:/config.toml:ro \
   -v $(pwd)/dist:/output \
   -v /var/lib/containers/storage:/var/lib/containers/storage \
-  --platform "linux/${ARCH}" \
+  --platform "linux/{{arch}}" \
   "{{bootc_image_builder}}" \
-  --target-arch "${ARCH}" \
+  --target-arch "{{arch}}" \
   --rootfs xfs \
   --type "{{type}}" \
   "${IMAGE}"
