@@ -3,7 +3,7 @@ FROM ghcr.io/ublue-os/kinoite-main:43
 COPY --from=ghcr.io/kevindurb/dev-scripts:latest / /tmp
 
 ADD https://github.com/TibixDev/winboat/releases/download/v0.9.0/winboat-0.9.0-x86_64.AppImage /usr/bin/winboat
-RUN chmod +x /usr/local/bin/winboat
+RUN chmod +x /usr/bin/winboat
 
 RUN /tmp/install-dev-base.sh
 RUN /tmp/uninstall-firefox.sh
