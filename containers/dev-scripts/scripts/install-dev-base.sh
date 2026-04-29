@@ -35,6 +35,7 @@ dnf5 install --assumeyes \
   syncthing \
   tailscale \
   toolbox \
+  waydroid \
   wget \
   wireguard-tools \
   wl-clipboard \
