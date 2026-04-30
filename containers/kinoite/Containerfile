@@ -8,4 +8,6 @@ RUN chmod +x /usr/bin/winboat
 RUN /tmp/install-dev-base.sh
 RUN /tmp/uninstall-firefox.sh
 
+COPY overlay/ /
+
 RUN bootc container lint

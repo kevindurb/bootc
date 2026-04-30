@@ -10,6 +10,7 @@ dnf5 install --assumeyes dnf5-plugins
 dnf5 install --assumeyes \
   --exclude plasma-discover-snap \
   @development-tools \
+  cage \
   curl \
   diff \
   distrobox \
