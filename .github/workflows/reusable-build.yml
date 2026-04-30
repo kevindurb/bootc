@@ -40,18 +40,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout
 
       - name: Maximize build space
         continue-on-error: true
-        uses: ublue-os/remove-unwanted-software@v8
+        uses: ublue-os/remove-unwanted-software
         if: inputs.skip-maximize-build-space != true
 
       - name: Install Podman and Buildah
         run: sudo apt update && sudo apt install -y buildah podman
 
       - name: Image Metadata
-        uses: docker/metadata-action@v6
+        uses: docker/metadata-action
         id: meta
         with:
           images: |
@@ -67,7 +67,7 @@ jobs:
             type=sha
 
       - name: Login to GitHub Container Registry
-        uses: redhat-actions/podman-login@v1.7
+        uses: redhat-actions/podman-login
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -75,7 +75,7 @@ jobs:
 
       - name: Build Image
         id: build
-        uses: redhat-actions/buildah-build@v2.13
+        uses: redhat-actions/buildah-build
         with:
           oci: false
           context: ./containers/${{inputs.image}}
@@ -86,12 +86,12 @@ jobs:
           platforms: ${{ inputs.arch }}
 
       - name: Push Image to GHCR
-        uses: redhat-actions/push-to-registry@v2.8
+        uses: redhat-actions/push-to-registry
         id: push
         with:
           tags: ${{ steps.meta.outputs.tags }}
 
-      - uses: sigstore/cosign-installer@v3.5.0
+      - uses: sigstore/cosign-installer
 
       - name: Sign container image
         run: |
