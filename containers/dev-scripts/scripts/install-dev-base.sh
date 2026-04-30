@@ -36,6 +36,7 @@ dnf5 install --assumeyes \
   syncthing \
   tailscale \
   toolbox \
+  util-linux-user \
   wget \
   wireguard-tools \
   wl-clipboard \
