@@ -10,7 +10,6 @@ dnf5 install --assumeyes dnf5-plugins
 dnf5 install --assumeyes \
   --exclude plasma-discover-snap \
   @development-tools \
-  cage \
   curl \
   diff \
   distrobox \
@@ -37,7 +36,6 @@ dnf5 install --assumeyes \
   syncthing \
   tailscale \
   toolbox \
-  waydroid \
   wget \
   wireguard-tools \
   wl-clipboard \
