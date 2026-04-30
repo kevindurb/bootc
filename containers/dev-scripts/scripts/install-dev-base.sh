@@ -33,6 +33,7 @@ dnf5 install --assumeyes \
   python3-pip \
   rsync \
   snapd \
+  snapd-selinux \
   syncthing \
   tailscale \
   toolbox \
