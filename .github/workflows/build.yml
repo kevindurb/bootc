@@ -43,6 +43,14 @@ jobs:
       skip-maximize-build-space: true
       image: macbook
 
+  family-macbook:
+    needs: [kinoite]
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      skip-maximize-build-space: true
+      image: family-macbook
+
   steamdeck:
     needs: [dev-scripts]
     uses: ./.github/workflows/reusable-build.yml
