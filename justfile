@@ -28,3 +28,5 @@ build-image type target:
   --rootfs xfs \
   --type "{{type}}" \
   "${IMAGE}"
+
+  sudo chown -R $(whoami) ./dist
