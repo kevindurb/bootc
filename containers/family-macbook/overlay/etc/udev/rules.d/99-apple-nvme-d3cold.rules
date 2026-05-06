@@ -1,0 +1,3 @@
+# Apple S3X NVMe controller (MacBookPro14,1) crashes on resume if it enters
+# D3cold via runtime PM. Required for s2idle stability.
+ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x106b", ATTR{device}=="0x2003", ATTR{d3cold_allowed}="0"

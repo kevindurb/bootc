@@ -1,0 +1,11 @@
+[Unit]
+Description=Configure ACPI wake sources for s2idle on MacBookPro14,1
+ConditionPathExists=/proc/acpi/wakeup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/configure-wake-sources
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

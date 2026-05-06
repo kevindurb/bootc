@@ -1,0 +1,24 @@
+#!/bin/bash
+# Configure ACPI wake sources for reliable s2idle on MacBookPro14,1.
+#
+# The lid sensor (LID0) and PCIe root ports generate spurious wake events
+# during s2idle freeze, causing immediate-wake jitter. The keyboard (SPIT)
+# generates a clean IRQ that wakes the system reliably. Trade-off: opening
+# the lid alone won't wake the laptop — the user must press a key.
+
+set -u
+
+toggle_to() {
+  local device="$1" want="$2"
+  local state
+  state=$(awk -v d="$device" '$1 == d { gsub(/\*/, "", $3); print $3 }' /proc/acpi/wakeup)
+  [ -z "$state" ] && return 0
+  [ "$state" = "$want" ] && return 0
+  echo "$device" > /proc/acpi/wakeup
+}
+
+for d in LID0 XHC1 ARPT RP01 RP09 RP10; do
+  toggle_to "$d" disabled
+done
+
+toggle_to SPIT enabled
