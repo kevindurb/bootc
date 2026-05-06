@@ -1,14 +1,37 @@
 #!/bin/bash
-# Disable D3cold before suspend for Apple PCIe devices (vendor 0x106b).
-# The Apple NVMe controller hangs on resume from D3cold; other vendors
-# (including Broadcom WiFi) must be left alone or they fail to probe on resume.
+# MacBookPro14,1 PCIe suspend/resume fixes.
+#
+# Pre-suspend: disable D3cold for devices that cannot recover from it:
+#   106b:*    Apple NVMe — hangs on resume from D3cold
+#   8086:1578  Alpine Ridge TB upstream switch — enters D3cold, never returns
+#   8086:15d2  Alpine Ridge TB NHI — same
+#   8086:15d3  Alpine Ridge TB downstream ports — same
+#   8086:15d4  Alpine Ridge TB XHCI — breaks USB-attached devices on resume
+#   8086:9d14  Sunrise Point PCIe root port (WiFi) — stuck in D3hot after sleep
+#
+# Post-resume: reload brcmfmac — the BCM4350 WiFi firmware fails to reinit
+# cleanly from S3; a module reload forces a fresh firmware upload.
+
 case "$1" in
   pre)
-    for vendor_file in /sys/bus/pci/devices/*/vendor; do
-      read -r vendor < "$vendor_file" 2>/dev/null || continue
-      [ "$vendor" = "0x106b" ] || continue
-      d3cold="${vendor_file%vendor}d3cold_allowed"
-      [ -f "$d3cold" ] && echo 0 > "$d3cold"
+    for dev_dir in /sys/bus/pci/devices/*/; do
+      read -r vendor < "${dev_dir}vendor" 2>/dev/null || continue
+      read -r device < "${dev_dir}device" 2>/dev/null || continue
+      case "${vendor}:${device}" in
+        0x106b:*|\
+        0x8086:0x1578|\
+        0x8086:0x15d2|\
+        0x8086:0x15d3|\
+        0x8086:0x15d4|\
+        0x8086:0x9d14)
+          d3cold="${dev_dir}d3cold_allowed"
+          [ -f "$d3cold" ] && echo 0 > "$d3cold"
+          ;;
+      esac
     done
+    ;;
+  post)
+    modprobe -r brcmfmac 2>/dev/null
+    modprobe brcmfmac 2>/dev/null
     ;;
 esac
