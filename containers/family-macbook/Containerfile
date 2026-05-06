@@ -11,10 +11,8 @@ RUN bash /tmp/install-mbpfan.sh && rm /tmp/install-mbpfan.sh
 
 COPY overlay/ /
 RUN chmod +x /usr/local/bin/disable-apple-autoboot \
-      /usr/local/bin/apple-kargs-setup \
       /usr/lib/systemd/system-sleep/apple-pci-d3cold \
   && systemctl enable mbpfan \
-  && systemctl enable disable-apple-autoboot \
-  && systemctl enable apple-kargs-setup
+  && systemctl enable disable-apple-autoboot
 
 RUN bootc container lint
