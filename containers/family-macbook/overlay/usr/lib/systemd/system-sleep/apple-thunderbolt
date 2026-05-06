@@ -1,0 +1,54 @@
+#!/bin/bash
+# Apple Alpine Ridge thunderbolt PM workaround for MacBookPro14,1.
+#
+# On s2idle resume, the Alpine Ridge controller (8086:15d2) and its bridges
+# (8086:15d3) get stuck in D3cold and can't be transitioned back to D0,
+# leaving the TB-attached XHCI (USB Ethernet) inaccessible.
+#
+# Fix: unload the thunderbolt driver before sleep so the link shuts down
+# cleanly, then reload + rescan PCI + retrigger USB udev on resume.
+# Belt-and-suspenders: disable d3cold on the Alpine Ridge devices.
+
+log() { logger -t apple-thunderbolt -p daemon.info "$*"; }
+
+case "$1" in
+  pre)
+    log "pre: starting"
+
+    if modprobe -r thunderbolt 2>/dev/null; then
+      log "pre: thunderbolt unloaded"
+    else
+      log "pre: thunderbolt unload failed - relying on d3cold_allowed"
+    fi
+
+    for dev_dir in /sys/bus/pci/devices/*/; do
+      read -r vendor < "${dev_dir}vendor" 2>/dev/null || continue
+      read -r device < "${dev_dir}device" 2>/dev/null || continue
+      case "${vendor}:${device}" in
+        0x8086:0x1578|0x8086:0x15d3|0x8086:0x15d2|0x8086:0x15d4)
+          d3cold="${dev_dir}d3cold_allowed"
+          if [ -f "$d3cold" ]; then
+            echo 0 > "$d3cold"
+            log "pre: d3cold disabled for ${dev_dir##*/} (${vendor}:${device})"
+          fi
+          ;;
+      esac
+    done
+
+    log "pre: done"
+    ;;
+  post)
+    log "post: starting"
+
+    if modprobe thunderbolt 2>/dev/null; then
+      log "post: thunderbolt loaded"
+    fi
+
+    sleep 2
+    echo 1 > /sys/bus/pci/rescan
+    sleep 1
+    udevadm trigger --subsystem-match=usb --action=add
+
+    log "post: done"
+    ;;
+esac

@@ -12,6 +12,7 @@ RUN bash /tmp/install-mbpfan.sh && rm /tmp/install-mbpfan.sh
 COPY overlay/ /
 RUN chmod +x /usr/local/bin/disable-apple-autoboot \
       /usr/local/bin/configure-wake-sources \
+      /usr/lib/systemd/system-sleep/apple-thunderbolt \
   && systemctl enable mbpfan \
   && systemctl enable disable-apple-autoboot \
   && systemctl enable configure-wake-sources
