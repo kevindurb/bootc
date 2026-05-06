@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+
+# Tell ACPI firmware this is not Darwin/macOS. Apple's ACPI tables keep
+# Thunderbolt controllers fully powered when _OSI("Darwin") is answered YES
+# (kernel default since 3.18), drawing ~2W idle even with no TB devices.
+# Answering NO switches to standard ACPI CM battery reporting and lets
+# the TB controller power-gate properly.
+grubby --update-kernel=ALL --args="acpi_osi=!Darwin"
+
+touch /var/lib/apple-kargs-setup.stamp

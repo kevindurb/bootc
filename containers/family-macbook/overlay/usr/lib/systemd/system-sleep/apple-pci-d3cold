@@ -1,0 +1,9 @@
+#!/bin/bash
+# Disable D3cold for all PCIe devices before suspend.
+# Apple's Thunderbolt controllers (and NVMe) fail to resume from D3cold,
+# causing hangs or 60-second resume delays on MacBookPro14,1.
+case "$1" in
+  pre)
+    find /sys/bus/pci/devices/*/d3cold_allowed -exec sh -c 'echo 0 > "$1"' _ {} \; 2>/dev/null || true
+    ;;
+esac
