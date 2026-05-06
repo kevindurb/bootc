@@ -39,8 +39,7 @@ dnf5 install --assumeyes \
   util-linux-user \
   wget \
   wireguard-tools \
-  wl-clipboard \
-  zsh
+  wl-clipboard
 
 dnf5 clean all
 
