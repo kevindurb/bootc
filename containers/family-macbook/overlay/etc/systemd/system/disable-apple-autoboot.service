@@ -1,0 +1,12 @@
+[Unit]
+Description=Disable Apple auto-boot on lid open
+ConditionPathExists=!/var/lib/disable-apple-autoboot.stamp
+ConditionPathExists=/sys/firmware/efi/efivars
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/disable-apple-autoboot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

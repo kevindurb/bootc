@@ -3,5 +3,15 @@ FROM ghcr.io/kevindurb/kinoite:latest
 COPY scripts/install-audio-driver.sh /tmp/install-audio-driver.sh
 RUN bash /tmp/install-audio-driver.sh && rm /tmp/install-audio-driver.sh
 
+COPY scripts/install-camera-driver.sh /tmp/install-camera-driver.sh
+RUN bash /tmp/install-camera-driver.sh && rm /tmp/install-camera-driver.sh
+
+COPY scripts/install-mbpfan.sh /tmp/install-mbpfan.sh
+RUN bash /tmp/install-mbpfan.sh && rm /tmp/install-mbpfan.sh
+
 COPY overlay/ /
+RUN chmod +x /usr/local/bin/disable-apple-autoboot \
+  && systemctl enable mbpfan \
+  && systemctl enable disable-apple-autoboot
+
 RUN bootc container lint

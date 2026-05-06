@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+
+# Remove dump-type0 variables that can fill EFI variable storage and cause
+# the write below to fail with "No space left on device".
+find /sys/firmware/efi/efivars/ -name 'dump-type0*' -print0 2>/dev/null \
+  | xargs -0 -r sh -c 'chattr -i "$1" && rm "$1"' _ || true
+
+printf '\x07\x00\x00\x00\x00' \
+  > /sys/firmware/efi/efivars/AutoBoot-7c436110-ab2a-4bbb-a880-fe41995c9f82
+
+touch /var/lib/disable-apple-autoboot.stamp
