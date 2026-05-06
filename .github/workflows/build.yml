@@ -20,7 +20,50 @@ permissions:
   id-token: write
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      dev-scripts: ${{ steps.filter.outputs.dev-scripts }}
+      kinoite: ${{ steps.filter.outputs.kinoite }}
+      macbook: ${{ steps.filter.outputs.macbook }}
+      family-macbook: ${{ steps.filter.outputs.family-macbook }}
+      steamdeck: ${{ steps.filter.outputs.steamdeck }}
+      tablet: ${{ steps.filter.outputs.tablet }}
+      workstation: ${{ steps.filter.outputs.workstation }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v4.0.1
+        id: filter
+        with:
+          filters: |
+            dev-scripts:
+              - 'containers/dev-scripts/**'
+            kinoite:
+              - 'containers/dev-scripts/**'
+              - 'containers/kinoite/**'
+            macbook:
+              - 'containers/dev-scripts/**'
+              - 'containers/kinoite/**'
+              - 'containers/macbook/**'
+            family-macbook:
+              - 'containers/dev-scripts/**'
+              - 'containers/kinoite/**'
+              - 'containers/family-macbook/**'
+            steamdeck:
+              - 'containers/dev-scripts/**'
+              - 'containers/steamdeck/**'
+            tablet:
+              - 'containers/dev-scripts/**'
+              - 'containers/kinoite/**'
+              - 'containers/tablet/**'
+            workstation:
+              - 'containers/dev-scripts/**'
+              - 'containers/kinoite/**'
+              - 'containers/workstation/**'
+
   dev-scripts:
+    needs: [detect-changes]
+    if: needs.detect-changes.outputs.dev-scripts == 'true' || github.event_name != 'push'
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -28,7 +71,8 @@ jobs:
       image: dev-scripts
 
   kinoite:
-    needs: [dev-scripts]
+    needs: [detect-changes, dev-scripts]
+    if: needs.detect-changes.outputs.kinoite == 'true' || github.event_name != 'push'
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -36,7 +80,8 @@ jobs:
       image: kinoite
 
   macbook:
-    needs: [kinoite]
+    needs: [detect-changes, kinoite]
+    if: needs.detect-changes.outputs.macbook == 'true' || github.event_name != 'push'
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -44,7 +89,8 @@ jobs:
       image: macbook
 
   family-macbook:
-    needs: [kinoite]
+    needs: [detect-changes, kinoite]
+    if: needs.detect-changes.outputs.family-macbook == 'true' || github.event_name != 'push'
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -52,14 +98,16 @@ jobs:
       image: family-macbook
 
   steamdeck:
-    needs: [dev-scripts]
+    needs: [detect-changes, dev-scripts]
+    if: needs.detect-changes.outputs.steamdeck == 'true' || github.event_name != 'push'
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
       image: steamdeck
 
   tablet:
-    needs: [kinoite]
+    needs: [detect-changes, kinoite]
+    if: needs.detect-changes.outputs.tablet == 'true' || github.event_name != 'push'
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
@@ -67,7 +115,8 @@ jobs:
       image: tablet
 
   workstation:
-    needs: [kinoite]
+    needs: [detect-changes, kinoite]
+    if: needs.detect-changes.outputs.workstation == 'true' || github.event_name != 'push'
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
