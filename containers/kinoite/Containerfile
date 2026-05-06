@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/kinoite-main:43
+FROM ghcr.io/ublue-os/kinoite-main:44
 
 COPY --from=ghcr.io/kevindurb/dev-scripts:latest / /tmp
 
