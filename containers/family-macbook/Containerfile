@@ -1,10 +1,7 @@
 FROM ghcr.io/kevindurb/kinoite:latest
 
-COPY --from=ghcr.io/ublue-os/akmods:main-44 / /tmp
-RUN dnf5 install --assumeyes \
-  /tmp/rpms/kmods/kmod-wl-*.rpm \
-  && dnf5 clean all
+COPY scripts/install-audio-driver.sh /tmp/install-audio-driver.sh
+RUN bash /tmp/install-audio-driver.sh && rm /tmp/install-audio-driver.sh
 
 COPY overlay/ /
-
 RUN bootc container lint
