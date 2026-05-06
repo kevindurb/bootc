@@ -1,3 +1,0 @@
-# Apple S3X NVMe controller (MacBookPro14,1) must have d3cold disabled or the
-# system will hang on resume from suspend.
-ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x106b", ATTR{device}=="0x2003", ATTR{d3cold_allowed}="0"

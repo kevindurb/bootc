@@ -11,7 +11,6 @@ RUN bash /tmp/install-mbpfan.sh && rm /tmp/install-mbpfan.sh
 
 COPY overlay/ /
 RUN chmod +x /usr/local/bin/disable-apple-autoboot \
-      /usr/lib/systemd/system-sleep/apple-pci-d3cold \
   && systemctl enable mbpfan \
   && systemctl enable disable-apple-autoboot
 
