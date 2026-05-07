@@ -28,6 +28,9 @@ on:
         type: boolean
         default: false
 
+env:
+  REGISTRY_AUTH_FILE: /run/user/1001/containers/auth.json
+
 jobs:
   build-images:
     name: Build and push image
@@ -67,7 +70,11 @@ jobs:
             type=sha
 
       - name: Login to GitHub Container Registry
-        run: podman login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          podman login ghcr.io
+          -u ${{ github.actor }}
+          -p ${{ secrets.GITHUB_TOKEN }}
+          --authfile="$REGISTRY_AUTH_FILE"
 
       - name: Build Image
         id: build
@@ -100,4 +107,3 @@ jobs:
           TAGS: ${{ steps.meta.outputs.tags }}
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
           DIGEST: ${{ steps.push.outputs.digest }}
-          REGISTRY_AUTH_FILE: /run/user/1001/containers/auth.json
