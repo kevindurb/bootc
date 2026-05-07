@@ -25,7 +25,6 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skip-maximize-build-space: true
       image: dev-scripts
 
   kinoite:
@@ -33,7 +32,6 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skip-maximize-build-space: true
       image: kinoite
 
   macbook:
@@ -41,7 +39,6 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skip-maximize-build-space: true
       image: macbook
 
   family-macbook:
@@ -49,7 +46,6 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skip-maximize-build-space: true
       image: family-macbook
 
   steamdeck:
@@ -57,6 +53,7 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
+      maximize-build-space: true
       image: steamdeck
 
   tablet:
@@ -64,7 +61,6 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skip-maximize-build-space: true
       image: tablet
 
   workstation:
@@ -72,5 +68,4 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
-      skip-maximize-build-space: true
       image: workstation
