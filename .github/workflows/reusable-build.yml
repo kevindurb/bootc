@@ -100,3 +100,4 @@ jobs:
           TAGS: ${{ steps.meta.outputs.tags }}
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
           DIGEST: ${{ steps.push.outputs.digest }}
+          REGISTRY_AUTH_FILE: /run/user/1001/containers/auth.json
