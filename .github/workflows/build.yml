@@ -42,7 +42,7 @@ jobs:
       image: kinoite
 
   macbook:
-    needs: [cosmic]
+    needs: [kinoite]
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
     with:
