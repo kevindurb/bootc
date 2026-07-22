@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/cosmic-atomic-main:44
+FROM quay.io/fedora-ostree-desktops/cosmic-atomic:44
 
 COPY --from=ghcr.io/kevindurb/dev-scripts:latest / /tmp
 
