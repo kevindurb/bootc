@@ -1,4 +1,4 @@
-FROM ghcr.io/kevindurb/cosmic:latest
+FROM ghcr.io/kevindurb/kinoite:latest
 
 COPY --from=ghcr.io/ublue-os/akmods:main-44 / /tmp
 RUN dnf5 install --assumeyes \
