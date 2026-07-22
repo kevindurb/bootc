@@ -27,6 +27,13 @@ jobs:
     with:
       image: dev-scripts
 
+  cosmic:
+    needs: [dev-scripts]
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: cosmic
+
   kinoite:
     needs: [dev-scripts]
     uses: ./.github/workflows/reusable-build.yml
