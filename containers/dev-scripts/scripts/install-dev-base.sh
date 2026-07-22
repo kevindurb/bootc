@@ -7,7 +7,7 @@ dnf5 install --assumeyes \
 
 dnf5 install --assumeyes dnf5-plugins
 
-dnf5 install --assumeyes \
+dnf5 install --assumeyes --allowerasing \
   --exclude plasma-discover-snap \
   @development-tools \
   curl \
