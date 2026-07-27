@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Waydroid
-Comment=Android OS in a container
-Exec=/usr/bin/cage waydroid show-full-ui
-Type=Application
