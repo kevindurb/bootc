@@ -47,8 +47,3 @@ systemctl --global enable syncthing.service
 systemctl enable tailscaled.service
 systemctl enable snapd.service
 /usr/bin/ln -sf /var/lib/snapd/snap /
-
-# Setup Bitwarden Biometrics
-sudo wget -O \
-  /usr/share/polkit-1/actions/com.bitwarden.Bitwarden.policy \
-  https://raw.githubusercontent.com/bitwarden/clients/main/apps/desktop/resources/com.bitwarden.desktop.policy
