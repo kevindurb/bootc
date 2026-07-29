@@ -7,6 +7,7 @@ RUN /tmp/uninstall-firefox.sh
 
 RUN dnf install --assumeyes \
   waydroid \
+  plasma-discover-rpm-ostree \
   && dnf clean all
 
 COPY overlay/ /
