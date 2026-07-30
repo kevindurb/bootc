@@ -16,6 +16,7 @@ dnf5 install --assumeyes \
   ffmpeg \
   find \
   findmnt \
+  fish \
   git \
   gnupg2 \
   gpg \
