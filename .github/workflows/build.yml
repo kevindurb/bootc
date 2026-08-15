@@ -55,6 +55,14 @@ jobs:
       maximize-build-space: true
       image: steamdeck
 
+  htpc:
+    needs: [dev-scripts]
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      maximize-build-space: true
+      image: htpc
+
   tablet:
     needs: [kinoite]
     uses: ./.github/workflows/reusable-build.yml
