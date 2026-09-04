@@ -1,14 +1,22 @@
 #!/bin/bash
 set -euo pipefail
 
-KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
-
 dnf5 install --assumeyes \
-  "kernel-devel-${KERNEL_VER}" \
   gcc \
   make \
   patch \
   git
+
+# Fedora prunes old kernel-devel builds from the repos faster than the base
+# image's pinned kernel gets archived, so pin to the base kernel and fall
+# back to upgrading kernel+kernel-devel together (in sync with each other,
+# not with the base image) when that exact build is gone.
+KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
+if ! dnf5 install --assumeyes "kernel-devel-${KERNEL_VER}"; then
+  dnf5 install --assumeyes --allowerasing \
+    kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-devel
+  KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
+fi
 
 git clone https://github.com/davidjo/snd_hda_macbookpro /tmp/mac-audio
 

@@ -1,16 +1,22 @@
 #!/bin/bash
 set -euo pipefail
 
-KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
-
 dnf5 install --assumeyes \
-  "kernel-devel-${KERNEL_VER}" \
   gcc \
   make \
   git \
   curl \
   xz \
   cpio
+
+# See install-audio-driver.sh for why this falls back to upgrading
+# kernel+kernel-devel together instead of pinning to the base image's kernel.
+KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
+if ! dnf5 install --assumeyes "kernel-devel-${KERNEL_VER}"; then
+  dnf5 install --assumeyes --allowerasing \
+    kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-devel
+  KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
+fi
 
 # Build and install the facetimehd kernel module
 git clone https://github.com/patjak/facetimehd /tmp/facetimehd
