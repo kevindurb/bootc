@@ -5,6 +5,8 @@ dnf5 install --assumeyes \
     "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
     "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
+dnf5 config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+
 dnf5 install --assumeyes dnf5-plugins
 
 dnf5 install --assumeyes \
