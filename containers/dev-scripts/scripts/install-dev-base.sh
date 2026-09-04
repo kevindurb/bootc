@@ -11,6 +11,7 @@ dnf5 install --assumeyes \
   --exclude plasma-discover-snap \
   @development-tools \
   curl \
+  davfs2 \
   diff \
   distrobox \
   ffmpeg \
