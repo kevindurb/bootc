@@ -9,13 +9,18 @@ dnf5 install --assumeyes \
   xz \
   cpio
 
-# See install-audio-driver.sh for why this falls back to upgrading
-# kernel+kernel-devel together instead of pinning to the base image's kernel.
+# See install-audio-driver.sh for why this falls back to pinning the whole
+# kernel package set to the latest available kernel-devel version.
 KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
 if ! dnf5 install --assumeyes "kernel-devel-${KERNEL_VER}"; then
+  KERNEL_VER=$(dnf5 repoquery --available --latest-limit 1 --qf '%{version}-%{release}.%{arch}' kernel-devel)
   dnf5 install --assumeyes --allowerasing \
-    kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-devel
-  KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
+    "kernel-${KERNEL_VER}" \
+    "kernel-core-${KERNEL_VER}" \
+    "kernel-modules-${KERNEL_VER}" \
+    "kernel-modules-core-${KERNEL_VER}" \
+    "kernel-modules-extra-${KERNEL_VER}" \
+    "kernel-devel-${KERNEL_VER}"
 fi
 
 # Build and install the facetimehd kernel module

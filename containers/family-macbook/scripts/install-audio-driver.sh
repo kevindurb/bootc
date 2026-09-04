@@ -9,13 +9,19 @@ dnf5 install --assumeyes \
 
 # Fedora prunes old kernel-devel builds from the repos faster than the base
 # image's pinned kernel gets archived, so pin to the base kernel and fall
-# back to upgrading kernel+kernel-devel together (in sync with each other,
-# not with the base image) when that exact build is gone.
+# back to moving the whole kernel package set to the latest available
+# kernel-devel version (an `install` on already-installed kernel packages
+# is a no-op, so they must be pinned to the same NVR to stay in sync).
 KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
 if ! dnf5 install --assumeyes "kernel-devel-${KERNEL_VER}"; then
+  KERNEL_VER=$(dnf5 repoquery --available --latest-limit 1 --qf '%{version}-%{release}.%{arch}' kernel-devel)
   dnf5 install --assumeyes --allowerasing \
-    kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-devel
-  KERNEL_VER=$(rpm -q kernel --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
+    "kernel-${KERNEL_VER}" \
+    "kernel-core-${KERNEL_VER}" \
+    "kernel-modules-${KERNEL_VER}" \
+    "kernel-modules-core-${KERNEL_VER}" \
+    "kernel-modules-extra-${KERNEL_VER}" \
+    "kernel-devel-${KERNEL_VER}"
 fi
 
 git clone https://github.com/davidjo/snd_hda_macbookpro /tmp/mac-audio
