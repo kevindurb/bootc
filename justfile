@@ -1,7 +1,7 @@
 set dotenv-load
 
-arch := `uname -m`
-bootc_image_builder := "quay.io/centos-bootc/bootc-image-builder:latest"
+bootc_image_builder := "ghcr.io/osbuild/image-builder-cli:latest"
+dist := "./dist"
 
 default:
     @just --list
@@ -9,24 +9,16 @@ default:
 pre-commit-install:
     pre-commit install
 
-build-image type target:
-  #! /usr/bin/env bash
-  IMAGE="ghcr.io/kevindurb/{{target}}"
-
-  mkdir -p ./dist
-  sudo podman pull "${IMAGE}" "{{bootc_image_builder}}"
-
+build-image target:
+  mkdir -p {{dist}}
+  sudo podman pull "{{target}}" "{{bootc_image_builder}}"
   sudo podman run --rm -it --privileged \
-  --security-opt label=type:unconfined_t \
-  -v $(pwd)/config.toml:/config.toml:ro \
-  -v $(pwd)/dist:/output \
-  -v /var/lib/containers/storage:/var/lib/containers/storage \
-  --platform "linux/{{arch}}" \
-  "{{bootc_image_builder}}" \
-  --use-librepo=True \
-  --target-arch "{{arch}}" \
-  --rootfs xfs \
-  --type "{{type}}" \
-  "${IMAGE}"
-
-  sudo chown -R $(whoami) ./dist
+    -v ./config.toml:/config.toml:ro \
+    -v {{dist}}:/output \
+    -v /var/lib/containers/storage:/var/lib/containers/storage \
+    "{{bootc_image_builder}}" \
+    build bootc-generic-iso \
+    --bootc-default-fs xfs \
+    --blueprint /config.toml \
+    --arch x86_64 \
+    --bootc-ref "{{target}}"
