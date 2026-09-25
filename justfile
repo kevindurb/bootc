@@ -2,6 +2,7 @@ set dotenv-load
 
 bootc_image_builder := "ghcr.io/osbuild/image-builder-cli:latest"
 dist := "./dist"
+iso_image := "localhost/iso-build"
 
 default:
     @just --list
@@ -11,8 +12,12 @@ pre-commit-install:
 
 build-image target:
   mkdir -p {{dist}}
-  sudo podman pull "{{target}}" "{{bootc_image_builder}}"
-  sudo podman run --rm -it --privileged \
+  podman pull "{{bootc_image_builder}}"
+  podman build --pull=always --platform linux/amd64 \
+    --build-arg BASE="{{target}}" \
+    -t "{{iso_image}}" \
+    -f containers/iso/Containerfile containers/iso
+  podman run --rm -it --privileged \
     -v ./config.toml:/config.toml:ro \
     -v {{dist}}:/output \
     -v /var/lib/containers/storage:/var/lib/containers/storage \
@@ -21,4 +26,4 @@ build-image target:
     --bootc-default-fs xfs \
     --blueprint /config.toml \
     --arch x86_64 \
-    --bootc-ref "{{target}}"
+    --bootc-ref "{{iso_image}}"
