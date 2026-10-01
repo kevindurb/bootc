@@ -12,8 +12,4 @@ RUN dnf install --assumeyes \
 
 COPY overlay/ /
 
-RUN mkdir -p /boot/efi/EFI \
-  && cp -a /usr/lib/efi/shim/*/EFI/. /boot/efi/EFI/ \
-  && cp -a /usr/lib/efi/grub2/*/EFI/. /boot/efi/EFI/
-
 RUN bootc container lint

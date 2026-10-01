@@ -1,0 +1,10 @@
+ARG BASE
+FROM ${BASE}
+
+RUN dnf install --assumeyes grub2-efi-x64-cdboot xorriso \
+  && dnf clean all
+
+# osbuild's grub2.iso stage reads the bootloader from /boot/efi, but image-mode Fedora ships it under /usr/lib/efi.
+RUN mkdir -p /boot/efi/EFI \
+  && cp -a /usr/lib/efi/shim/*/EFI/. /boot/efi/EFI/ \
+  && cp -a /usr/lib/efi/grub2/*/EFI/. /boot/efi/EFI/
