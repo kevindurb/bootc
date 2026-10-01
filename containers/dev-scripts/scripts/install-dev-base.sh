@@ -21,6 +21,7 @@ dnf5 install --assumeyes \
   find \
   findmnt \
   fish \
+  gcc-c++ \
   git \
   gnupg2 \
   gpg \
