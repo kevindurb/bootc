@@ -4,4 +4,7 @@ COPY --from=ghcr.io/kevindurb/dev-scripts:latest / /tmp
 
 RUN /tmp/install-dev-base.sh
 
+# Steam's 32-bit vrclient.so needs a 32-bit libEGL, or SteamVR fails with "vrclient Shared Lib Not Found (102)"
+RUN dnf5 install --assumeyes mesa-libEGL.i686 && dnf5 clean all
+
 RUN bootc container lint
