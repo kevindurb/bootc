@@ -7,4 +7,20 @@ RUN /tmp/install-dev-base.sh
 # Steam's 32-bit vrclient.so needs a 32-bit libEGL, or SteamVR fails with "vrclient Shared Lib Not Found (102)"
 RUN dnf5 install --assumeyes mesa-libEGL.i686 && dnf5 clean all
 
+# Samsung Gear VR controller driver (https://github.com/kevindurb/gearvr-evdev).
+# The RPM ships the binary, the systemd user unit, and the udev rules. Global
+# enablement starts it for the interactive user at graphical login, which is
+# the intended single-user gaming image case. Bump the version and checksum
+# together; the checksum is from the release's SHA256SUMS.
+ARG GEARVR_EVDEV_VERSION=0.1.0
+ARG GEARVR_EVDEV_RPM_SHA256=f0a39c6b18387c0dc7960efd884f2eb3c3c7cacc5ad2af9f484bae81e1788c46
+RUN curl --proto '=https' --tlsv1.2 -fsSL \
+      -o /tmp/gearvr-evdev.rpm \
+      "https://github.com/kevindurb/gearvr-evdev/releases/download/v${GEARVR_EVDEV_VERSION}/gearvr-evdev-${GEARVR_EVDEV_VERSION}-1.x86_64.rpm" \
+ && echo "${GEARVR_EVDEV_RPM_SHA256}  /tmp/gearvr-evdev.rpm" | sha256sum -c - \
+ && dnf5 install --assumeyes /tmp/gearvr-evdev.rpm \
+ && systemctl --global enable gearvr.service \
+ && rm -f /tmp/gearvr-evdev.rpm \
+ && dnf5 clean all
+
 RUN bootc container lint
