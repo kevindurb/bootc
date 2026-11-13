@@ -1,7 +1,7 @@
 ARG BASE
 FROM ${BASE}
 
-RUN dnf install --assumeyes grub2-efi-x64-cdboot xorriso \
+RUN dnf install --assumeyes grub2-efi-x64-cdboot isomd5sum xorriso \
   && dnf clean all
 
 # osbuild's grub2.iso stage reads the bootloader from /boot/efi, but image-mode Fedora ships it under /usr/lib/efi.
