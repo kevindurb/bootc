@@ -1,7 +1,78 @@
-FROM ghcr.io/ublue-os/bazzite-nvidia:stable
+# The Quadro P620 is Pascal (GP107), which is only supported by the closed NVIDIA
+# driver. 580 is the last branch that supports Pascal, so use Universal Blue's
+# nvidia-lts akmod cache: it ships the closed 580 driver, a kmod prebuilt for
+# the exact kernel below, and modules signed with ublue's key (needed if Secure
+# Boot is ever enabled).
+FROM ghcr.io/ublue-os/akmods-nvidia-lts:main-44 AS nvidia
 
-COPY --from=ghcr.io/kevindurb/dev-scripts:latest / /tmp
+FROM ghcr.io/kevindurb/kinoite:latest
 
-RUN /tmp/install-dev-base.sh
+# The prebuilt kmod is only loadable by the kernel it was built against, so
+# install the kernel shipped in the akmods image. This mirrors the kernel
+# handling in ublue-os/main's own build. Bind mounts (instead of COPY) keep the
+# ~800 MB of RPMs out of the final image.
+RUN --mount=type=bind,from=nvidia,src=/kernel-rpms,dst=/tmp/kernel-rpms \
+  set -eux; \
+  dnf5 versionlock clear || true; \
+  rpmfile="$(find /tmp/kernel-rpms -name 'kernel-core-*.rpm' -print -quit)"; \
+  rpmfile="${rpmfile##*/}"; \
+  KERNEL_VERSION="${rpmfile#kernel-core-}"; \
+  KERNEL_VERSION="${KERNEL_VERSION%.rpm}"; \
+  install_d=/usr/lib/kernel/install.d; \
+  mv "${install_d}/05-rpmostree.install" "${install_d}/05-rpmostree.install.bak"; \
+  mv "${install_d}/50-dracut.install" "${install_d}/50-dracut.install.bak"; \
+  printf '%s\n' '#!/bin/sh' 'exit 0' > "${install_d}/05-rpmostree.install"; \
+  printf '%s\n' '#!/bin/sh' 'exit 0' > "${install_d}/50-dracut.install"; \
+  chmod +x "${install_d}/05-rpmostree.install" "${install_d}/50-dracut.install"; \
+  rpm --erase --nodeps kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra; \
+  dnf5 install --assumeyes \
+    "/tmp/kernel-rpms/kernel-${KERNEL_VERSION}.rpm" \
+    "/tmp/kernel-rpms/kernel-core-${KERNEL_VERSION}.rpm" \
+    "/tmp/kernel-rpms/kernel-modules-${KERNEL_VERSION}.rpm" \
+    "/tmp/kernel-rpms/kernel-modules-core-${KERNEL_VERSION}.rpm" \
+    "/tmp/kernel-rpms/kernel-modules-extra-${KERNEL_VERSION}.rpm"; \
+  mv -f "${install_d}/05-rpmostree.install.bak" "${install_d}/05-rpmostree.install"; \
+  mv -f "${install_d}/50-dracut.install.bak" "${install_d}/50-dracut.install"; \
+  dnf5 versionlock add kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra
 
-RUN bootc container lint
+# Installs the driver, the matching kmod, the 32-bit graphics libraries,
+# libva-nvidia-driver (VA-API for mpv/Bigscreen web apps) and the SELinux
+# policy. IMAGE_NAME is set to htpc (not kinoite) to skip supergfxctl, which is
+# only useful on hybrid-graphics laptops.
+RUN --mount=type=bind,from=nvidia,src=/rpms,dst=/tmp/akmods-rpms \
+  IMAGE_NAME=htpc AKMODNV_PATH=/tmp/akmods-rpms \
+  /tmp/akmods-rpms/ublue-os/nvidia-install.sh && \
+  KERNEL_VERSION="$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-core)" && \
+  DRACUT_NO_XATTR=1 dracut --no-hostonly --kver "${KERNEL_VERSION}" --reproducible --add ostree \
+    -f "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" && \
+  chmod 0600 "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" && \
+  find /usr/lib/modules -mindepth 1 -maxdepth 1 -type d ! -name "${KERNEL_VERSION}" -exec rm -rf {} +
+
+# nvidia-install.sh disables rpmfusion and the cisco repo to keep them from
+# shadowing negativo17's driver. Restore the kinoite base image's repo state.
+RUN dnf5 config-manager setopt \
+  rpmfusion-free.enabled=1 \
+  rpmfusion-free-updates.enabled=1 \
+  rpmfusion-free-updates-testing.enabled=0 \
+  rpmfusion-nonfree.enabled=1 \
+  rpmfusion-nonfree-updates.enabled=1 \
+  rpmfusion-nonfree-updates-testing.enabled=0 \
+  fedora-cisco-openh264.enabled=1
+
+# Plasma Bigscreen: a TV/couch shell with a launcher for installed apps and
+# web apps. It is a separate Wayland session, so the full Plasma desktop stays
+# available behind it.
+RUN dnf5 install --assumeyes plasma-bigscreen \
+  && dnf5 clean all
+
+COPY overlay/ /
+
+RUN systemctl enable htpc-autologin.service \
+  && mkdir -p /boot \
+  && find /boot -mindepth 1 -delete \
+  && dnf5 clean all \
+  && rm -rf /var/cache/libdnf5 /var/lib/dnf /var/cache/ldconfig \
+  && rm -f /var/log/dnf5.log* \
+  && rm -rf /tmp/*
+
+RUN --mount=type=tmpfs,target=/run bootc container lint

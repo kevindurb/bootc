@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Single-user HTPC: log the first regular user straight into Plasma Bigscreen.
+# SDDM has no "default session" setting, so the session comes from the drop-in
+# shipped in this image and the user is filled in here at boot. If no regular
+# user exists yet (or the account was removed), drop the user entry and fall
+# back to the normal SDDM greeter.
+set -euo pipefail
+
+readonly CONF=/etc/sddm.conf.d/20-htpc-autologin.conf
+
+user="$(getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 && $7 !~ /(nologin|false)$/ { print $1; exit }')"
+
+if [[ -z "${user}" ]]; then
+  rm -f "${CONF}"
+  exit 0
+fi
+
+if [[ -f "${CONF}" ]] && grep -qx "User=${user}" "${CONF}"; then
+  exit 0
+fi
+
+install -d -m 0755 /etc/sddm.conf.d
+printf '[Autologin]\nUser=%s\n' "${user}" > "${CONF}"

@@ -1,0 +1,10 @@
+[Unit]
+Description=Configure SDDM autologin for the HTPC user
+Before=sddm.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/htpc-autologin
+
+[Install]
+WantedBy=multi-user.target

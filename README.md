@@ -30,6 +30,7 @@ task qemu:qemu-x86_64
 | Image | Base | Purpose |
 |-------|------|---------|
 | `workstation` | Kinoite | KDE desktop environment |
+| `htpc` | Kinoite | Plasma Bigscreen TV shell with NVIDIA 580 LTS (Pascal) |
 | `tablet` | Kinoite | Touch device with fingerprint/camera |
 | `steamdeck` | Bazzite | Gaming-optimized |
 | `router` | uCore | DHCP/DNS server with dnsmasq |
