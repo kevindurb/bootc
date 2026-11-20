@@ -1,7 +1,15 @@
 ARG BASE
 FROM ${BASE}
 
-RUN dnf install --assumeyes grub2-efi-x64-cdboot isomd5sum xorriso \
+# The ISO boots the image as a live root (root=live:CDLABEL=...), but the image's
+# own initramfs is generated for an ostree root and therefore has no handler for
+# `root=live:`.  Install dracut-live (which provides the dmsquash-live module) and
+# regenerate the initramfs so the ISO can actually reach the installer.
+RUN dnf install --assumeyes grub2-efi-x64-cdboot isomd5sum xorriso dracut-live \
+  && KERNEL_VERSION="$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-core)" \
+  && DRACUT_NO_XATTR=1 dracut --no-hostonly --kver "${KERNEL_VERSION}" --reproducible \
+    --add "ostree dmsquash-live" -f "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" \
+  && chmod 0600 "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" \
   && dnf clean all
 
 # osbuild's grub2.iso stage reads the bootloader from /boot/efi, but image-mode Fedora ships it under /usr/lib/efi.
