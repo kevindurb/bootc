@@ -1,0 +1,7 @@
+label: "bootc-installer"
+grub2:
+  timeout: 60
+  entries:
+    - name: "Install @NAME@ (bootc)"
+      linux: "/images/pxeboot/vmlinuz inst.stage2=hd:LABEL=bootc-installer console=tty0 inst.graphical selinux=0 rhgb quiet"
+      initrd: "/images/pxeboot/initrd.img"

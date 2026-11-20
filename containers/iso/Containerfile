@@ -2,12 +2,13 @@
 #
 # This image is the *live root* of the ISO, not the image being installed: it
 # boots Anaconda, which installs TARGET_IMG from the payload embedded in
-# containers-storage.  The previous version used the target image itself as
-# the live root, so the ISO just booted the OS and never offered an installer.
+# containers-storage.  Any bootc image can be passed as TARGET_IMG; its name is
+# also used for the installer's GRUB menu entry.
 #
 # Based on https://osbuild.org/docs/developer-guide/projects/image-builder/advanced/bootc/isos/
-ARG TARGET_IMG=ghcr.io/kevindurb/htpc:latest
-FROM quay.io/fedora/fedora-bootc:44
+ARG INSTALLER_BASE=quay.io/fedora/fedora-bootc:44
+ARG TARGET_IMG
+FROM ${INSTALLER_BASE}
 ARG TARGET_IMG
 
 RUN dnf5 install --assumeyes \
@@ -34,9 +35,15 @@ RUN dnf5 install --assumeyes \
 # under /usr/lib/efi.
 RUN mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI /boot/efi
 
-# GRUB menu; the label is also the one Anaconda uses for inst.stage2.
-RUN mkdir -p /usr/lib/image-builder/bootc
-COPY iso.yaml /usr/lib/image-builder/bootc/iso.yaml
+# GRUB menu; the label is also the one Anaconda uses for inst.stage2.  The menu
+# entry names the image this ISO installs.
+COPY iso.yaml.in /tmp/iso.yaml.in
+RUN mkdir -p /usr/lib/image-builder/bootc \
+  && name="${TARGET_IMG##*/}" \
+  && name="${name%%:*}" \
+  && sed "s|@NAME@|${name}|g" /tmp/iso.yaml.in \
+       > /usr/lib/image-builder/bootc/iso.yaml \
+  && rm -f /tmp/iso.yaml.in
 
 # Put Anaconda in bootc mode: install the payload from the embedded store, and
 # record the registry ref as the target so `bootc upgrade` pulls from there.
