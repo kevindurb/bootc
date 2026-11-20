@@ -1,3 +1,6 @@
+# The live squashfs is labeled container_ro_file_t, so Anaconda has to run with
+# SELinux off.  Note that Anaconda copies this kernel argument to the installed
+# system; enabling SELinux there needs a relabel first.
 label: "bootc-installer"
 grub2:
   timeout: 60

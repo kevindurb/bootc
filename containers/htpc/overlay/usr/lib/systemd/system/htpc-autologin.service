@@ -1,6 +1,7 @@
 [Unit]
-Description=Configure SDDM autologin for the HTPC user
-Before=sddm.service
+Description=Configure Plasma Login autologin for the HTPC user
+After=local-fs.target
+Before=display-manager.service
 
 [Service]
 Type=oneshot

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Single-user HTPC: log the first regular user straight into Plasma Bigscreen.
-# SDDM has no "default session" setting, so the session comes from the drop-in
-# shipped in this image and the user is filled in here at boot. If no regular
-# user exists yet (or the account was removed), drop the user entry and fall
-# back to the normal SDDM greeter.
+# Also repairs an account whose home directory the installer failed to create.
+#
+# The login manager on current Kinoite is Plasma Login Manager (plasmalogin),
+# not SDDM, so the config lives in /etc/plasmalogin.conf.d.
 set -euo pipefail
 
-readonly CONF=/etc/sddm.conf.d/20-htpc-autologin.conf
+readonly CONF=/etc/plasmalogin.conf.d/20-htpc-autologin.conf
 
 user="$(getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 && $7 !~ /(nologin|false)$/ { print $1; exit }')"
 
@@ -15,9 +15,22 @@ if [[ -z "${user}" ]]; then
   exit 0
 fi
 
+# Anaconda/bootc can create the account without the home directory, which
+# makes graphical sessions fail.  Create it from the skeleton if needed.
+home="$(getent passwd "${user}" | cut -d: -f6)"
+group="$(id -gn "${user}")"
+if [[ -n "${home}" && ! -d "${home}" ]]; then
+  install -d -m 0700 -o "${user}" -g "${group}" "${home}"
+  cp -a /etc/skel/. "${home}/"
+  chown -R "${user}:${group}" "${home}"
+fi
+
+# Drop the config written by older image revisions for SDDM.
+rm -f /etc/sddm.conf.d/20-htpc-autologin.conf
+
 if [[ -f "${CONF}" ]] && grep -qx "User=${user}" "${CONF}"; then
   exit 0
 fi
 
-install -d -m 0755 /etc/sddm.conf.d
-printf '[Autologin]\nUser=%s\n' "${user}" > "${CONF}"
+install -d -m 0755 "$(dirname "${CONF}")"
+printf '[Autologin]\nUser=%s\nRelogin=false\n' "${user}" > "${CONF}"
