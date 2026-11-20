@@ -13,8 +13,11 @@ pre-commit-install:
 build-image target:
   mkdir -p {{dist}}
   podman pull "{{bootc_image_builder}}"
+  # The payload is copied from local container storage into the ISO, so it must
+  # be present (and current) there.
+  podman pull "{{target}}"
   podman build --pull=always --platform linux/amd64 \
-    --build-arg BASE="{{target}}" \
+    --build-arg TARGET_IMG="{{target}}" \
     -t "{{iso_image}}" \
     -f containers/iso/Containerfile containers/iso
   podman run --rm -it --privileged \
@@ -26,4 +29,5 @@ build-image target:
     --bootc-default-fs xfs \
     --blueprint /config.toml \
     --arch x86_64 \
-    --bootc-ref "{{iso_image}}"
+    --bootc-ref "{{iso_image}}" \
+    --bootc-installer-payload-ref "{{target}}"

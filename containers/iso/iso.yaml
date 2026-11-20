@@ -1,0 +1,7 @@
+label: "HTPC-Installer"
+grub2:
+  timeout: 60
+  entries:
+    - name: "Install HTPC (bootc)"
+      linux: "/images/pxeboot/vmlinuz inst.stage2=hd:LABEL=HTPC-Installer console=tty0 inst.graphical selinux=0 rhgb quiet"
+      initrd: "/images/pxeboot/initrd.img"
