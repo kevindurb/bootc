@@ -8,13 +8,13 @@ dnf5 install --assumeyes \
 dnf5 config-manager addrepo --overwrite \
   --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
 
-# Ghostty is not packaged in Fedora yet; Terra carries it. Bazzite already
-# ships terra-release, so only bootstrap the repo when it is missing.
-if ! rpm --quiet -q terra-release; then
-  dnf5 install --assumeyes --nogpgcheck \
-    --repofrompath="terra,https://repos.fyralabs.com/terra$(rpm -E %fedora)" \
-    terra-release
-fi
+# Ghostty is not packaged in Fedora yet; Terra carries it. Bazzite ships
+# terra-release but disables the repo, so bootstrap it under its own id and
+# make sure the real repo is enabled.
+dnf5 install --assumeyes --nogpgcheck \
+  --repofrompath="terra-bootstrap,https://repos.fyralabs.com/terra$(rpm -E %fedora)" \
+  terra-release
+dnf5 config-manager enable terra
 
 dnf5 install --assumeyes dnf5-plugins
 
