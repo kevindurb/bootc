@@ -18,7 +18,7 @@ build-image target:
     echo "error: run with sudo; the builder uses /var/lib/containers/storage" >&2
     exit 1
   fi
-  target="$1"
+  target="{{target}}"
   name="${target##*/}"
   name="${name%%@*}"
   name="${name%%:*}"
