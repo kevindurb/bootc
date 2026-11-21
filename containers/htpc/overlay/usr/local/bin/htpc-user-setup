@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Prepare the single HTPC user.
+#
+# The Anaconda/bootc installer can create the account without its home
+# directory, which makes graphical sessions fail.  Repair that here.  We also
+# remove autologin drop-ins written by older image revisions: the HTPC is
+# expected to ask for the user's password at the login manager.
+set -euo pipefail
+
+user="$(getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 && $7 !~ /(nologin|false)$/ { print $1; exit }')"
+
+if [[ -z "${user}" ]]; then
+  exit 0
+fi
+
+home="$(getent passwd "${user}" | cut -d: -f6)"
+group="$(id -gn "${user}")"
+if [[ -n "${home}" && ! -d "${home}" ]]; then
+  install -d -m 0700 -o "${user}" -g "${group}" "${home}"
+  cp -a /etc/skel/. "${home}/"
+  chown -R "${user}:${group}" "${home}"
+fi
+
+rm -f /etc/sddm.conf.d/20-htpc-autologin.conf /etc/plasmalogin.conf.d/20-htpc-autologin.conf

@@ -89,7 +89,7 @@ COPY overlay/ /
 COPY webapps/applications/ /usr/share/applications/
 COPY webapps/icons/ /usr/share/icons/hicolor/512x512/apps/
 
-RUN systemctl enable htpc-autologin.service \
+RUN systemctl enable htpc-user-setup.service \
   && mkdir -p /boot \
   && find /boot -mindepth 1 -delete \
   && dnf5 clean all \

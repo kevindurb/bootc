@@ -1,11 +1,11 @@
 [Unit]
-Description=Configure Plasma Login autologin for the HTPC user
+Description=Prepare the HTPC user's home directory
 After=local-fs.target
 Before=display-manager.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/htpc-autologin
+ExecStart=/usr/local/bin/htpc-user-setup
 
 [Install]
 WantedBy=multi-user.target
