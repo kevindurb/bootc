@@ -38,6 +38,17 @@ what makes the task entry show the right name and icon instead of
 
 4. Rebuild the image and run `bootc upgrade` on the HTPCs.
 
+## TV user agents
+
+Some sites serve their 10-foot interface to TV/Cobalt user agents.  YouTube
+uses the Cobalt/PS4 agent below; passing it both in `Exec` and
+`X-KDE-Bigscreen-Webapp-UserAgent` is what makes `youtube.com/tv` stay on the
+leanback UI instead of redirecting to the desktop site:
+
+```
+--agent "Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)"
+```
+
 ## Per-box extras
 
 Web apps added through Bigscreen's settings UI are stored per-user in
