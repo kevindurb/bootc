@@ -24,7 +24,7 @@ exec /usr/lib/chrome/google-chrome \
   --no-first-run \
   --no-default-browser-check \
   --password-store=basic \
-  --app="$url" \
-  --start-fullscreen \
   --enable-spatial-navigation \
+  --kiosk \
+  "$url" \
   "$@"

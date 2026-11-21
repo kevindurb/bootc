@@ -62,7 +62,13 @@ Fedora's QtWebEngine/Chromium builds do not.  The wrapper:
   so the Tasks view resolves the matching `.desktop` name and icon;
 - enables `--enable-spatial-navigation`, so arrow keys move focus among the
   page's focusable elements.  Sites that render their content tiles as
-  non-focusable `<div>`s (Apple TV+) still need the touchpad for those rows.
+  non-focusable `<div>`s (Apple TV+) still need the touchpad for those rows;
+- runs in `--kiosk` mode, so Esc does not leave fullscreen.  Press Alt+F4 to
+  close the service and return to Bigscreen.
+
+The **Hide Scrollbar** extension is force-installed for every profile by the
+managed policy in `/etc/opt/chrome/policies/managed/htpc.json`, which keeps the
+TV UI clean without a per-profile manual install.
 
 The first time you open one of these services you need to sign in; the profile
 persists across reboots and image upgrades.  YouTube and PBS Kids deliberately
