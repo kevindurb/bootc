@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Install the system Flatpak set declared in /usr/share/htpc/flatpaks.list,
+# plus /etc/htpc/flatpaks.list for per-box additions.
+#
+# Idempotent: already-installed apps are skipped.  Failures are logged and
+# retried on the next boot.  The user's launchers are regenerated afterwards
+# so the Jellyfin TV override is present even if an unrelated app failed.
+set -uo pipefail
+
+command -v flatpak >/dev/null 2>&1 || exit 0
+
+flatpak remote-add --system --if-not-exists flathub \
+  https://flathub.org/repo/flathub.flatpakrepo || true
+
+status=0
+for list in /usr/share/htpc/flatpaks.list /etc/htpc/flatpaks.list; do
+  [[ -f "${list}" ]] || continue
+  while IFS= read -r line || [[ -n "${line}" ]]; do
+    app="${line%%#*}"
+    app="$(printf '%s' "${app}" | xargs)"
+    [[ -z "${app}" ]] && continue
+    if flatpak info --system "${app}" >/dev/null 2>&1; then
+      continue
+    fi
+    echo "Installing ${app}"
+    if ! flatpak install --system --noninteractive --assumeyes flathub "${app}"; then
+      echo "Failed to install ${app}" >&2
+      status=1
+    fi
+  done < "${list}"
+done
+
+systemctl start htpc-user-setup.service || true
+exit "${status}"

@@ -1,0 +1,13 @@
+[Unit]
+Description=Install the HTPC Flatpak set
+Wants=network-online.target flatpak-system-helper.service
+After=network-online.target flatpak-system-helper.service
+
+[Service]
+Type=oneshot
+TimeoutStartSec=1h
+ExecStart=/usr/local/bin/htpc-flatpaks
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

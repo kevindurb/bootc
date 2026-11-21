@@ -1,0 +1,14 @@
+# System Flatpak apps for the HTPC image.
+#
+# These are installed system-wide from Flathub on first boot by
+# htpc-flatpaks.service.  Add per-box extras in /etc/htpc/flatpaks.list.
+# One application ID per line; comments start with #.
+
+org.mozilla.firefox
+rocks.shy.VacuumTube
+org.jellyfin.JellyfinDesktop
+com.moonlight_stream.Moonlight
+com.valvesoftware.Steam
+com.spotify.Client
+net.supertuxkart.SuperTuxKart
+org.kde.kweather

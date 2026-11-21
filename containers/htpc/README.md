@@ -7,19 +7,28 @@ the user's password at boot and after wake (the latter is the lock screen).
 `htpc-user-setup` repairs a missing home directory and clears legacy autologin
 drop-ins.
 
-## Jellyfin Desktop
+## Flatpak apps
 
-Jellyfin Desktop is a Flatpak, so it cannot be baked into the CI image:
-bubblewrap cannot create namespaces inside the build container.  Instead:
+The set is declared in `/usr/share/htpc/flatpaks.list` and installed
+system-wide from Flathub on first boot by `htpc-flatpaks.service`:
 
-- `htpc-jellyfin-flatpak.service` installs it system-wide from Flathub on first
-  boot, then skips itself once `/var/lib/flatpak/app/org.jellyfin.JellyfinDesktop`
-  exists.  This needs network access on the first boot.
-- `htpc-user-setup` shadows the Flatpak launcher with
-  `--fullscreen --tv`, so the Bigscreen launcher opens the TV interface.
-- `/var/lib/flatpak/overrides/org.jellyfin.JellyfinDesktop` grants
-  `devices=all` and `/run/udev:ro` so game controllers are visible inside the
-  Flatpak sandbox.  Arrow keys from the K400 work without extra permissions.
+- Firefox
+- VacuumTube
+- Jellyfin Desktop
+- Moonlight
+- Steam
+- Spotify
+- SuperTuxKart
+- KDE Weather
+
+Flatpaks cannot be baked into the CI image because bubblewrap cannot create
+namespaces inside the build container.  The service is idempotent, checks the
+list on every boot, and retries failures; per-box extras go in
+`/etc/htpc/flatpaks.list`.  Firefox here replaces the RPM that Kinoite removes.
+
+`htpc-user-setup` shadows the Jellyfin Desktop launcher with
+`--fullscreen --tv`, and the system Flatpak override grants `devices=all` and
+`/run/udev:ro` so game controllers are visible inside the sandbox.
 
 ## Chrome web apps
 
