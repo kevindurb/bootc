@@ -26,4 +26,5 @@ exec /usr/lib/chrome/google-chrome \
   --password-store=basic \
   --app="$url" \
   --start-fullscreen \
+  --enable-spatial-navigation \
   "$@"

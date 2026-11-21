@@ -59,7 +59,10 @@ Fedora's QtWebEngine/Chromium builds do not.  The wrapper:
 - keeps a separate Chrome profile per service in `~/.config/htpc-chrome/<id>`,
   so logins persist and each service gets its own window;
 - forces X11 (`--ozone-platform=x11`) and sets `--class=bigscreen-webapp-<id>`,
-  so the Tasks view resolves the matching `.desktop` name and icon.
+  so the Tasks view resolves the matching `.desktop` name and icon;
+- enables `--enable-spatial-navigation`, so arrow keys move focus among the
+  page's focusable elements.  Sites that render their content tiles as
+  non-focusable `<div>`s (Apple TV+) still need the touchpad for those rows.
 
 The first time you open one of these services you need to sign in; the profile
 persists across reboots and image upgrades.  YouTube and PBS Kids deliberately
