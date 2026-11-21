@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Apple TV+
+Exec=/usr/local/bin/htpc-chrome-webapp apple_tv https://tv.apple.com
+Icon=bigscreen-webapp-apple_tv
+URL=https://tv.apple.com
+X-KDE-Bigscreen-Webapp-Id=apple_tv
+X-KDE-Bigscreen-Webapp-UserAgent=

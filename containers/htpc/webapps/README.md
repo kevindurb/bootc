@@ -49,6 +49,22 @@ leanback UI instead of redirecting to the desktop site:
 --agent "Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)"
 ```
 
+## DRM services
+
+Netflix, Disney Plus, Paramount Plus and Apple TV+ are launched through
+`/usr/local/bin/htpc-chrome-webapp <id> <url>` instead of the native runtime.
+Google Chrome is in the image because it bundles Widevine and H.264/AAC, which
+Fedora's QtWebEngine/Chromium builds do not.  The wrapper:
+
+- keeps a separate Chrome profile per service in `~/.config/htpc-chrome/<id>`,
+  so logins persist and each service gets its own window;
+- forces X11 (`--ozone-platform=x11`) and sets `--class=bigscreen-webapp-<id>`,
+  so the Tasks view resolves the matching `.desktop` name and icon.
+
+The first time you open one of these services you need to sign in; the profile
+persists across reboots and image upgrades.  YouTube and PBS Kids deliberately
+stay on the native Bigscreen runtime.
+
 ## Per-box extras
 
 Web apps added through Bigscreen's settings UI are stored per-user in

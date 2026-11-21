@@ -65,6 +65,24 @@ RUN dnf5 config-manager setopt \
 RUN dnf5 install --assumeyes plasma-bigscreen \
   && dnf5 clean all
 
+# Google Chrome is the only browser available here that bundles both Widevine
+# and the H.264/AAC codecs Fedora's QtWebEngine/Chromium builds omit.  The DRM
+# streaming entries run through htpc-chrome-webapp; YouTube/PBS Kids stay on
+# the native Bigscreen runtime.
+#
+# /opt is a symlink to /var/opt here, which the Chrome RPM cannot unpack into,
+# so extract its tree into /usr/lib/chrome (image-updated) and run it from
+# there.  The extracted chrome-sandbox keeps its setuid bit.
+RUN dnf5 install --assumeyes liberation-fonts-all cpio \
+  && curl -fsSL -o /tmp/google-chrome.rpm https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm \
+  && mkdir -p /tmp/chrome /usr/lib/chrome \
+  && (cd /tmp/chrome && rpm2cpio /tmp/google-chrome.rpm | cpio -idm --quiet) \
+  && cp -a /tmp/chrome/opt/google/chrome/. /usr/lib/chrome/ \
+  && chown -R root:root /usr/lib/chrome \
+  && chmod 4755 /usr/lib/chrome/chrome-sandbox \
+  && rm -rf /tmp/chrome /tmp/google-chrome.rpm \
+  && dnf5 clean all
+
 COPY overlay/ /
 
 # Image-managed web apps and icons, shared by every user on every HTPC.

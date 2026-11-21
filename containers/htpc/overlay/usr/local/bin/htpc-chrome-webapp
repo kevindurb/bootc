@@ -1,0 +1,29 @@
+#!/bin/sh
+# Launch a streaming service in a Google Chrome app window.
+#
+# Chrome is used for the DRM services because it bundles Widevine and the
+# H.264/AAC codecs that Fedora's QtWebEngine/Chromium builds omit.  A separate
+# profile per service keeps the singleton from merging windows, and --class
+# makes KWin's X11 app id match the bigscreen-webapp-<id>.desktop entry so the
+# launcher's Tasks view shows the right name and icon.
+set -eu
+
+if [ "$#" -lt 2 ]; then
+  echo "usage: $0 <id> <url> [chrome args...]" >&2
+  exit 2
+fi
+
+id="$1"
+url="$2"
+shift 2
+
+exec /usr/lib/chrome/google-chrome \
+  --ozone-platform=x11 \
+  --class="bigscreen-webapp-$id" \
+  --user-data-dir="${HOME}/.config/htpc-chrome/$id" \
+  --no-first-run \
+  --no-default-browser-check \
+  --password-store=basic \
+  --app="$url" \
+  --start-fullscreen \
+  "$@"

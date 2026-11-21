@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Paramount Plus
-Exec=plasma-bigscreen-webapp --name "Paramount Plus" https://www.paramountplus.com
+Exec=/usr/local/bin/htpc-chrome-webapp paramount_plus https://www.paramountplus.com
 Icon=bigscreen-webapp-paramount_plus
 URL=https://www.paramountplus.com
 X-KDE-Bigscreen-Webapp-Id=paramount_plus
