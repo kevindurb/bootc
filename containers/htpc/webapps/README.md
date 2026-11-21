@@ -40,10 +40,10 @@ what makes the task entry show the right name and icon instead of
 
 ## TV user agents
 
-Some sites serve their 10-foot interface to TV/Cobalt user agents.  YouTube
-uses the Cobalt/PS4 agent below; passing it both in `Exec` and
-`X-KDE-Bigscreen-Webapp-UserAgent` is what makes `youtube.com/tv` stay on the
-leanback UI instead of redirecting to the desktop site:
+Some sites serve their 10-foot interface to TV/Cobalt user agents.  If you add
+such a site, pass the agent both in `Exec` and
+`X-KDE-Bigscreen-Webapp-UserAgent`.  For example, the old YouTube leanback web
+app (now replaced by VacuumTube) used:
 
 ```
 --agent "Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)"
@@ -71,8 +71,8 @@ managed policy in `/etc/opt/chrome/policies/managed/htpc.json`, which keeps the
 TV UI clean without a per-profile manual install.
 
 The first time you open one of these services you need to sign in; the profile
-persists across reboots and image upgrades.  YouTube and PBS Kids deliberately
-stay on the native Bigscreen runtime.
+persists across reboots and image upgrades.  PBS Kids stays on the native
+Bigscreen runtime; YouTube is provided by VacuumTube instead of a web app.
 
 ## Per-box extras
 

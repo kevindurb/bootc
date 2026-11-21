@@ -67,8 +67,8 @@ RUN dnf5 install --assumeyes plasma-bigscreen \
 
 # Google Chrome is the only browser available here that bundles both Widevine
 # and the H.264/AAC codecs Fedora's QtWebEngine/Chromium builds omit.  The DRM
-# streaming entries run through htpc-chrome-webapp; YouTube/PBS Kids stay on
-# the native Bigscreen runtime.
+# streaming entries run through htpc-chrome-webapp; PBS Kids stays on the
+# native Bigscreen runtime.
 #
 # /opt is a symlink to /var/opt here, which the Chrome RPM cannot unpack into,
 # so extract its tree into /usr/lib/chrome (image-updated) and run it from

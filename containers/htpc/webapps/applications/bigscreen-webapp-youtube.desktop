@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=YouTube
-Exec=plasma-bigscreen-webapp --name "YouTube" --agent "Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)" https://www.youtube.com/tv
-Icon=bigscreen-webapp-youtube
-URL=https://www.youtube.com/tv
-X-KDE-Bigscreen-Webapp-Id=youtube
-X-KDE-Bigscreen-Webapp-UserAgent=Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)
