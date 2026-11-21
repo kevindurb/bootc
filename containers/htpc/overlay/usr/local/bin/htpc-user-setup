@@ -21,4 +21,17 @@ if [[ -n "${home}" && ! -d "${home}" ]]; then
   chown -R "${user}:${group}" "${home}"
 fi
 
+# Jellyfin Desktop's Flatpak launcher defaults to desktop mode.  Shadow it in
+# the user's application directory with TV + fullscreen flags.  The first-boot
+# Flatpak installer runs this unit again once the app is installed.
+flatpak_desktop=/var/lib/flatpak/exports/share/applications/org.jellyfin.JellyfinDesktop.desktop
+user_apps="${home}/.local/share/applications"
+if [[ -f "${flatpak_desktop}" ]]; then
+  install -d -m 0755 -o "${user}" -g "${group}" "${user_apps}"
+  sed 's|org\.jellyfin\.JellyfinDesktop$|org.jellyfin.JellyfinDesktop --fullscreen --tv|' \
+    "${flatpak_desktop}" > "${user_apps}/org.jellyfin.JellyfinDesktop.desktop"
+  chown "${user}:${group}" "${user_apps}/org.jellyfin.JellyfinDesktop.desktop"
+  chmod 0644 "${user_apps}/org.jellyfin.JellyfinDesktop.desktop"
+fi
+
 rm -f /etc/sddm.conf.d/20-htpc-autologin.conf /etc/plasmalogin.conf.d/20-htpc-autologin.conf
