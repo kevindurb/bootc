@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Netflix
+Exec=plasma-bigscreen-webapp --name "Netflix" https://www.netflix.com
+Icon=bigscreen-webapp-netflix
+URL=https://www.netflix.com
+X-KDE-Bigscreen-Webapp-Id=netflix
+X-KDE-Bigscreen-Webapp-UserAgent=

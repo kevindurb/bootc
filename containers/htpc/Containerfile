@@ -67,6 +67,10 @@ RUN dnf5 install --assumeyes plasma-bigscreen \
 
 COPY overlay/ /
 
+# Image-managed web apps and icons, shared by every user on every HTPC.
+COPY webapps/applications/ /usr/share/applications/
+COPY webapps/icons/ /usr/share/icons/hicolor/512x512/apps/
+
 RUN systemctl enable htpc-autologin.service \
   && mkdir -p /boot \
   && find /boot -mindepth 1 -delete \

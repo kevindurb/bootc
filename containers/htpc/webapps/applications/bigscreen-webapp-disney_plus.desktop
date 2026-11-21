@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Disney Plus
+Exec=plasma-bigscreen-webapp --name "Disney Plus" https://www.disneyplus.com
+Icon=bigscreen-webapp-disney_plus
+URL=https://www.disneyplus.com
+X-KDE-Bigscreen-Webapp-Id=disney_plus
+X-KDE-Bigscreen-Webapp-UserAgent=

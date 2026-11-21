@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=PBS Kids
+Exec=plasma-bigscreen-webapp --name "PBS Kids" https://pbskids.org
+Icon=bigscreen-webapp-pbs_kids
+URL=https://pbskids.org
+X-KDE-Bigscreen-Webapp-Id=pbs_kids
+X-KDE-Bigscreen-Webapp-UserAgent=
