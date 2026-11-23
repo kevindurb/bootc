@@ -6,7 +6,7 @@
 # also used for the installer's GRUB menu entry.
 #
 # Based on https://osbuild.org/docs/developer-guide/projects/image-builder/advanced/bootc/isos/
-ARG INSTALLER_BASE=quay.io/fedora/fedora-bootc:44
+ARG INSTALLER_BASE=quay.io/fedora/fedora-bootc:46
 ARG TARGET_IMG
 FROM ${INSTALLER_BASE}
 ARG TARGET_IMG
