@@ -10,8 +10,9 @@
 # ghcr.io/kevindurb/ci-runner-disk:<date> (+ :latest) and cosign-signs both
 # ci-runner images.
 #
-# Triggers: publishing a release tagged ci-runner-disk/*, or manually with a
-# release_tag to re-run the packaging.
+# Triggers: publishing a release tagged ci-runner-disk/*, or manual dispatch
+# with an explicit release_tag. (Building the qcow2 itself cannot happen on
+# GH-hosted runners: nested user namespaces are blocked.)
 name: Build runner disk
 on:
   release:
