@@ -1,0 +1,39 @@
+FROM quay.io/fedora/fedora-bootc:44@sha256:6b32624945390e1022d779bf36275d6002ce7cc5d355b39b1efc02d054f73886
+
+# Base tooling for CI jobs: podman/buildah for image builds, git/git-lfs for
+# checkouts, make/jq for common workflow steps. cloud-init consumes the
+# KubeVirt cloudInitNoCloud data (runner config + registration on first boot).
+RUN dnf install --assumeyes \
+      podman \
+      buildah \
+      podman-docker \
+      skopeo \
+      git \
+      git-lfs \
+      make \
+      jq \
+      curl \
+      nodejs \
+      cloud-init \
+    && dnf clean all
+
+# forgejo-runner, pinned and checksum-verified. Bump both values together.
+ARG FORGEJO_RUNNER_VERSION=13.2.2
+ARG FORGEJO_RUNNER_SHA256=6b077ccadc22036ba049cea39b09cfbdc5e5ad6000a38f90c83a19e4fb815543
+RUN curl -fsSL -o /usr/local/bin/forgejo-runner \
+      "https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_RUNNER_VERSION}/forgejo-runner-${FORGEJO_RUNNER_VERSION}-linux-amd64" \
+    && echo "${FORGEJO_RUNNER_SHA256}  /usr/local/bin/forgejo-runner" | sha256sum -c - \
+    && chmod 0755 /usr/local/bin/forgejo-runner
+
+# Runner state (the .runner credentials file written at registration time).
+RUN mkdir -p /var/lib/forgejo-runner /etc/forgejo-runner
+
+COPY overlay/ /
+
+# Enable the runner + the hourly podman prune timer. The runner unit only
+# starts once /var/lib/forgejo-runner/.runner exists (written by first-boot
+# registration), so enabling it now is safe.
+RUN systemctl enable forgejo-runner.service podman-gc.timer \
+    && systemctl enable cloud-init-local.service cloud-init-network.service cloud-config.service cloud-final.service
+
+RUN bootc container lint

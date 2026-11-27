@@ -1,0 +1,6 @@
+[Unit]
+Description=Prune unused podman images and containers
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/podman system prune -f

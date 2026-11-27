@@ -1,0 +1,18 @@
+[Unit]
+Description=Forgejo Actions runner
+Documentation=https://forgejo.org/docs/next/admin/actions/
+Wants=network-online.target
+After=network-online.target
+# Only start once cloud-init has registered the runner (writes the
+# credentials file). Before that, quietly skip instead of crash-looping.
+ConditionPathExists=/var/lib/forgejo-runner/.runner
+
+[Service]
+Type=simple
+WorkingDirectory=/var/lib/forgejo-runner
+ExecStart=/usr/local/bin/forgejo-runner daemon --config /etc/forgejo-runner/config.yaml
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -20,6 +20,12 @@ permissions:
   id-token: write
 
 jobs:
+  ci-runner:
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image: ci-runner
+
   dev-scripts:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit

@@ -1,0 +1,9 @@
+[Unit]
+Description=Hourly podman storage prune (keep the 20 GiB overlay from filling with build cache)
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
