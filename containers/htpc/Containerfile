@@ -41,6 +41,7 @@ RUN --mount=type=bind,from=nvidia,src=/kernel-rpms,dst=/tmp/kernel-rpms \
 # only useful on hybrid-graphics laptops.
 # The NVIDIA RPMs pull libzstd 1.6.0 from F44 updates; keep the CLI in sync
 # or dracut aborts with "incorrect library version" when compressing.
+# (dnf5 'install' won't bump an already-installed package, so upgrade.)
 # Likewise keep x86_64 mesa in sync with the fedora-multimedia repo: the
 # base image lags one bump behind the i686 multilib packages that
 # nvidia-install.sh pulls, and mismatched multilib versions conflict on
@@ -51,7 +52,7 @@ RUN --mount=type=bind,from=nvidia,src=/rpms,dst=/tmp/akmods-rpms \
     mesa-libgbm mesa-vulkan-drivers && \
   IMAGE_NAME=htpc AKMODNV_PATH=/tmp/akmods-rpms \
   /tmp/akmods-rpms/ublue-os/nvidia-install.sh && \
-  dnf5 install --assumeyes zstd && \
+  dnf5 upgrade --assumeyes zstd && \
   KERNEL_VERSION="$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-core)" && \
   DRACUT_NO_XATTR=1 dracut --no-hostonly --kver "${KERNEL_VERSION}" --reproducible --add ostree \
     -f "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" && \

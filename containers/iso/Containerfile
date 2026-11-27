@@ -13,6 +13,7 @@ ARG TARGET_IMG
 
 # zstd: keep the CLI in sync with libzstd from F44 updates (base ships 1.5.7,
 # updates carry 1.6.0); dracut refuses to compress when they mismatch.
+# (dnf5 'install' won't bump an already-installed package, hence upgrade.)
 RUN dnf5 install --assumeyes \
       anaconda \
       anaconda-install-img-deps \
@@ -32,6 +33,7 @@ RUN dnf5 install --assumeyes \
       squashfs-tools \
       isomd5sum \
       zstd \
+  && dnf5 upgrade --assumeyes zstd \
   && dnf5 clean all
 
 # generic-iso reads shim/grub from /boot/efi, but image-mode Fedora keeps them
