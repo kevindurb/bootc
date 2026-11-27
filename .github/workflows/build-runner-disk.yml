@@ -3,9 +3,9 @@
 #
 # GH-hosted runners cannot build the disk: osbuild needs nested user
 # namespaces, which Ubuntu's kernel blocks (AppArmor restrict_unprivileged_userns).
-# So the qcow2 is built locally from ghcr.io/kevindurb/ci-runner (see the
-# "Rebuilding" note in docs/forgejo.md / the release notes), and published as
-# a GitHub release asset under the ci-runner-disk/<date> tag. This workflow
+# So the qcow2 is built on an unrestricted Linux host (see the release notes
+# on the `ci-runner-disk/<date>` release in kevindurb/bootc, and
+# docs/forgejo.md in kevindurb/k8s) and published as a GitHub release asset. This workflow
 # unwraps that asset, wraps it in a scratch image at /disk/disk.img, pushes
 # ghcr.io/kevindurb/ci-runner-disk:<date> (+ :latest) and cosign-signs both
 # ci-runner images.
