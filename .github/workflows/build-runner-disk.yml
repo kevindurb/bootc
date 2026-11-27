@@ -63,6 +63,7 @@ jobs:
             --security-opt apparmor=unconfined \
             --device /dev/kvm \
             -v "$PWD/output:/output" \
+            -v "$PWD/containers/ci-runner/storage.conf:/etc/containers/storage.conf:ro" \
             ghcr.io/osbuild/image-builder-cli:latest \
             build --output-dir /output \
               --bootc-ref ghcr.io/kevindurb/ci-runner:latest \
