@@ -54,17 +54,19 @@ jobs:
         # (mounted into the builder container), so it must be present there.
         run: sudo podman pull ghcr.io/kevindurb/ci-runner:latest
 
-      - name: Build qcow2 with bootc-image-builder
+      - name: Build qcow2 with image-builder
         run: |
           set -euxo pipefail
           mkdir -p output
-          sudo podman run --rm --privileged --pull=newer \
+          sudo docker run --rm --privileged \
+            --security-opt label=type:unconfined_t \
             -v /var/lib/containers/storage:/var/lib/containers/storage \
             -v "$PWD/output:/output" \
-            quay.io/centos-bootc/bootc-image-builder:latest \
-            --type qcow2 \
-            --rootfs xfs \
-            ghcr.io/kevindurb/ci-runner:latest
+            ghcr.io/osbuild/image-builder-cli:latest \
+            build --output-dir /output \
+              --bootc-ref ghcr.io/kevindurb/ci-runner:latest \
+              --bootc-default-fs xfs \
+              qcow2
           sudo find output -type f -name '*.qcow2'
 
       - name: Wrap qcow2 as a containerDisk image
