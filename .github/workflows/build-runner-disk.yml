@@ -49,6 +49,11 @@ jobs:
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin
 
+      - name: Pull base image into shared storage
+        # The builder inspects the base image in the host's container storage
+        # (mounted into the builder container), so it must be present there.
+        run: sudo podman pull ghcr.io/kevindurb/ci-runner:latest
+
       - name: Build qcow2 with bootc-image-builder
         run: |
           set -euxo pipefail
