@@ -53,11 +53,14 @@ jobs:
         # No host storage mount: the builder pulls the (public) base image
         # itself. Mounting /var/lib/containers/storage made osbuild fail with
         # "mount /run/osbuild/containers/storage: permission denied".
+        # seccomp/apparmor unconfined: the builder's bwrap/user-namespace
+        # setup is blocked by Ubuntu's default AppArmor userns restriction.
         run: |
           set -euxo pipefail
           mkdir -p output
-          sudo docker run --rm --privileged \
-            --security-opt label=type:unconfined_t \
+          sudo podman run --rm --privileged \
+            --security-opt seccomp=unconfined \
+            --security-opt apparmor=unconfined \
             -v "$PWD/output:/output" \
             ghcr.io/osbuild/image-builder-cli:latest \
             build --output-dir /output \
