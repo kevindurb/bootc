@@ -1,18 +1,27 @@
 ---
-# Build the ci-runner qcow2 disk image (via bootc-image-builder) from the
-# ci-runner bootc image that reusable-build.yml publishes, wrap it in a
-# scratch image at ghcr.io/kevindurb/ci-runner-disk (a "containerDisk" image
-# for KubeVirt), and cosign-sign it together with the ci-runner image.
+# Publish the ci-runner qcow2 as a KubeVirt containerDisk.
 #
-# Runs automatically after the Build workflow completes on main, and manually
-# via workflow_dispatch.
+# GH-hosted runners cannot build the disk: osbuild needs nested user
+# namespaces, which Ubuntu's kernel blocks (AppArmor restrict_unprivileged_userns).
+# So the qcow2 is built locally from ghcr.io/kevindurb/ci-runner (see the
+# "Rebuilding" note in docs/forgejo.md / the release notes), and published as
+# a GitHub release asset under the ci-runner-disk/<date> tag. This workflow
+# unwraps that asset, wraps it in a scratch image at /disk/disk.img, pushes
+# ghcr.io/kevindurb/ci-runner-disk:<date> (+ :latest) and cosign-signs both
+# ci-runner images.
+#
+# Triggers: publishing a release tagged ci-runner-disk/*, or manually with a
+# release_tag to re-run the packaging.
 name: Build runner disk
 on:
-  workflow_run:
-    workflows: [Build]
-    types: [completed]
-    branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'ci-runner-disk release tag to repack'
+        required: true
+        default: ci-runner-disk/2026.11.27
 
 permissions:
   contents: read
@@ -20,76 +29,51 @@ permissions:
   id-token: write
 
 jobs:
-  build-runner-disk:
-    name: Build ci-runner qcow2 and publish containerDisk
-    # workflow_dispatch always runs; workflow_run only on successful Build runs on main.
+  repack:
+    name: Repack ci-runner qcow2 as a containerDisk
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
+      startsWith(github.event.release.tag_name, 'ci-runner-disk/')
     runs-on: ubuntu-latest
 
     env:
-      FULL_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.release_tag }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - name: Install Podman, Skopeo and xz
+        run: sudo apt update && sudo apt install -y podman skopeo xz-utils
 
-      - name: Compute tag (sha-<short>, matching repo convention)
-        run: echo "SHA=sha-${FULL_SHA:0:7}" >> "$GITHUB_ENV"
-
-      - name: Maximize build space
-        continue-on-error: true
-        uses: ublue-os/remove-unwanted-software@v9
-
-      - name: Install Podman and Buildah
-        run: sudo apt update && sudo apt install -y buildah podman skopeo
-
-      - name: Login to GitHub Container Registry
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin
-
-      - name: Build qcow2 with image-builder
-        # No host storage mount: the builder pulls the (public) base image
-        # itself. Mounting /var/lib/containers/storage made osbuild fail with
-        # "mount /run/osbuild/containers/storage: permission denied".
-        # seccomp/apparmor unconfined: the builder's bwrap/user-namespace
-        # setup is blocked by Ubuntu's default AppArmor userns restriction.
+      - name: Download and verify the qcow2
         run: |
           set -euxo pipefail
-          mkdir -p output
-          sudo podman run --rm --privileged \
-            --security-opt seccomp=unconfined \
-            --security-opt apparmor=unconfined \
-            --device /dev/kvm \
-            -v "$PWD/output:/output" \
-            -v "$PWD/containers/ci-runner/storage.conf:/etc/containers/storage.conf:ro" \
-            ghcr.io/osbuild/image-builder-cli:latest \
-            build --output-dir /output \
-              --bootc-ref ghcr.io/kevindurb/ci-runner:latest \
-              --bootc-default-fs xfs \
-              --bootc-pull-container \
-              --in-vm \
-              qcow2
-          sudo find output -type f -name '*.qcow2'
+          base="https://github.com/kevindurb/bootc/releases/download/${RELEASE_TAG}"
+          curl -fSL --retry 3 -o ci-runner-disk.qcow2.xz "$base/ci-runner-disk.qcow2.xz"
+          curl -fSL --retry 3 -o checksums.txt "$base/ci-runner-disk.qcow2.xz.sha256"
+          sha256sum -c checksums.txt
 
-      - name: Wrap qcow2 as a containerDisk image
+      - name: Decompress
         run: |
           set -euxo pipefail
-          qcow2=$(sudo find output -type f -name '*.qcow2' | head -n1)
           mkdir -p disk-image
-          sudo cp "$qcow2" disk-image/disk.img
-          sudo chmod 0644 disk-image/disk.img
+          unxz -c ci-runner-disk.qcow2.xz > disk-image/disk.img
+          chmod 0644 disk-image/disk.img
+
+      - name: Wrap as a containerDisk image
+        run: |
+          set -euxo pipefail
           printf 'FROM scratch\nCOPY disk.img /disk/disk.img\n' > disk-image/Containerfile
+          DISK_TAG="${RELEASE_TAG#ci-runner-disk/}"
+          echo "DISK_TAG=${DISK_TAG}" >> "$GITHUB_ENV"
+          sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin <<< "${{ secrets.GITHUB_TOKEN }}"
+          sudo podman build \
+            -t "ghcr.io/kevindurb/ci-runner-disk:${DISK_TAG}" \
+            -t ghcr.io/kevindurb/ci-runner-disk:latest \
+            disk-image/
 
       - name: Push containerDisk image
         run: |
           set -euxo pipefail
-          sudo podman build \
-            -t ghcr.io/kevindurb/ci-runner-disk:${SHA} \
-            -t ghcr.io/kevindurb/ci-runner-disk:latest \
-            disk-image/
-          sudo podman push ghcr.io/kevindurb/ci-runner-disk:${SHA}
+          sudo podman push "ghcr.io/kevindurb/ci-runner-disk:${DISK_TAG}"
           sudo podman push ghcr.io/kevindurb/ci-runner-disk:latest
 
       - uses: sigstore/cosign-installer@v3.10.1
@@ -100,7 +84,7 @@ jobs:
         run: |
           set -euxo pipefail
           RUNNER_DIGEST=$(sudo skopeo inspect --format '{{.Digest}}' docker://ghcr.io/kevindurb/ci-runner:latest)
-          DISK_DIGEST=$(sudo skopeo inspect --format '{{.Digest}}' docker://ghcr.io/kevindurb/ci-runner-disk:${SHA})
+          DISK_DIGEST=$(sudo skopeo inspect --format '{{.Digest}}' "docker://ghcr.io/kevindurb/ci-runner-disk:${DISK_TAG}")
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY \
-            ghcr.io/kevindurb/ci-runner@"${RUNNER_DIGEST}" \
-            ghcr.io/kevindurb/ci-runner-disk@"${DISK_DIGEST}"
+            "ghcr.io/kevindurb/ci-runner@${RUNNER_DIGEST}" \
+            "ghcr.io/kevindurb/ci-runner-disk@${DISK_DIGEST}"
