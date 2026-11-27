@@ -29,11 +29,14 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      FULL_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Compute tag (sha-<short>, matching repo convention)
+        run: echo "SHA=sha-${FULL_SHA:0:7}" >> "$GITHUB_ENV"
 
       - name: Maximize build space
         continue-on-error: true
