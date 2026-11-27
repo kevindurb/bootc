@@ -63,6 +63,7 @@ jobs:
             -v "$PWD/output:/output" \
             quay.io/centos-bootc/bootc-image-builder:latest \
             --type qcow2 \
+            --rootfs xfs \
             ghcr.io/kevindurb/ci-runner:latest
           sudo find output -type f -name '*.qcow2'
 
