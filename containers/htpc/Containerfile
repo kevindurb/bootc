@@ -39,9 +39,12 @@ RUN --mount=type=bind,from=nvidia,src=/kernel-rpms,dst=/tmp/kernel-rpms \
 # libva-nvidia-driver (VA-API for mpv/Bigscreen web apps) and the SELinux
 # policy. IMAGE_NAME is set to htpc (not kinoite) to skip supergfxctl, which is
 # only useful on hybrid-graphics laptops.
+# The NVIDIA RPMs pull libzstd 1.6.0 from F44 updates; keep the CLI in sync
+# or dracut aborts with "incorrect library version" when compressing.
 RUN --mount=type=bind,from=nvidia,src=/rpms,dst=/tmp/akmods-rpms \
   IMAGE_NAME=htpc AKMODNV_PATH=/tmp/akmods-rpms \
   /tmp/akmods-rpms/ublue-os/nvidia-install.sh && \
+  dnf5 install --assumeyes zstd && \
   KERNEL_VERSION="$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-core)" && \
   DRACUT_NO_XATTR=1 dracut --no-hostonly --kver "${KERNEL_VERSION}" --reproducible --add ostree \
     -f "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" && \
