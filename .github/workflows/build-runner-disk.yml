@@ -84,10 +84,12 @@ jobs:
         run: |
           set -euxo pipefail
           auth=$(printf '%s:%s' "${{ github.actor }}" "${{ secrets.GITHUB_TOKEN }}" | base64 -w0)
+          AUTHFILE="$HOME/.docker/config.json"
           mkdir -p "$HOME/.docker"
-          printf '{"auths":{"ghcr.io":{"auth":"%s"}}}' "$auth" > "$HOME/.docker/config.json"
-          RUNNER_DIGEST=$(skopeo inspect --format '{{.Digest}}' docker://ghcr.io/kevindurb/ci-runner:latest)
-          DISK_DIGEST=$(skopeo inspect --format '{{.Digest}}' "docker://ghcr.io/kevindurb/ci-runner-disk:${DISK_TAG}")
+          printf '{"auths":{"ghcr.io":{"auth":"%s"}}}' "$auth" > "$AUTHFILE"
+          export DOCKER_CONFIG="$HOME/.docker" REGISTRY_AUTH_FILE="$AUTHFILE"
+          RUNNER_DIGEST=$(skopeo inspect --authfile "$AUTHFILE" --format '{{.Digest}}' docker://ghcr.io/kevindurb/ci-runner:latest)
+          DISK_DIGEST=$(skopeo inspect --authfile "$AUTHFILE" --format '{{.Digest}}' "docker://ghcr.io/kevindurb/ci-runner-disk:${DISK_TAG}")
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY \
             "ghcr.io/kevindurb/ci-runner@${RUNNER_DIGEST}" \
             "ghcr.io/kevindurb/ci-runner-disk@${DISK_DIGEST}"
