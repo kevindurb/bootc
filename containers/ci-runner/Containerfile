@@ -8,6 +8,7 @@ RUN dnf install --assumeyes \
       buildah \
       podman-docker \
       skopeo \
+      tailscale \
       git \
       git-lfs \
       make \
@@ -33,7 +34,7 @@ COPY overlay/ /
 # Enable the runner + the hourly podman prune timer. The runner unit only
 # starts once /var/lib/forgejo-runner/.runner exists (written by first-boot
 # registration), so enabling it now is safe.
-RUN systemctl enable forgejo-runner.service podman-gc.timer \
+RUN systemctl enable forgejo-runner.service podman-gc.timer tailscaled.service tailscale-up.service \
     && systemctl enable cloud-init-local.service cloud-init-network.service cloud-config.service cloud-final.service
 
 RUN bootc container lint

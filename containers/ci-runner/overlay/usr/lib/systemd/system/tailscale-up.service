@@ -1,0 +1,12 @@
+[Unit]
+Description=Join the tailnet on boot (oneshot)
+Documentation=https://tailscale.com/s/connect-cli
+Wants=network-online.target
+After=tailscaled.service network-online.target cloud-config.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/tailscale-up.sh
+
+[Install]
+WantedBy=multi-user.target
