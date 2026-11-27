@@ -49,23 +49,21 @@ jobs:
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin
 
-      - name: Pull base image into shared storage
-        # The builder inspects the base image in the host's container storage
-        # (mounted into the builder container), so it must be present there.
-        run: sudo podman pull ghcr.io/kevindurb/ci-runner:latest
-
       - name: Build qcow2 with image-builder
+        # No host storage mount: the builder pulls the (public) base image
+        # itself. Mounting /var/lib/containers/storage made osbuild fail with
+        # "mount /run/osbuild/containers/storage: permission denied".
         run: |
           set -euxo pipefail
           mkdir -p output
           sudo docker run --rm --privileged \
             --security-opt label=type:unconfined_t \
-            -v /var/lib/containers/storage:/var/lib/containers/storage \
             -v "$PWD/output:/output" \
             ghcr.io/osbuild/image-builder-cli:latest \
             build --output-dir /output \
               --bootc-ref ghcr.io/kevindurb/ci-runner:latest \
               --bootc-default-fs xfs \
+              --bootc-pull-container \
               qcow2
           sudo find output -type f -name '*.qcow2'
 
