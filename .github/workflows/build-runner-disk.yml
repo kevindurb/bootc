@@ -61,12 +61,14 @@ jobs:
           sudo podman run --rm --privileged \
             --security-opt seccomp=unconfined \
             --security-opt apparmor=unconfined \
+            --device /dev/kvm \
             -v "$PWD/output:/output" \
             ghcr.io/osbuild/image-builder-cli:latest \
             build --output-dir /output \
               --bootc-ref ghcr.io/kevindurb/ci-runner:latest \
               --bootc-default-fs xfs \
               --bootc-pull-container \
+              --in-vm \
               qcow2
           sudo find output -type f -name '*.qcow2'
 
