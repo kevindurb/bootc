@@ -9,7 +9,10 @@ ConditionPathExists=/var/lib/forgejo-runner/.runner
 
 [Service]
 Type=simple
+User=runner
+Group=runner
 WorkingDirectory=/var/lib/forgejo-runner
+Environment=XDG_RUNTIME_DIR=/run/user/1000
 ExecStart=/usr/local/bin/forgejo-runner daemon --config /etc/forgejo-runner/config.yaml
 Restart=always
 RestartSec=5

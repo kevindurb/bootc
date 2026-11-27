@@ -1,6 +1,9 @@
 [Unit]
-Description=Prune unused podman images and containers
+Description=Prune unused podman images and containers (runner user's rootless store)
 
 [Service]
 Type=oneshot
+User=runner
+Group=runner
+Environment=XDG_RUNTIME_DIR=/run/user/1000
 ExecStart=/usr/bin/podman system prune -f
