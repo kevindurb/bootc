@@ -30,12 +30,16 @@ RUN curl -fsSL -o /usr/local/bin/forgejo-runner \
 # XDG_RUNTIME_DIR is deterministic in the systemd unit. /etc/subuid|subgid
 # give rootless podman a 65536-id range; linger creates /run/user/<uid> at
 # boot so the system service gets a user-runtime directory without a login.
-# newuidmap/newgidmap must be setuid for rootless id-mapping; the bootc base
-# ships them 0755.
+# The bootc base ships newuidmap/newgidmap mode 0755 with an effective
+# cap_setuid/cap_setgid file capability. Effective file caps do not work in
+# this VM (verified empirically), and the setuid+fcap combo makes the kernel
+# grant NEITHER ("not raising all capabilities"), so strip the fcaps and
+# setuid them instead.
 RUN useradd --uid 1000 --create-home --home-dir /var/lib/forgejo-runner --shell /bin/bash runner \
  && printf 'runner:165536:65536\n' > /etc/subuid \
  && printf 'runner:165536:65536\n' > /etc/subgid \
  && chmod 4755 /usr/bin/newuidmap /usr/bin/newgidmap \
+ && setcap -r /usr/bin/newuidmap /usr/bin/newgidmap \
  && mkdir -p /var/lib/systemd/linger \
  && touch /var/lib/systemd/linger/runner \
  && chown -R runner:runner /var/lib/forgejo-runner
