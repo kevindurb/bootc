@@ -39,7 +39,7 @@ RUN useradd --uid 1000 --create-home --home-dir /var/lib/forgejo-runner --shell 
  && printf 'runner:165536:65536\n' > /etc/subuid \
  && printf 'runner:165536:65536\n' > /etc/subgid \
  && chmod 4755 /usr/bin/newuidmap /usr/bin/newgidmap \
- && setcap -r /usr/bin/newuidmap /usr/bin/newgidmap \
+ && setcap -r /usr/bin/newuidmap && setcap -r /usr/bin/newgidmap \
  && mkdir -p /var/lib/systemd/linger \
  && touch /var/lib/systemd/linger/runner \
  && chown -R runner:runner /var/lib/forgejo-runner
